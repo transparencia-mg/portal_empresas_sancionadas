@@ -998,6 +998,21 @@
             text-decoration: underline;
         }
 
+        /* ==================== INICIALIZAÇÃO ==================== */
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadInitialData();
+            setupTooltips();
+            setupDescriptiveTooltips();
+            setupAtualizacaoData();
+            console.log('Painel de Diárias e Viagens carregado com sucesso!!!');
+			iframeUpdateHeight();
+        });
+		// código incluir
+		function iframeUpdateHeight() { window.parent.postMessage({ iframeHeight: document.body.scrollHeight+10 }, '*'); }
+
+        
         /* ==================== LINHA CLICÁVEL NA TABELA ==================== */
         .clickable-row {
             cursor: pointer;
@@ -1008,46 +1023,12 @@
             background-color: rgba(41, 67, 90, 0.08) !important;
             transform: scale(1.002);
         }
+                                       
     </style>
 </head>
 <body>
 
-    <!-- ==================== HEADER PRINCIPAL ==================== -->
-    <header class="main-header">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="logo-container">
-                    <div class="logo">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <div>
-                        <h1 class="header-title">Empresas Sancionadas</h1>
-                        <p class="header-subtitle">Governo do Estado de Minas Gerais - Atualizado via GitHub</p>
-                        <div class="header-info">
-                            <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="link-legislacao">
-                                <i class="fas fa-gavel"></i> Lei nº 12.846/2013 (Lei Anticorrupção)
-                            </a>
-                            <a href="https://github.com/transparencia-mg/empresas_sancionadas" target="_blank" class="link-legislacao">
-                                <i class="fab fa-github"></i> GitHub - Dados Oficiais
-                            </a>
-                            <span class="badge-open-data">
-                                <i class="fas fa-code-branch"></i> Atualização GitHub
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Informação de Fonte de Dados -->
-                <div class="text-end">
-                    <div class="btn-open-data">
-                        <i class="fab fa-github me-2"></i> Fonte: GitHub Oficial
-                    </div>
-                    <small class="text-white d-block mt-1" style="font-size: 10px;">Atualizado Automaticamente</small>
-                </div>
-            </div>
-        </div>
-    </header>
-
+           
     <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
     <div class="container">
         
@@ -1075,6 +1056,15 @@
             </ul>
         </div>
 
+
+            <!-- ==================== DATA DE ATUALIZAÇÃO CENTRALIZADA ==================== -->
+            <div class="data-atualizacao-container">
+                <div class="data-atualizacao-box">
+                    <i class="material-icons">update</i>
+                    Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
+                </div>
+            </div>
+        
         <!-- ==================== CONTEÚDO DAS ABAS ==================== -->
         <div class="tab-content" id="dashboardTabsContent">
             
@@ -1174,30 +1164,28 @@
                         <button class="btn-export" id="printDashboard1">
                             <i class="fas fa-print me-2"></i> Imprimir
                         </button>
-                        <button class="btn-open-data" id="openDataDashboard1">
-                            <i class="fab fa-github me-2"></i> GitHub Oficial
+                        <button class="btn-export" id="Compartilharlink">
+                            <i class="material-icons me-2">share</i>Compartilhar Link
                         </button>
                     </div>
+                    <div class="right-aligned-container">
+                            <div class="items-per-page-container">
+                                <div class="items-per-page">
+                                    <span>Itens por página:</span>
+                                    <select id="itemsPerPageDashboard1">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50" selected>50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                                <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
+                            </div>
+                        </div>
                 </div>
 
                 <!-- Tabela Dashboard 1 - RESUMO POR ÓRGÃO -->
                 <div class="table-container">
-                    <div class="table-header">
-                        <h3 class="table-title">Visão Geral por Órgão</h3>
-                        <div class="d-flex align-items-center gap-3 ms-auto">
-                            <div class="items-per-page">
-                                <span>Itens por página:</span>
-                                <select id="itemsPerPageDashboard1">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50" selected>50</option>
-                                    <option value="100">100</option>
-                                    <option value="500">500</option>
-                                </select>
-                            </div>
-                            <span class="table-badge" id="resumoCountDashboard1">0 registros</span>
-                        </div>
-                    </div>
                     <div class="table-fixed-header-container">
                         <table class="table table-hover" id="visaoGeralTable">
                             <thead>
@@ -1326,6 +1314,9 @@
                         <button class="btn-open-data" id="openDataDashboard2">
                             <i class="fab fa-github"></i> GitHub Oficial
                         </button>
+                        <button class="btn-export" id="Compartilharlink">
+                            <i class="material-icons me-2">share</i>Compartilhar Link
+                        </button>
                     </div>
 
                     <div class="search-box-container">
@@ -1336,22 +1327,6 @@
 
                 <!-- Tabela de Empresas Dashboard 2 -->
                 <div class="table-container">
-                    <div class="table-header">
-                        <h3 class="table-title">Consulta de Empresas Sancionadas</h3>
-                        <div class="d-flex align-items-center gap-3 ms-auto">
-                            <div class="items-per-page">
-                                <span>Itens por página:</span>
-                                <select id="itemsPerPageDashboard2">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50" selected>50</option>
-                                    <option value="100">100</option>
-                                    <option value="500">500</option>
-                                </select>
-                            </div>
-                            <span class="table-badge" id="resumoCountDashboard2">0 empresas</span>
-                        </div>
-                    </div>
                     <div class="table-fixed-header-container">
                         <table class="table table-hover" id="empresasTable">
                             <thead>
@@ -1548,35 +1523,6 @@
         </div>
     </div>
 
-    <!-- ==================== FOOTER ==================== -->
-    <footer class="footer mt-4 pt-4 border-top">
-        <div class="container text-center text-muted">
-            <p class="mb-1">
-                <i class="fas fa-sync-alt me-2"></i> 
-                Última Atualização — 
-                <span id="footer-atualizacao">Carregando...</span>
-            </p>
-            <p class="mb-0" style="font-size: 0.85rem;">
-                © 2025 Empresas Sancionadas - Governo do Estado de Minas Gerais
-            </p>
-            <p class="mt-2 mb-0 small">
-                <a href="https://www.mg.gov.br" style="color: var(--primary-dark); text-decoration: none; font-weight: 600;">
-                    <i class="fas fa-external-link-alt"></i> www.mg.gov.br
-                </a>
-                | 
-                <a href="https://github.com/transparencia-mg/empresas_sancionadas" 
-                   style="color: var(--open-data-green); text-decoration: none; font-weight: 600;">
-                    <i class="fab fa-github"></i> GitHub Oficial
-                </a>
-                |
-                <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" 
-                   style="color: var(--accent-red); text-decoration: none; font-weight: 600;">
-                    <i class="fas fa-gavel"></i> Lei 12.846/2013
-                </a>
-            </p>
-        </div>
-    </footer>
-
     <!-- ==================== MODAL DE DETALHES DA EMPRESA ==================== -->
     <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-detail">
@@ -1673,16 +1619,55 @@
         };
 
         // ==================== INICIALIZAÇÃO ====================
+        // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('=== INICIANDO PORTAL DE EMPRESAS SANCIONADAS ===');
-            console.log('Fonte de dados:', DATASET_URL);
+            setupEventListeners();
+            loadInitialData();
+            setupIframeResizeObserver(); // Adicionado
+            updateDataAtualizacao();
+            console.log('Painel de Acordos de Cooperação Técnica carregado com sucesso!!!');
+            iframeUpdateHeight();
             
-            // Mostrar mensagem inicial
-            showStatusMessage('Conectando ao GitHub...', 'info');
-            
-            // Carregar dados
-            loadData();
+            // Atualizar altura quando trocar de aba
+            const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
+            tabs.forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function() {
+                    setTimeout(iframeUpdateHeight, 300);
+                });
+            });
         });
+
+        function iframeUpdateHeight() { 
+            // Esperar um pouco para garantir que o conteúdo tenha sido renderizado
+            setTimeout(() => {
+                const alturaTotal = document.documentElement.scrollHeight;
+                window.parent.postMessage({ 
+                    type: 'iframeHeight',
+                    height: alturaTotal,
+                    source: 'acordos-cooperacao'
+                }, '*');
+                console.log('Altura do iframe atualizada:', alturaTotal, 'px');
+            }, 100);
+        }
+
+        function setupIframeResizeObserver() {
+            // Observar mudanças no conteúdo que podem alterar a altura
+            const resizeObserver = new ResizeObserver(() => {
+                iframeUpdateHeight();
+            });
+            
+            // Observar o container principal
+            const mainContainer = document.querySelector('.main-container');
+            if (mainContainer) {
+                resizeObserver.observe(mainContainer);
+            }
+            
+            // Observar mudanças nas tabelas
+            const tables = document.querySelectorAll('.table-container');
+            tables.forEach(table => {
+                resizeObserver.observe(table);
+            });
+        }
 
         // ==================== CARREGAMENTO DE DADOS ====================
         async function loadData() {
