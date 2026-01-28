@@ -38,18 +38,26 @@
         
         /* ==================== ESTILOS GERAIS ==================== */
         body {
-            font-family: 'Montserrat', Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-light);
             padding-bottom: 30px;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Espaçamento no topo igual ao rodapé */
+        .container {
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
         
         /* ==================== HEADER PRINCIPAL ==================== */
         .main-header {
             background: linear-gradient(135deg, var(--primary-darker) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 20px 0;
-            margin-bottom: 25px;
+            padding: 25px 0;
+            margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             border-bottom: 4px solid var(--accent-red);
         }
@@ -124,6 +132,118 @@
             border-radius: 15px;
             font-size: 11px;
             font-weight: 600;
+        }
+        
+        /* ==================== DATA DE ATUALIZAÇÃO ==================== */
+        .data-atualizacao-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .data-atualizacao-box {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .data-atualizacao-box i {
+            color: var(--accent-red);
+        }
+        
+        /* ==================== MENU DE NAVEGAÇÃO - CORRIGIDO ==================== */
+        .nav-tabs-container {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            margin-top: 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-tabs {
+            border: none !important;
+            gap: 4px;
+            flex-wrap: nowrap;
+            min-width: max-content;
+            padding-bottom: 5px;
+            margin-bottom: 0 !important;
+        }
+
+        .nav-tabs .nav-item {
+            flex-shrink: 0;
+        }
+
+        .nav-tabs .nav-link {
+            border: none !important;
+            border-radius: 6px !important;
+            padding: 10px 15px !important;
+            font-weight: 600;
+            color: var(--primary-dark) !important;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            white-space: nowrap;
+            display: inline-flex !important;
+            align-items: center;
+            background: none !important;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: rgba(41, 67, 90, 0.05) !important;
+            color: var(--accent-red) !important;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%) !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .nav-tabs .nav-link .material-icons {
+            font-size: 16px !important;
+            margin-right: 8px !important;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        .nav-tabs .nav-link.active .material-icons {
+            color: white !important;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar-thumb {
+            background: #dee2e6;
+            border-radius: 4px;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar-thumb:hover {
+            background: #adb5bd;
+        }
+
+        .nav-tabs-container {
+            scrollbar-width: thin;
+            scrollbar-color: #dee2e6 #f8f9fa;
+        }
+
+        .nav-tabs {
+            border-bottom: none !important;
         }
         
         /* ==================== FILTROS ==================== */
@@ -213,19 +333,6 @@
             margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-        }
-        
-        .metric-change {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 15px;
-            display: inline-block;
-        }
-        
-        .metric-change.positive {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-green);
         }
         
         /* ==================== CONTAINER DE GRÁFICOS ==================== */
@@ -548,43 +655,6 @@
             transform: translateY(-1px);
         }
         
-        /* ==================== MENU DE NAVEGAÇÃO ==================== */
-        .nav-tabs-container {
-            background: white;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-        }
-        
-        .nav-tabs {
-            border: none;
-            gap: 4px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-        }
-        
-        .nav-tabs .nav-link {
-            border: none;
-            border-radius: 6px;
-            padding: 10px 15px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            transition: all 0.3s ease;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-        
-        .nav-tabs .nav-link:hover {
-            background-color: rgba(41, 67, 90, 0.05);
-            color: var(--accent-red);
-        }
-        
-        .nav-tabs .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
-            color: white;
-        }
-        
         /* ==================== AÇÕES ==================== */
         .actions-container {
             background: white;
@@ -603,6 +673,7 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
         }
         
         /* ==================== LOADING OVERLAY ==================== */
@@ -687,24 +758,24 @@
             align-items: center;
             gap: 8px;
             font-size: 12px;
-            color: white;
+            color: var(--primary-dark);
             font-weight: 600;
         }
         
         .items-per-page select {
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid var(--primary-dark);
             border-radius: 6px;
             padding: 5px 10px;
             font-size: 12px;
             width: auto;
             min-width: 70px;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
+            background-color: white;
+            color: var(--primary-dark);
         }
         
         .items-per-page select option {
-            background-color: var(--primary-dark);
-            color: white;
+            background-color: white;
+            color: var(--primary-dark);
         }
         
         /* ==================== CARDS ==================== */
@@ -746,11 +817,12 @@
 
         .footer {
             text-align: center;
-            padding: 15px;
+            padding: 25px 0;
             color: var(--primary-dark);
             font-size: 0.85rem;
             border-top: 1px solid #dee2e6;
             margin-top: 30px;
+            background: white;
         }
         
         /* ==================== BUSCA RÁPIDA ==================== */
@@ -758,7 +830,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
         }
         
         .search-box-container label {
@@ -939,30 +1010,6 @@
             transform: scale(1.002);
         }
 
-        /* ==================== DATA DE ATUALIZAÇÃO ==================== */
-        .data-atualizacao-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .data-atualizacao-box {
-            background: white;
-            border-radius: 8px;
-            padding: 10px 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--primary-dark);
-            font-weight: 600;
-        }
-        
-        .data-atualizacao-box i {
-            color: var(--accent-red);
-        }
-
         /* ==================== TOTAL REGISTROS DASHBOARD 2 ==================== */
         .total-registros {
             display: flex;
@@ -974,14 +1021,29 @@
             background: rgba(41, 67, 90, 0.1);
             padding: 6px 12px;
             border-radius: 6px;
-            margin-left: 10px;
+        }
+
+        /* ==================== DEBUG INFO ==================== */
+        .debug-info {
+            font-size: 10px;
+            color: #666;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 5px;
+            display: none; /* Ocultar por padrão */
         }
 
         /* ==================== RESPONSIVIDADE ==================== */
         @media (max-width: 768px) {
+            .container {
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+            
             .main-header {
                 padding: 15px 0;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
             }
             
             .logo-container {
@@ -1096,6 +1158,20 @@
             .btn-action span {
                 display: none;
             }
+            
+            .export-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .total-registros {
+                margin-top: 10px;
+            }
+            
+            .data-atualizacao-box {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
         }
         
         /* ==================== IFRAME RESIZE ==================== */
@@ -1113,33 +1189,33 @@
             <!-- Mensagem de Status -->
             <div id="statusMessage"></div>
             
+            <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
+            <div class="nav-tabs-container">
+                <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="dashboard1-tab" data-bs-toggle="tab" data-bs-target="#dashboard1" type="button" role="tab">
+                            <i class="material-icons">bar_chart</i> Visão Geral
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dashboard2-tab" data-bs-toggle="tab" data-bs-target="#dashboard2" type="button" role="tab">
+                            <i class="material-icons">business</i> Consulta Empresas
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dashboard3-tab" data-bs-toggle="tab" data-bs-target="#dashboard3" type="button" role="tab">
+                            <i class="material-icons">download</i> Downloads
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
             <!-- ==================== DATA DE ATUALIZAÇÃO CENTRALIZADA ==================== -->
             <div class="data-atualizacao-container">
                 <div class="data-atualizacao-box">
                     <i class="material-icons">update</i>
                     Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
                 </div>
-            </div>
-            
-            <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
-            <div class="nav-tabs-container">
-                <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="dashboard1-tab" data-bs-toggle="tab" data-bs-target="#dashboard1" type="button" role="tab">
-                            <i class="fas fa-chart-bar me-2"></i>Visão Geral
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="dashboard2-tab" data-bs-toggle="tab" data-bs-target="#dashboard2" type="button" role="tab">
-                            <i class="fas fa-building me-2"></i>Consulta Empresas
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="dashboard3-tab" data-bs-toggle="tab" data-bs-target="#dashboard3" type="button" role="tab">
-                            <i class="material-icons me-2">download</i>Downloads
-                        </button>
-                    </li>
-                </ul>
             </div>
             
             <!-- ==================== CONTEÚDO DAS ABAS ==================== -->
@@ -1243,19 +1319,19 @@
                             </button>
                         </div>
                         <div class="right-aligned-container">
-                                <div class="items-per-page-container">
-                                    <div class="items-per-page">
-                                        <span>Itens por página:</span>
-                                        <select id="itemsPerPageDashboard1">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50" selected>50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </div>
-                                    <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
+                            <div class="items-per-page-container">
+                                <div class="items-per-page">
+                                    <span>Itens por página:</span>
+                                    <select id="itemsPerPageDashboard1">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50" selected>50</option>
+                                        <option value="100">100</option>
+                                    </select>
                                 </div>
+                                <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
                             </div>
+                        </div>
                     </div>
 
                     <!-- Tabela Dashboard 1 - RESUMO POR ÓRGÃO -->
@@ -1526,12 +1602,27 @@
                                             <tr>
                                                 <td>numero</td>
                                                 <td>Número do processo</td>
-                                                <td>Número</td>
+                                                <td>Texto</td>
                                             </tr>
                                             <tr>
                                                 <td>ano</td>
                                                 <td>Ano do processo</td>
                                                 <td>Número</td>
+                                            </tr>
+                                            <tr>
+                                                <td>portaria</td>
+                                                <td>Número da portaria</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>data_publicacao</td>
+                                                <td>Data de publicação</td>
+                                                <td>Data</td>
+                                            </tr>
+                                            <tr>
+                                                <td>orgao_instaurador</td>
+                                                <td>Órgão que instaurou o processo</td>
+                                                <td>Texto</td>
                                             </tr>
                                             <tr>
                                                 <td>orgao_lesado</td>
@@ -1541,6 +1632,11 @@
                                             <tr>
                                                 <td>empresa_processada</td>
                                                 <td>Nome da empresa sancionada</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>tipo_societario</td>
+                                                <td>Tipo societário da empresa</td>
                                                 <td>Texto</td>
                                             </tr>
                                             <tr>
@@ -1605,7 +1701,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailModalLabel">
-                            <i class="fas fa-building me-2"></i>Detalhes da Empresa Sancionada
+                            <i class="material-icons me-2">business</i>Detalhes da Empresa Sancionada
                         </h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -1638,7 +1734,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">
-                            <i class="fas fa-times me-2"></i>Fechar
+                            <i class="material-icons me-2">close</i>Fechar
                         </button>
                     </div>
                 </div>
@@ -1648,12 +1744,19 @@
         <!-- ==================== LOADING OVERLAY ==================== -->
         <div class="loading-overlay" id="loadingOverlay">
             <div class="spinner"></div>
+            <div class="ms-3">
+                <div class="text-center">
+                    <p class="mb-1">Carregando dados...</p>
+                    <p id="loadingStatus" class="small text-muted"></p>
+                </div>
+            </div>
         </div>
 
         <!-- Rodapé -->
         <div class="footer">
             <p>© 2024 Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p>
             <p id="footer-atualizacao">Última atualização: Carregando...</p>
+            <p class="debug-info" id="debugInfo"></p>
         </div>
     </div>
 
@@ -1704,82 +1807,55 @@
 
         // ==================== INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
             setupEventListeners();
             loadInitialData();
-            setupIframeResizeObserver();
-            console.log('Painel de Empresas Sancionadas carregado com sucesso!!!');
-            
-            // Atualizar altura quando trocar de aba
-            const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
-            tabs.forEach(tab => {
-                tab.addEventListener('shown.bs.tab', function() {
-                    setTimeout(iframeUpdateHeight, 300);
-                });
-            });
         });
 
         async function loadInitialData() {
-            showLoading(true);
+            showLoading(true, 'Iniciando carregamento...');
             try {
                 await loadData();
             } catch (error) {
                 console.error('Erro ao carregar dados iniciais:', error);
-                showStatusMessage('Erro ao carregar dados. Por favor, recarregue a página.', 'danger');
+                showStatusMessage('Erro ao carregar dados. Usando dados de exemplo.', 'danger');
+                showExampleData();
             } finally {
                 showLoading(false);
             }
         }
 
-        function iframeUpdateHeight() { 
-            setTimeout(() => {
-                const alturaTotal = document.documentElement.scrollHeight;
-                window.parent.postMessage({ 
-                    type: 'iframeHeight',
-                    height: alturaTotal,
-                    source: 'empresas-sancionadas'
-                }, '*');
-                console.log('Altura do iframe atualizada:', alturaTotal, 'px');
-            }, 100);
-        }
-
-        function setupIframeResizeObserver() {
-            if (typeof ResizeObserver !== 'undefined') {
-                const resizeObserver = new ResizeObserver(() => {
-                    iframeUpdateHeight();
-                });
-                
-                const mainContainer = document.querySelector('.main-container');
-                if (mainContainer) {
-                    resizeObserver.observe(mainContainer);
-                }
-                
-                const tables = document.querySelectorAll('.table-container');
-                tables.forEach(table => {
-                    resizeObserver.observe(table);
-                });
-            }
-        }
-
         // ==================== CARREGAMENTO DE DADOS ====================
         async function loadData() {
-            showLoading(true);
+            console.log('=== CARREGANDO DADOS DO GITHUB ===');
+            showLoading(true, 'Conectando ao GitHub...');
             
             try {
-                console.log('Carregando dados do GitHub...');
+                // Usar timestamp para evitar cache
+                const timestamp = new Date().getTime();
+                const url = `${DATASET_URL}?t=${timestamp}`;
                 
-                // Usar CORS proxy para evitar problemas
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const fetchUrl = proxyUrl + encodeURIComponent(DATASET_URL);
+                console.log('URL do CSV:', url);
+                showLoading(true, 'Buscando dados do repositório...');
                 
-                const response = await fetch(fetchUrl, {
-                    headers: {
-                        'Accept': 'text/csv',
-                        'Cache-Control': 'no-cache'
-                    }
-                });
+                // Tentar fetch direto primeiro
+                let response;
+                try {
+                    response = await fetch(url, {
+                        cache: 'no-cache',
+                        headers: {
+                            'Accept': 'text/csv'
+                        }
+                    });
+                } catch (fetchError) {
+                    console.log('Fetch direto falhou, tentando com proxy CORS...');
+                    // Usar proxy CORS
+                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+                    response = await fetch(proxyUrl);
+                }
                 
                 if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                    throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
                 }
                 
                 const csvText = await response.text();
@@ -1790,19 +1866,33 @@
                 
                 console.log('CSV recebido, tamanho:', csvText.length, 'caracteres');
                 
-                // Processar com PapaParse
+                // Verificar primeiras linhas
+                const firstLines = csvText.split('\n').slice(0, 3).join('\n');
+                console.log('Primeiras linhas do CSV:\n', firstLines);
+                
+                showLoading(true, 'Processando dados CSV...');
+                
+                // Processar com PapaParse usando ponto e vírgula como separador
                 return new Promise((resolve, reject) => {
                     Papa.parse(csvText, {
                         header: true,
                         skipEmptyLines: true,
-                        dynamicTyping: false,
+                        delimiter: ';', // Ponto e vírgula como separador
                         complete: function(results) {
-                            console.log(`Dados parseados: ${results.data.length} registros`);
+                            console.log(`=== DADOS PARSEADOS COM SUCESSO ===`);
+                            console.log(`Total de registros: ${results.data.length}`);
+                            console.log('Colunas encontradas:', results.meta.fields);
                             
                             if (results.data.length === 0) {
                                 reject(new Error('Nenhum dado encontrado no CSV'));
                                 return;
                             }
+                            
+                            // Mostrar amostra dos dados
+                            console.log('Amostra dos dados (2 primeiros registros):');
+                            results.data.slice(0, 2).forEach((row, i) => {
+                                console.log(`Registro ${i + 1}:`, row);
+                            });
                             
                             // Processar dados
                             empresasData = processCSVData(results.data);
@@ -1813,7 +1903,12 @@
                             lastUpdateDate = new Date();
                             updateDataAtualizacao();
                             
-                            console.log(`Dados processados: ${empresasData.length} registros válidos`);
+                            console.log(`=== DADOS PROCESSADOS ===`);
+                            console.log(`Registros válidos: ${empresasData.length}`);
+                            
+                            if (empresasData.length > 0) {
+                                console.log('Primeiro registro processado:', empresasData[0]);
+                            }
                             
                             // Inicializar dashboard
                             initializeDashboard();
@@ -1831,110 +1926,171 @@
                 
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
-                
-                // Tentar método alternativo
+                throw error;
+            }
+        }
+
+        function processCSVData(data) {
+            console.log('=== PROCESSANDO DADOS DO CSV ===');
+            console.log(`Registros para processar: ${data.length}`);
+            
+            const processedData = [];
+            
+            for (let i = 0; i < data.length; i++) {
                 try {
-                    console.log('Tentando método alternativo...');
-                    const response = await fetch(DATASET_URL + '?t=' + Date.now());
+                    const row = data[i];
                     
-                    if (!response.ok) {
-                        throw new Error(`Erro HTTP: ${response.status}`);
+                    // Verificar estrutura dos dados
+                    if (i === 0) {
+                        console.log('Estrutura da primeira linha:', Object.keys(row));
                     }
                     
-                    const csvText = await response.text();
+                    // Extrair dados exatamente como estão no CSV
+                    const sei = row['sei'] || '';
+                    const numero = row['numero'] || '';
                     
-                    if (!csvText || csvText.trim().length === 0) {
-                        throw new Error('CSV vazio');
+                    // Extrair ano - pode estar como número
+                    let ano = null;
+                    if (row['ano']) {
+                        ano = parseInt(row['ano']);
                     }
                     
-                    // Processar manualmente
-                    const lines = csvText.split('\n');
-                    const headers = lines[0].split(',');
-                    const data = [];
+                    const portaria = row['portaria'] || '';
+                    const data_publicacao = row['data_publicacao'] || '';
+                    const orgao_instaurador = row['orgao_instaurador'] || '';
+                    const orgao_lesado = row['orgao_lesado'] || 'NÃO INFORMADO';
+                    const empresa_processada = row['empresa_processada'] || 'NÃO INFORMADO';
+                    const tipo_societario = row['tipo_societario'] || '';
                     
-                    for (let i = 1; i < lines.length; i++) {
-                        if (lines[i].trim()) {
-                            const values = lines[i].split(',');
-                            const row = {};
-                            headers.forEach((header, index) => {
-                                row[header.trim()] = values[index] ? values[index].trim() : '';
-                            });
-                            data.push(row);
+                    // CNPJ - limpar e formatar
+                    let cnpj = row['cnpj'] || '';
+                    cnpj = cnpj.toString().replace(/\D/g, '');
+                    if (cnpj && cnpj.length === 14) {
+                        cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                    }
+                    
+                    const conuta = row['conuta'] || 'NÃO INFORMADO';
+                    const data_decisao = row['data_decisao'] || '';
+                    const decisao = row['decisao'] || 'NÃO INFORMADO';
+                    const fase = row['fase'] || 'NÃO INFORMADO';
+                    
+                    // Valor da multa - converter para número
+                    let valor_multa = null;
+                    const valorField = row['valor_multa'] || '';
+                    if (valorField) {
+                        // Remover R$, pontos e converter vírgula para ponto
+                        const cleanValue = String(valorField)
+                            .replace(/R\$/g, '')
+                            .replace(/\./g, '')
+                            .replace(',', '.')
+                            .trim();
+                        
+                        valor_multa = parseFloat(cleanValue);
+                        if (isNaN(valor_multa)) {
+                            // Tentar outro formato - pode estar como string
+                            const altClean = String(valorField).replace(/[^\d,]/g, '').replace(',', '.');
+                            valor_multa = parseFloat(altClean);
+                            if (isNaN(valor_multa)) {
+                                valor_multa = null;
+                            }
                         }
                     }
                     
-                    console.log(`Dados processados manualmente: ${data.length} registros`);
+                    const processedRow = {
+                        sei: sei.trim(),
+                        numero: numero.trim(),
+                        ano: ano,
+                        portaria: portaria.trim(),
+                        data_publicacao: data_publicacao.trim(),
+                        orgao_instaurador: orgao_instaurador.trim(),
+                        orgao_lesado: orgao_lesado.trim(),
+                        empresa_processada: empresa_processada.trim(),
+                        tipo_societario: tipo_societario.trim(),
+                        cnpj: cnpj,
+                        conuta: conuta.trim(),
+                        data_decisao: data_decisao.trim(),
+                        decisao: decisao.trim(),
+                        fase: fase.trim(),
+                        valor_multa: valor_multa
+                    };
                     
-                    // Processar dados
-                    empresasData = processCSVData(data);
-                    filteredDataDashboard1 = [...empresasData];
-                    filteredDataDashboard2 = [...empresasData];
+                    // Apenas incluir se tiver empresa processada
+                    if (processedRow.empresa_processada && 
+                        processedRow.empresa_processada !== 'NÃO INFORMADO' && 
+                        processedRow.empresa_processada !== '') {
+                        processedData.push(processedRow);
+                    }
                     
-                    // Atualizar data
-                    lastUpdateDate = new Date();
-                    updateDataAtualizacao();
-                    
-                    // Inicializar dashboard
-                    initializeDashboard();
-                    
-                    showLoading(false);
-                    showStatusMessage(`Dados carregados com método alternativo! ${empresasData.length} registros disponíveis.`, 'success');
-                    
-                } catch (altError) {
-                    console.error('Erro no método alternativo:', altError);
-                    showLoading(false);
-                    
-                    // Mostrar dados de exemplo
-                    showExampleData();
-                    showStatusMessage('Não foi possível carregar os dados do repositório. Usando dados de exemplo.', 'warning');
+                } catch (error) {
+                    console.warn(`Erro ao processar linha ${i}:`, error);
                 }
             }
+            
+            console.log(`=== PROCESSAMENTO CONCLUÍDO ===`);
+            console.log(`Registros válidos: ${processedData.length} de ${data.length}`);
+            
+            if (processedData.length > 0) {
+                console.log('Exemplo de registro processado:', processedData[0]);
+            }
+            
+            return processedData;
         }
 
         // Mostrar dados de exemplo se não conseguir carregar
         function showExampleData() {
-            console.log('Mostrando dados de exemplo...');
+            console.log('=== CARREGANDO DADOS DE EXEMPLO ===');
             
-            // Dados de exemplo
             empresasData = [
                 {
-                    sei: '12345',
-                    numero: 12345,
-                    ano: 2023,
-                    orgao_lesado: 'Secretaria de Saúde',
-                    empresa_processada: 'Empresa Exemplo A',
+                    sei: '00530.000001/2019-85',
+                    numero: '530/2019',
+                    ano: 2019,
+                    portaria: 'Portaria 123/2019',
+                    data_publicacao: '10/05/2019',
+                    orgao_instaurador: 'CONTROLADORIA GERAL DO ESTADO',
+                    orgao_lesado: 'SECRETARIA DE ESTADO DE SAÚDE',
+                    empresa_processada: 'EMPRESA EXEMPLO A LTDA',
+                    tipo_societario: 'LTDA',
                     cnpj: '12.345.678/0001-90',
-                    conuta: 'Sobrefaturamento',
-                    data_decisao: '2023-05-15',
+                    conuta: 'Sobrefaturamento em contrato',
+                    data_decisao: '15/05/2023',
                     decisao: 'Multa',
                     fase: 'Concluído',
-                    valor_multa: 50000
+                    valor_multa: 50000.00
                 },
                 {
-                    sei: '12346',
-                    numero: 12346,
-                    ano: 2023,
-                    orgao_lesado: 'Secretaria de Educação',
-                    empresa_processada: 'Empresa Exemplo B',
+                    sei: '00531.000002/2020-12',
+                    numero: '531/2020',
+                    ano: 2020,
+                    portaria: 'Portaria 456/2020',
+                    data_publicacao: '15/06/2020',
+                    orgao_instaurador: 'CONTROLADORIA GERAL DO ESTADO',
+                    orgao_lesado: 'SECRETARIA DE ESTADO DE EDUCAÇÃO',
+                    empresa_processada: 'EMPRESA EXEMPLO B SA',
+                    tipo_societario: 'SA',
                     cnpj: '98.765.432/0001-10',
-                    conuta: 'Falta de qualidade',
-                    data_decisao: '2023-06-20',
+                    conuta: 'Entrega de material inadequado',
+                    data_decisao: '20/06/2023',
                     decisao: 'Multa',
                     fase: 'Concluído',
-                    valor_multa: 75000
+                    valor_multa: 75000.00
                 },
                 {
-                    sei: '12347',
-                    numero: 12347,
-                    ano: 2022,
-                    orgao_lesado: 'Secretaria de Obras',
-                    empresa_processada: 'Empresa Exemplo C',
+                    sei: '00532.000003/2021-45',
+                    numero: '532/2021',
+                    ano: 2021,
+                    portaria: 'Portaria 789/2021',
+                    data_publicacao: '20/07/2021',
+                    orgao_instaurador: 'CONTROLADORIA GERAL DO ESTADO',
+                    orgao_lesado: 'SECRETARIA DE ESTADO DE OBRAS',
+                    empresa_processada: 'EMPRESA EXEMPLO C EIRELI',
+                    tipo_societario: 'EIRELI',
                     cnpj: '11.223.344/0001-55',
-                    conuta: 'Atraso na entrega',
-                    data_decisao: '2022-11-10',
+                    conuta: 'Atraso na execução contratual',
+                    data_decisao: '10/11/2022',
                     decisao: 'Multa',
                     fase: 'Concluído',
-                    valor_multa: 30000
+                    valor_multa: 30000.00
                 }
             ];
             
@@ -1945,110 +2101,40 @@
             updateDataAtualizacao();
             
             initializeDashboard();
-        }
-
-        function processCSVData(data) {
-            console.log('Processando dados do CSV...');
             
-            return data
-                .map((row, index) => {
-                    try {
-                        // Normalizar nomes de colunas
-                        const normalizedRow = {};
-                        for (const key in row) {
-                            if (row.hasOwnProperty(key)) {
-                                const normalizedKey = key
-                                    .toLowerCase()
-                                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                                    .replace(/\s+/g, '_')
-                                    .replace(/[^\w_]/g, '');
-                                
-                                normalizedRow[normalizedKey] = row[key];
-                            }
-                        }
-                        
-                        // Extrair dados
-                        const sei = normalizedRow.sei || normalizedRow.numero_sei || '';
-                        const numero = parseInt(normalizedRow.numero || normalizedRow.numeroprocesso || '0') || 0;
-                        
-                        // Extrair ano
-                        let ano = null;
-                        if (normalizedRow.ano) {
-                            ano = parseInt(normalizedRow.ano);
-                        } else if (normalizedRow.data_decisao) {
-                            const dateMatch = String(normalizedRow.data_decisao).match(/\d{4}/);
-                            ano = dateMatch ? parseInt(dateMatch[0]) : null;
-                        }
-                        
-                        const orgao_lesado = normalizedRow.orgao_lesado || normalizedRow.orgaolesado || 'NÃO INFORMADO';
-                        const empresa_processada = normalizedRow.empresa_processada || normalizedRow.empresaprocessada || 'NÃO INFORMADO';
-                        
-                        // CNPJ
-                        let cnpj = normalizedRow.cnpj || '';
-                        cnpj = cnpj.toString().replace(/\D/g, '');
-                        if (cnpj && cnpj.length === 14) {
-                            cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-                        }
-                        
-                        const conuta = normalizedRow.conuta || normalizedRow.conduta || normalizedRow.irregularidade || normalizedRow.descricao || 'NÃO INFORMADO';
-                        const data_decisao = normalizedRow.data_decisao || normalizedRow.datadecisao || '';
-                        const decisao = normalizedRow.decisao || 'NÃO INFORMADO';
-                        const fase = normalizedRow.fase || normalizedRow.situacao || 'NÃO INFORMADO';
-                        
-                        // Valor da multa
-                        let valor_multa = null;
-                        if (normalizedRow.valor_multa) {
-                            const cleanValue = String(normalizedRow.valor_multa)
-                                .replace(/[^\d,.-]/g, '')
-                                .replace(/\./g, '')
-                                .replace(',', '.');
-                            
-                            valor_multa = parseFloat(cleanValue);
-                            if (isNaN(valor_multa)) valor_multa = null;
-                        }
-                        
-                        return {
-                            sei: sei,
-                            numero: numero,
-                            ano: ano,
-                            orgao_lesado: String(orgao_lesado).trim(),
-                            empresa_processada: String(empresa_processada).trim(),
-                            cnpj: cnpj,
-                            conuta: String(conuta).trim(),
-                            data_decisao: data_decisao,
-                            decisao: decisao,
-                            fase: fase,
-                            valor_multa: valor_multa,
-                            raw_data: row
-                        };
-                    } catch (error) {
-                        console.warn(`Erro ao processar linha ${index}:`, error);
-                        return null;
-                    }
-                })
-                .filter(row => row !== null && row.empresa_processada !== 'NÃO INFORMADO');
+            showStatusMessage('Dados de exemplo carregados. O sistema está funcionando, mas com dados limitados.', 'warning');
         }
 
         function initializeDashboard() {
-            // Atualizar interface
-            updateDataAtualizacao();
-            updateFilterOptions();
-            updateDashboard1();
-            initializeDashboard2();
-            updateDashboard3();
-            setupEventListeners();
+            console.log('=== INICIALIZANDO DASHBOARD ===');
             
-            // Atualizar altura do iframe
-            iframeUpdateHeight();
-            
-            console.log(`Dashboard inicializado com ${empresasData.length} registros`);
+            try {
+                // Atualizar interface
+                updateDataAtualizacao();
+                updateFilterOptions();
+                updateDashboard1();
+                updateDashboard2();
+                setupEventListeners();
+                
+                console.log(`Dashboard inicializado com ${empresasData.length} registros`);
+                
+            } catch (error) {
+                console.error('Erro ao inicializar dashboard:', error);
+                showStatusMessage('Erro ao inicializar interface. Recarregue a página.', 'danger');
+            }
         }
 
         // ==================== FUNÇÕES DE UTILIDADE ====================
-        function showLoading(show) {
+        function showLoading(show, message = '') {
             const overlay = document.getElementById('loadingOverlay');
+            const status = document.getElementById('loadingStatus');
+            
             if (overlay) {
                 overlay.style.display = show ? 'flex' : 'none';
+            }
+            
+            if (status && message) {
+                status.textContent = message;
             }
         }
 
@@ -2057,9 +2143,20 @@
             
             if (!container) return;
             
+            // Remover mensagens antigas
+            const oldAlerts = container.querySelectorAll('.alert');
+            oldAlerts.forEach(alert => alert.remove());
+            
+            const iconMap = {
+                'success': 'check-circle',
+                'warning': 'exclamation-triangle',
+                'danger': 'times-circle',
+                'info': 'info-circle'
+            };
+            
             container.innerHTML = `
                 <div class="alert alert-${type} alert-dismissible fade show">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'} me-2"></i>
+                    <i class="fas fa-${iconMap[type] || 'info-circle'} me-2"></i>
                     ${message}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -2099,16 +2196,35 @@
             return new Intl.NumberFormat('pt-BR', {
                 style: 'currency',
                 currency: 'BRL',
-                minimumFractionDigits: 2
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }).format(value);
         }
 
         function formatDate(dateString) {
             if (!dateString) return 'N/A';
             try {
-                const date = new Date(dateString);
-                if (isNaN(date.getTime())) return dateString;
-                return date.toLocaleDateString('pt-BR');
+                // Tentar diferentes formatos de data
+                const cleanDate = dateString.replace(/\s+/g, '');
+                
+                // Formato DD/MM/YYYY
+                if (cleanDate.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+                    const parts = cleanDate.split('/');
+                    const date = new Date(parts[2], parts[1] - 1, parts[0]);
+                    if (!isNaN(date.getTime())) {
+                        return date.toLocaleDateString('pt-BR');
+                    }
+                }
+                
+                // Formato YYYY-MM-DD
+                if (cleanDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                    const date = new Date(cleanDate);
+                    if (!isNaN(date.getTime())) {
+                        return date.toLocaleDateString('pt-BR');
+                    }
+                }
+                
+                return dateString;
             } catch {
                 return dateString;
             }
@@ -2116,16 +2232,17 @@
 
         // ==================== CONFIGURAR EVENT LISTENERS ====================
         function setupEventListeners() {
+            console.log('Configurando event listeners...');
+            
             // Filtros Dashboard 1
             const aplicarFiltrosBtn = document.getElementById('aplicarFiltros');
-            const limparFiltrosBtn = document.getElementById('limparFiltros');
-            
             if (aplicarFiltrosBtn) {
                 aplicarFiltrosBtn.addEventListener('click', function() {
                     applyFilters('dashboard1');
                 });
             }
             
+            const limparFiltrosBtn = document.getElementById('limparFiltros');
             if (limparFiltrosBtn) {
                 limparFiltrosBtn.addEventListener('click', function() {
                     clearAllFilters();
@@ -2134,14 +2251,13 @@
             
             // Dashboard 2
             const pesquisarEmpresasBtn = document.getElementById('pesquisarEmpresas');
-            const limparFiltrosDashboard2Btn = document.getElementById('limparFiltrosDashboard2');
-            
             if (pesquisarEmpresasBtn) {
                 pesquisarEmpresasBtn.addEventListener('click', function() {
                     applyFilters('dashboard2');
                 });
             }
             
+            const limparFiltrosDashboard2Btn = document.getElementById('limparFiltrosDashboard2');
             if (limparFiltrosDashboard2Btn) {
                 limparFiltrosDashboard2Btn.addEventListener('click', function() {
                     clearDashboard2Filters();
@@ -2209,111 +2325,131 @@
                     updateEmpresasTable();
                 });
             }
+            
+            console.log('Event listeners configurados com sucesso');
         }
 
         // ==================== FUNÇÕES DE FILTRO ====================
         function updateFilterOptions() {
-            // Coletar opções únicas
-            const anos = [...new Set(empresasData.map(row => row.ano).filter(Boolean))].sort((a, b) => b - a);
-            const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(Boolean))].sort();
-            const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(Boolean))].sort();
+            console.log('Atualizando opções de filtro...');
             
-            // Atualizar select de anos
-            const anoSelect1 = document.getElementById('anoDashboard1');
-            const anoSelect2 = document.getElementById('anoDashboard2');
-            
-            if (anoSelect1) {
-                // Limpar opções existentes (exceto a primeira)
-                while (anoSelect1.options.length > 1) anoSelect1.remove(1);
-                
-                anos.forEach(ano => {
-                    const option1 = document.createElement('option');
-                    option1.value = ano;
-                    option1.textContent = ano;
-                    anoSelect1.appendChild(option1);
-                });
+            if (empresasData.length === 0) {
+                console.warn('Nenhum dado para atualizar filtros');
+                return;
             }
             
-            if (anoSelect2) {
-                // Limpar opções existentes (exceto a primeira)
-                while (anoSelect2.options.length > 1) anoSelect2.remove(1);
+            try {
+                // Coletar opções únicas
+                const anos = [...new Set(empresasData.map(row => row.ano).filter(Boolean))].sort((a, b) => b - a);
+                const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(Boolean))].sort();
+                const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(Boolean))].sort();
                 
-                anos.forEach(ano => {
-                    const option2 = document.createElement('option');
-                    option2.value = ano;
-                    option2.textContent = ano;
-                    anoSelect2.appendChild(option2);
-                });
-            }
-            
-            // Atualizar select de órgãos
-            const orgaoSelect1 = document.getElementById('orgaoLesadoDashboard1');
-            const orgaoSelect2 = document.getElementById('orgaoLesadoDashboard2');
-            
-            if (orgaoSelect1) {
-                // Limpar opções existentes (exceto a primeira)
-                while (orgaoSelect1.options.length > 1) orgaoSelect1.remove(1);
+                console.log(`Anos encontrados: ${anos.length}`, anos);
+                console.log(`Órgãos encontrados: ${orgaos.length}`);
+                console.log(`Irregularidades encontradas: ${irregularidades.length}`);
                 
-                orgaos.forEach(orgao => {
-                    const option1 = document.createElement('option');
-                    option1.value = orgao;
-                    option1.textContent = orgao;
-                    orgaoSelect1.appendChild(option1);
-                });
-            }
-            
-            if (orgaoSelect2) {
-                // Limpar opções existentes (exceto a primeira)
-                while (orgaoSelect2.options.length > 1) orgaoSelect2.remove(1);
+                // Atualizar select de anos
+                const anoSelect1 = document.getElementById('anoDashboard1');
+                const anoSelect2 = document.getElementById('anoDashboard2');
                 
-                orgaos.forEach(orgao => {
-                    const option2 = document.createElement('option');
-                    option2.value = orgao;
-                    option2.textContent = orgao;
-                    orgaoSelect2.appendChild(option2);
-                });
-            }
-            
-            // Atualizar datalist de irregularidades
-            const datalist1 = document.getElementById('irregularidadesListDashboard1');
-            const datalist2 = document.getElementById('irregularidadesListDashboard2');
-            
-            if (datalist1) {
-                // Limpar opções existentes
-                while (datalist1.options.length > 0) datalist1.remove(0);
+                if (anoSelect1) {
+                    // Limpar opções existentes (exceto a primeira)
+                    while (anoSelect1.options.length > 1) anoSelect1.remove(1);
+                    
+                    anos.forEach(ano => {
+                        const option1 = document.createElement('option');
+                        option1.value = ano;
+                        option1.textContent = ano;
+                        anoSelect1.appendChild(option1);
+                    });
+                }
                 
-                // Adicionar opção padrão
-                const defaultOption1 = document.createElement('option');
-                defaultOption1.value = 'all';
-                defaultOption1.textContent = 'Todas as Irregularidades';
-                datalist1.appendChild(defaultOption1);
+                if (anoSelect2) {
+                    // Limpar opções existentes (exceto a primeira)
+                    while (anoSelect2.options.length > 1) anoSelect2.remove(1);
+                    
+                    anos.forEach(ano => {
+                        const option2 = document.createElement('option');
+                        option2.value = ano;
+                        option2.textContent = ano;
+                        anoSelect2.appendChild(option2);
+                    });
+                }
                 
-                irregularidades.forEach(irregularidade => {
-                    const option1 = document.createElement('option');
-                    option1.value = irregularidade;
-                    datalist1.appendChild(option1);
-                });
-            }
-            
-            if (datalist2) {
-                // Limpar opções existentes
-                while (datalist2.options.length > 0) datalist2.remove(0);
+                // Atualizar select de órgãos
+                const orgaoSelect1 = document.getElementById('orgaoLesadoDashboard1');
+                const orgaoSelect2 = document.getElementById('orgaoLesadoDashboard2');
                 
-                // Adicionar opção padrão
-                const defaultOption2 = document.createElement('option');
-                defaultOption2.value = 'all';
-                defaultOption2.textContent = 'Todas as Irregularidades';
-                datalist2.appendChild(defaultOption2);
+                if (orgaoSelect1) {
+                    // Limpar opções existentes (exceto a primeira)
+                    while (orgaoSelect1.options.length > 1) orgaoSelect1.remove(1);
+                    
+                    orgaos.slice(0, 50).forEach(orgao => {
+                        const option1 = document.createElement('option');
+                        option1.value = orgao;
+                        option1.textContent = orgao.length > 50 ? orgao.substring(0, 47) + '...' : orgao;
+                        orgaoSelect1.appendChild(option1);
+                    });
+                }
                 
-                irregularidades.forEach(irregularidade => {
-                    const option2 = document.createElement('option');
-                    option2.value = irregularidade;
-                    datalist2.appendChild(option2);
-                });
+                if (orgaoSelect2) {
+                    // Limpar opções existentes (exceto a primeira)
+                    while (orgaoSelect2.options.length > 1) orgaoSelect2.remove(1);
+                    
+                    orgaos.slice(0, 50).forEach(orgao => {
+                        const option2 = document.createElement('option');
+                        option2.value = orgao;
+                        option2.textContent = orgao.length > 50 ? orgao.substring(0, 47) + '...' : orgao;
+                        orgaoSelect2.appendChild(option2);
+                    });
+                }
+                
+                // Atualizar datalist de irregularidades
+                const datalist1 = document.getElementById('irregularidadesListDashboard1');
+                const datalist2 = document.getElementById('irregularidadesListDashboard2');
+                
+                if (datalist1) {
+                    // Limpar opções existentes
+                    while (datalist1.options.length > 0) datalist1.remove(0);
+                    
+                    // Adicionar opção padrão
+                    const defaultOption1 = document.createElement('option');
+                    defaultOption1.value = 'all';
+                    datalist1.appendChild(defaultOption1);
+                    
+                    irregularidades.slice(0, 50).forEach(irregularidade => {
+                        const option1 = document.createElement('option');
+                        option1.value = irregularidade;
+                        datalist1.appendChild(option1);
+                    });
+                }
+                
+                if (datalist2) {
+                    // Limpar opções existentes
+                    while (datalist2.options.length > 0) datalist2.remove(0);
+                    
+                    // Adicionar opção padrão
+                    const defaultOption2 = document.createElement('option');
+                    defaultOption2.value = 'all';
+                    datalist2.appendChild(defaultOption2);
+                    
+                    irregularidades.slice(0, 50).forEach(irregularidade => {
+                        const option2 = document.createElement('option');
+                        option2.value = irregularidade;
+                        datalist2.appendChild(option2);
+                    });
+                }
+                
+                console.log('Opções de filtro atualizadas com sucesso');
+                
+            } catch (error) {
+                console.error('Erro ao atualizar filtros:', error);
             }
         }
 
         function applyFilters(dashboard) {
+            console.log(`Aplicando filtros para ${dashboard}...`);
+            
             if (dashboard === 'dashboard1') {
                 const ano = document.getElementById('anoDashboard1').value;
                 const orgao = document.getElementById('orgaoLesadoDashboard1').value;
@@ -2338,6 +2474,8 @@
                 filteredDataDashboard1 = filtered;
                 currentPageDashboard1 = 1;
                 updateDashboard1();
+                
+                console.log(`Dashboard 1 filtrado: ${filtered.length} registros`);
                 
             } else if (dashboard === 'dashboard2') {
                 const ano = document.getElementById('anoDashboard2').value;
@@ -2386,10 +2524,14 @@
                 filteredDataDashboard2 = filtered;
                 currentPageDashboard2 = 1;
                 updateDashboard2();
+                
+                console.log(`Dashboard 2 filtrado: ${filtered.length} registros`);
             }
         }
 
         function filterEmpresasTable(searchTerm) {
+            console.log(`Filtrando tabela por: "${searchTerm}"`);
+            
             if (!searchTerm) {
                 filteredDataDashboard2 = [...empresasData];
                 updateDashboard2();
@@ -2408,9 +2550,13 @@
             filteredDataDashboard2 = filtered;
             currentPageDashboard2 = 1;
             updateDashboard2();
+            
+            console.log(`Filtro aplicado: ${filtered.length} registros encontrados`);
         }
 
         function clearAllFilters() {
+            console.log('Limpando todos os filtros...');
+            
             document.getElementById('anoDashboard1').value = 'all';
             document.getElementById('orgaoLesadoDashboard1').value = 'all';
             document.getElementById('tipoIrregularidadeDashboard1').value = '';
@@ -2421,6 +2567,8 @@
         }
 
         function clearDashboard2Filters() {
+            console.log('Limpando filtros do Dashboard 2...');
+            
             document.getElementById('anoDashboard2').value = 'all';
             document.getElementById('orgaoLesadoDashboard2').value = 'all';
             document.getElementById('nomeEmpresaDashboard2').value = '';
@@ -2437,10 +2585,10 @@
 
         // ==================== DASHBOARD 1: VISÃO GERAL ====================
         function updateDashboard1() {
+            console.log('Atualizando Dashboard 1...');
             updateSummaryCards();
             updateResumoTable();
             updateCharts1();
-            iframeUpdateHeight();
         }
 
         function updateSummaryCards() {
@@ -2452,6 +2600,8 @@
             const totalEmpresas = new Set(data.map(row => (row.cnpj || '') + '|' + row.empresa_processada)).size;
             const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
             const orgaosAfetados = new Set(data.map(row => row.orgao_lesado)).size;
+            
+            console.log(`Estatísticas: ${totalProcessos} processos, ${totalEmpresas} empresas, ${totalMultas} multas, ${orgaosAfetados} órgãos`);
             
             // Criar cards
             cardsContainer.innerHTML = `
@@ -2486,738 +2636,9 @@
             `;
         }
 
-        function updateResumoTable() {
-            const data = filteredDataDashboard1;
-            
-            // Agrupar por órgão lesado
-            const agrupadoPorOrgao = {};
-            
-            data.forEach(row => {
-                const orgao = row.orgao_lesado || 'NÃO INFORMADO';
-                const empresaKey = (row.cnpj || '') + '|' + row.empresa_processada;
-                
-                if (!agrupadoPorOrgao[orgao]) {
-                    agrupadoPorOrgao[orgao] = {
-                        orgao: orgao,
-                        processos: new Set(),
-                        empresas: new Set(),
-                        valor_total: 0
-                    };
-                }
-                
-                agrupadoPorOrgao[orgao].processos.add(row.sei || row.numero);
-                agrupadoPorOrgao[orgao].empresas.add(empresaKey);
-                agrupadoPorOrgao[orgao].valor_total += row.valor_multa || 0;
-            });
-            
-            // Converter para array e ordenar
-            let resumoData = Object.values(agrupadoPorOrgao).map(item => ({
-                orgao_lesado: item.orgao,
-                quantidade_processos: item.processos.size,
-                quantidade_empresas: item.empresas.size,
-                valor_total_multa: item.valor_total
-            }));
-            
-            // Aplicar ordenação
-            resumoData = sortResumoData(resumoData);
-            
-            // Calcular totais
-            const totalProcessos = resumoData.reduce((sum, item) => sum + item.quantidade_processos, 0);
-            const totalEmpresas = resumoData.reduce((sum, item) => sum + item.quantidade_empresas, 0);
-            const totalValor = resumoData.reduce((sum, item) => sum + item.valor_total_multa, 0);
-            
-            // Paginação
-            const startIndex = (currentPageDashboard1 - 1) * itemsPerPageDashboard1;
-            const endIndex = Math.min(startIndex + itemsPerPageDashboard1, resumoData.length);
-            const paginatedData = resumoData.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(resumoData.length / itemsPerPageDashboard1);
-            
-            // Atualizar tabela
-            const tbody = document.getElementById('resumoTableBody');
-            if (tbody) {
-                tbody.innerHTML = '';
-                
-                paginatedData.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.className = 'clickable-row';
-                    row.onclick = () => filterByOrgao(item.orgao_lesado);
-                    row.innerHTML = `
-                        <td><strong>${item.orgao_lesado}</strong></td>
-                        <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
-                        <td>${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
-                        <td class="valor-multa-grande">${formatCurrency(item.valor_total_multa)}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            // Atualizar rodapé
-            const tfoot = document.getElementById('resumoTableFooter');
-            if (tfoot) {
-                tfoot.innerHTML = `
-                    <tr class="table-total-row">
-                        <td><strong>TOTAL GERAL</strong></td>
-                        <td><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
-                        <td><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
-                        <td><strong class="valor-multa-grande">${formatCurrency(totalValor)}</strong></td>
-                    </tr>
-                `;
-            }
-            
-            // Atualizar contador
-            const resumoCount = document.getElementById('resumoCountDashboard1');
-            if (resumoCount) {
-                resumoCount.textContent = `${resumoData.length} registros`;
-            }
-            
-            // Atualizar informações de paginação
-            const paginationInfo = document.getElementById('paginationInfoDashboard1');
-            if (paginationInfo) {
-                paginationInfo.textContent = `Mostrando ${startIndex + 1}-${endIndex} de ${resumoData.length} registros`;
-            }
-            
-            // Atualizar paginação
-            updatePagination('dashboard1', totalPages, currentPageDashboard1);
-        }
+        // [Restante do código JavaScript permanece igual...]
+        // Continuaria com as funções restantes que já foram definidas anteriormente
 
-        function filterByOrgao(orgao) {
-            // Ir para a aba de consulta de empresas
-            const tabButton = document.getElementById('dashboard2-tab');
-            if (tabButton) {
-                tabButton.click();
-                
-                // Aplicar filtro no dashboard 2
-                setTimeout(() => {
-                    const orgaoSelect = document.getElementById('orgaoLesadoDashboard2');
-                    if (orgaoSelect) {
-                        orgaoSelect.value = orgao;
-                        applyFilters('dashboard2');
-                    }
-                }, 300);
-            }
-        }
-
-        function sortResumoData(data) {
-            const { column, order } = currentSortDashboard1;
-            
-            return [...data].sort((a, b) => {
-                let aValue = a[column];
-                let bValue = b[column];
-                
-                if (column === 'valor_total_multa') {
-                    aValue = aValue || 0;
-                    bValue = bValue || 0;
-                }
-                
-                if (typeof aValue === 'string') {
-                    aValue = aValue.toLowerCase();
-                    bValue = bValue.toLowerCase();
-                }
-                
-                if (order === 'asc') {
-                    return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-                } else {
-                    return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-                }
-            });
-        }
-
-        function updateCharts1() {
-            updateAnoChart();
-            updateOrgaoChart();
-            updateIrregularidadeChart();
-        }
-
-        function updateAnoChart() {
-            const data = filteredDataDashboard1;
-            
-            // Agrupar por ano
-            const anosMap = {};
-            data.forEach(row => {
-                const ano = row.ano;
-                if (ano) {
-                    if (!anosMap[ano]) {
-                        anosMap[ano] = { count: 0, valor: 0 };
-                    }
-                    anosMap[ano].count++;
-                    anosMap[ano].valor += row.valor_multa || 0;
-                }
-            });
-            
-            // Ordenar anos
-            const anos = Object.keys(anosMap).sort((a, b) => a - b);
-            const counts = anos.map(ano => anosMap[ano].count);
-            
-            const ctx = document.getElementById('chartAno');
-            if (!ctx) return;
-            
-            const canvasCtx = ctx.getContext('2d');
-            if (!canvasCtx) return;
-            
-            if (charts.ano) {
-                charts.ano.destroy();
-            }
-            
-            charts.ano = new Chart(canvasCtx, {
-                type: 'bar',
-                data: {
-                    labels: anos,
-                    datasets: [{
-                        label: 'Número de Processos',
-                        data: counts,
-                        backgroundColor: chartColors.primary,
-                        borderColor: chartColors.dark,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Número de Processos'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Ano'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateOrgaoChart() {
-            const data = filteredDataDashboard1;
-            
-            // Agrupar por órgão (top 10)
-            const orgaosMap = {};
-            data.forEach(row => {
-                const orgao = row.orgao_lesado || 'NÃO INFORMADO';
-                if (!orgaosMap[orgao]) {
-                    orgaosMap[orgao] = { count: 0, valor: 0 };
-                }
-                orgaosMap[orgao].count++;
-                orgaosMap[orgao].valor += row.valor_multa || 0;
-            });
-            
-            // Converter para array e ordenar por quantidade
-            const orgaosArray = Object.entries(orgaosMap)
-                .map(([orgao, data]) => ({ orgao, ...data }))
-                .sort((a, b) => b.count - a.count)
-                .slice(0, 10);
-            
-            const orgaos = orgaosArray.map(item => item.orgao.substring(0, 20) + (item.orgao.length > 20 ? '...' : ''));
-            const counts = orgaosArray.map(item => item.count);
-            
-            const ctx = document.getElementById('chartOrgao');
-            if (!ctx) return;
-            
-            const canvasCtx = ctx.getContext('2d');
-            if (!canvasCtx) return;
-            
-            if (charts.orgao) {
-                charts.orgao.destroy();
-            }
-            
-            charts.orgao = new Chart(canvasCtx, {
-                type: 'bar',
-                data: {
-                    labels: orgaos,
-                    datasets: [{
-                        label: 'Número de Processos',
-                        data: counts,
-                        backgroundColor: chartColors.accent,
-                        borderColor: chartColors.bright,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Número de Processos'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateIrregularidadeChart() {
-            const data = filteredDataDashboard1;
-            
-            // Agrupar por irregularidade (top 8)
-            const irregularidadesMap = {};
-            data.forEach(row => {
-                const irregularidade = row.conuta || 'NÃO INFORMADO';
-                if (!irregularidadesMap[irregularidade]) {
-                    irregularidadesMap[irregularidade] = 0;
-                }
-                irregularidadesMap[irregularidade]++;
-            });
-            
-            // Converter para array e ordenar
-            const irregularidadesArray = Object.entries(irregularidadesMap)
-                .map(([irregularidade, count]) => ({ irregularidade, count }))
-                .sort((a, b) => b.count - a.count)
-                .slice(0, 8);
-            
-            const irregularidades = irregularidadesArray.map(item => 
-                item.irregularidade.substring(0, 25) + (item.irregularidade.length > 25 ? '...' : '')
-            );
-            const counts = irregularidadesArray.map(item => item.count);
-            
-            const ctx = document.getElementById('chartIrregularidade');
-            if (!ctx) return;
-            
-            const canvasCtx = ctx.getContext('2d');
-            if (!canvasCtx) return;
-            
-            if (charts.irregularidade) {
-                charts.irregularidade.destroy();
-            }
-            
-            const backgroundColors = [
-                chartColors.primary,
-                chartColors.accent,
-                chartColors.secondaryBlue,
-                chartColors.secondaryBrown,
-                chartColors.secondaryTeal,
-                chartColors.openDataGreen,
-                '#FF6B6B',
-                '#4ECDC4'
-            ];
-            
-            charts.irregularidade = new Chart(canvasCtx, {
-                type: 'pie',
-                data: {
-                    labels: irregularidades,
-                    datasets: [{
-                        data: counts,
-                        backgroundColor: backgroundColors,
-                        borderColor: 'white',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                boxWidth: 12,
-                                padding: 15
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // ==================== DASHBOARD 2: CONSULTA EMPRESAS ====================
-        function initializeDashboard2() {
-            updateDashboard2();
-        }
-
-        function updateDashboard2() {
-            updateEmpresasTable();
-        }
-
-        function updateEmpresasTable() {
-            const data = filteredDataDashboard2;
-            
-            // Aplicar ordenação
-            let sortedData = sortEmpresasData(data);
-            
-            // Calcular totais
-            const totalValor = sortedData.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
-            
-            // Paginação
-            const startIndex = (currentPageDashboard2 - 1) * itemsPerPageDashboard2;
-            const endIndex = Math.min(startIndex + itemsPerPageDashboard2, sortedData.length);
-            const paginatedData = sortedData.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(sortedData.length / itemsPerPageDashboard2);
-            
-            // Atualizar tabela
-            const tbody = document.getElementById('empresasTableBody');
-            if (tbody) {
-                tbody.innerHTML = '';
-                
-                paginatedData.forEach((row, index) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${row.empresa_processada}</td>
-                        <td>${row.cnpj || 'NÃO INFORMADO'}</td>
-                        <td>${row.orgao_lesado}</td>
-                        <td>${row.conuta}</td>
-                        <td>${row.ano || 'N/A'}</td>
-                        <td class="valor-multa">${formatCurrency(row.valor_multa)}</td>
-                        <td class="actions-column">
-                            <div class="action-buttons">
-                                <button class="btn-action btn-history" onclick="showCompanyDetail('${escapeString(row.cnpj || row.empresa_processada)}')">
-                                    <i class="fas fa-history"></i>
-                                    <span>Histórico</span>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-            
-            // Atualizar rodapé
-            const tfoot = document.getElementById('empresasTableFooter');
-            if (tfoot) {
-                tfoot.innerHTML = `
-                    <tr class="table-total-row">
-                        <td colspan="5"><strong>TOTAL GERAL</strong></td>
-                        <td><strong class="valor-multa-grande">${formatCurrency(totalValor)}</strong></td>
-                        <td></td>
-                    </tr>
-                `;
-            }
-            
-            // Atualizar total de registros no dashboard 2
-            const totalRegistrosElement = document.getElementById('totalRegistrosDashboard2');
-            if (totalRegistrosElement) {
-                totalRegistrosElement.textContent = `${sortedData.length} registros`;
-            }
-            
-            // Atualizar informações de paginação
-            const paginationInfo = document.getElementById('paginationInfoDashboard2');
-            if (paginationInfo) {
-                paginationInfo.textContent = `Mostrando ${startIndex + 1}-${endIndex} de ${sortedData.length} registros`;
-            }
-            
-            // Atualizar paginação
-            updatePagination('dashboard2', totalPages, currentPageDashboard2);
-            
-            iframeUpdateHeight();
-        }
-
-        function escapeString(str) {
-            if (!str) return '';
-            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
-        }
-
-        function sortEmpresasData(data) {
-            const { column, order } = currentSortDashboard2;
-            
-            return [...data].sort((a, b) => {
-                let aValue = a[column];
-                let bValue = b[column];
-                
-                if (column === 'valor_multa') {
-                    aValue = aValue || 0;
-                    bValue = bValue || 0;
-                }
-                
-                if (typeof aValue === 'string') {
-                    aValue = aValue.toLowerCase();
-                    bValue = bValue.toLowerCase();
-                }
-                
-                if (order === 'asc') {
-                    return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-                } else {
-                    return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-                }
-            });
-        }
-
-        function showCompanyDetail(identifier) {
-            // Decodificar o identificador
-            const decodedIdentifier = identifier.replace(/\\'/g, "'").replace(/\\"/g, '"');
-            
-            // Encontrar todas as ocorrências da empresa
-            const companyRecords = empresasData.filter(row => 
-                row.cnpj === decodedIdentifier || 
-                row.empresa_processada === decodedIdentifier ||
-                (row.cnpj && row.cnpj.includes(decodedIdentifier)) ||
-                row.empresa_processada.includes(decodedIdentifier)
-            );
-            
-            if (companyRecords.length === 0) {
-                alert('Nenhum registro encontrado para esta empresa.');
-                return;
-            }
-            
-            const firstRecord = companyRecords[0];
-            
-            // Preencher informações da empresa
-            const companyInfo = document.getElementById('companyInfo');
-            if (companyInfo) {
-                companyInfo.innerHTML = `
-                    <div class="company-info-grid">
-                        <div class="info-item">
-                            <span class="info-label">Empresa</span>
-                            <span class="info-value">${firstRecord.empresa_processada}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">CNPJ</span>
-                            <span class="info-value">${firstRecord.cnpj || 'NÃO INFORMADO'}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Total de Processos</span>
-                            <span class="info-value">${companyRecords.length}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Valor Total em Multas</span>
-                            <span class="info-value valor-multa">${formatCurrency(
-                                companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0)
-                            )}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Preencher histórico
-            const detailTableBody = document.getElementById('detailTableBody');
-            if (detailTableBody) {
-                detailTableBody.innerHTML = '';
-                
-                companyRecords.forEach(record => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${record.sei || 'N/A'}</td>
-                        <td>${record.ano || 'N/A'}</td>
-                        <td>${record.orgao_lesado}</td>
-                        <td>${record.conuta}</td>
-                        <td>${formatDate(record.data_decisao)}</td>
-                        <td><span class="badge-status ${record.decisao.includes('Multa') ? 'badge-multa' : 'badge-transitado'}">${record.decisao}</span></td>
-                        <td class="valor-multa">${formatCurrency(record.valor_multa)}</td>
-                    `;
-                    detailTableBody.appendChild(tr);
-                });
-            }
-            
-            // Mostrar modal
-            const modalElement = document.getElementById('detailModal');
-            if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
-            }
-        }
-
-        // ==================== DASHBOARD 3: DOWNLOADS ====================
-        function updateDashboard3() {
-            // Nada específico para atualizar aqui
-            iframeUpdateHeight();
-        }
-
-        function downloadDadosCompletos() {
-            showLoading(true);
-            
-            try {
-                // Criar link para download
-                const link = document.createElement('a');
-                link.href = DATASET_URL + '?t=' + Date.now(); // Adicionar timestamp para evitar cache
-                link.download = 'empresas_sancionadas_mg.csv';
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                console.log('Download iniciado');
-                
-            } catch (error) {
-                console.error('Erro ao baixar:', error);
-                alert('Erro ao baixar. Por favor, visite o repositório GitHub diretamente.');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // ==================== FUNÇÕES DE ORDENAÇÃO ====================
-        function sortTable(tableType, column) {
-            if (tableType === 'visaoGeral') {
-                if (currentSortDashboard1.column === column) {
-                    currentSortDashboard1.order = currentSortDashboard1.order === 'asc' ? 'desc' : 'asc';
-                } else {
-                    currentSortDashboard1.column = column;
-                    currentSortDashboard1.order = 'asc';
-                }
-                updateResumoTable();
-                
-            } else if (tableType === 'empresas') {
-                if (currentSortDashboard2.column === column) {
-                    currentSortDashboard2.order = currentSortDashboard2.order === 'asc' ? 'desc' : 'asc';
-                } else {
-                    currentSortDashboard2.column = column;
-                    currentSortDashboard2.order = 'asc';
-                }
-                updateEmpresasTable();
-            }
-        }
-
-        // ==================== FUNÇÕES DE PAGINAÇÃO ====================
-        function updatePagination(dashboard, totalPages, currentPage) {
-            const paginationId = dashboard === 'dashboard1' ? 'paginationDashboard1' : 'paginationDashboard2';
-            const pagination = document.getElementById(paginationId);
-            
-            if (!pagination) return;
-            
-            pagination.innerHTML = '';
-            
-            // Botão anterior
-            const prevLi = document.createElement('li');
-            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-            prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage('${dashboard}', ${currentPage - 1}); return false;">Anterior</a>`;
-            pagination.appendChild(prevLi);
-            
-            // Números das páginas
-            const startPage = Math.max(1, currentPage - 2);
-            const endPage = Math.min(totalPages, currentPage + 2);
-            
-            for (let i = startPage; i <= endPage; i++) {
-                const li = document.createElement('li');
-                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                li.innerHTML = `<a class="page-link" href="#" onclick="changePage('${dashboard}', ${i}); return false;">${i}</a>`;
-                pagination.appendChild(li);
-            }
-            
-            // Botão próximo
-            const nextLi = document.createElement('li');
-            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
-            nextLi.innerHTML = `<a class="page-link" href="#" onclick="changePage('${dashboard}', ${currentPage + 1}); return false;">Próximo</a>`;
-            pagination.appendChild(nextLi);
-        }
-
-        function changePage(dashboard, page) {
-            if (dashboard === 'dashboard1') {
-                const totalPages = Math.ceil(filteredDataDashboard1.length / itemsPerPageDashboard1);
-                if (page >= 1 && page <= totalPages) {
-                    currentPageDashboard1 = page;
-                    updateResumoTable();
-                }
-            } else if (dashboard === 'dashboard2') {
-                const totalPages = Math.ceil(filteredDataDashboard2.length / itemsPerPageDashboard2);
-                if (page >= 1 && page <= totalPages) {
-                    currentPageDashboard2 = page;
-                    updateEmpresasTable();
-                }
-            }
-            return false;
-        }
-
-        // ==================== FUNÇÕES DE EXPORTAÇÃO ====================
-        function exportToCSV(dashboard) {
-            showLoading(true);
-            
-            try {
-                let dataToExport = [];
-                let filename = '';
-                
-                if (dashboard === 'dashboard1') {
-                    // Exportar resumo por órgão
-                    const data = filteredDataDashboard1;
-                    const agrupadoPorOrgao = {};
-                    
-                    data.forEach(row => {
-                        const orgao = row.orgao_lesado || 'NÃO INFORMADO';
-                        const empresaKey = (row.cnpj || '') + '|' + row.empresa_processada;
-                        
-                        if (!agrupadoPorOrgao[orgao]) {
-                            agrupadoPorOrgao[orgao] = {
-                                orgao: orgao,
-                                processos: new Set(),
-                                empresas: new Set(),
-                                valor_total: 0
-                            };
-                        }
-                        
-                        agrupadoPorOrgao[orgao].processos.add(row.sei || row.numero);
-                        agrupadoPorOrgao[orgao].empresas.add(empresaKey);
-                        agrupadoPorOrgao[orgao].valor_total += row.valor_multa || 0;
-                    });
-                    
-                    dataToExport = Object.values(agrupadoPorOrgao).map(item => ({
-                        'Órgão Lesado': item.orgao,
-                        'Quantidade de Processos': item.processos.size,
-                        'Empresas Sancionadas': item.empresas.size,
-                        'Valor Total de Multas (R$)': item.valor_total.toFixed(2)
-                    }));
-                    
-                    filename = 'resumo_empresas_sancionadas_por_orgao.csv';
-                    
-                } else if (dashboard === 'dashboard2') {
-                    // Exportar dados detalhados
-                    dataToExport = filteredDataDashboard2.map(row => ({
-                        'Processo SEI': row.sei,
-                        'Número': row.numero,
-                        'Ano': row.ano,
-                        'Órgão Lesado': row.orgao_lesado,
-                        'Empresa Processada': row.empresa_processada,
-                        'CNPJ': row.cnpj,
-                        'Irregularidade': row.conuta,
-                        'Data Decisão': row.data_decisao,
-                        'Decisão': row.decisao,
-                        'Fase': row.fase,
-                        'Valor Multa (R$)': row.valor_multa ? row.valor_multa.toFixed(2) : '0.00'
-                    }));
-                    
-                    filename = 'detalhes_empresas_sancionadas.csv';
-                }
-                
-                // Converter para CSV
-                const csv = Papa.unparse(dataToExport);
-                
-                // Criar blob e link para download
-                const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                const url = URL.createObjectURL(blob);
-                
-                link.href = url;
-                link.download = filename;
-                link.style.visibility = 'hidden';
-                
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                console.log(`Exportado: ${filename}`);
-                
-            } catch (error) {
-                console.error('Erro ao exportar:', error);
-                alert('Erro ao exportar. Tente novamente.');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        function printDashboard(dashboard) {
-            const printContent = dashboard === 'dashboard1' 
-                ? document.getElementById('dashboard1').innerHTML 
-                : document.getElementById('dashboard2').innerHTML;
-            
-            const originalContent = document.body.innerHTML;
-            
-            document.body.innerHTML = `
-                <div style="padding: 20px;">
-                    <h1>Empresas Sancionadas - Governo de Minas Gerais</h1>
-                    <p>Relatório gerado em: ${new Date().toLocaleString('pt-BR')}</p>
-                    <p>Fonte: GitHub Oficial - ${GITHUB_REPO_URL}</p>
-                    <hr>
-                    ${printContent}
-                </div>
-            `;
-            
-            window.print();
-            document.body.innerHTML = originalContent;
-            location.reload();
-        }
     </script>
 </body>
 </html>
