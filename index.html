@@ -8,6 +8,8 @@
     <!-- ==================== ESTILOS E BIBLIOTECAS ==================== -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
@@ -31,6 +33,7 @@
             --secondary-brown: #8B7355;
             --secondary-teal: #20B2AA;
             --open-data-green: #2E7D32;
+            --hover-blue: #1a73e8;
         }
         
         /* ==================== ESTILOS GERAIS ==================== */
@@ -38,6 +41,7 @@
             font-family: 'Montserrat', Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-light);
             padding-bottom: 30px;
+            overflow-x: hidden;
         }
         
         /* ==================== HEADER PRINCIPAL ==================== */
@@ -460,6 +464,25 @@
             box-shadow: 0 4px 12px rgba(41, 67, 90, 0.15);
         }
         
+        /* Botão Pesquisar com hover azul */
+        .btn-pesquisar {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-darker));
+            border: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: white;
+        }
+        
+        .btn-pesquisar:hover {
+            background: linear-gradient(to right, var(--hover-blue), #0d62c9);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+            color: white;
+        }
+        
         .btn-export {
             background: white;
             border: 2px solid var(--primary-dark);
@@ -499,6 +522,28 @@
         .btn-open-data:hover {
             background: #1B5E20;
             border-color: #1B5E20;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .btn-download {
+            background: var(--primary-dark);
+            border: 2px solid var(--primary-dark);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        
+        .btn-download:hover {
+            background: var(--primary-darker);
+            border-color: var(--primary-darker);
             color: white;
             transform: translateY(-1px);
         }
@@ -670,6 +715,12 @@
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             margin-bottom: 20px;
             text-align: center;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .card-stats:hover {
+            transform: translateY(-5px);
         }
 
         .card-stats .value {
@@ -810,6 +861,122 @@
             vertical-align: middle;
         }
         
+        /* ==================== BADGES PARA STATUS ==================== */
+        .badge-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-transitado {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-green);
+        }
+        
+        .badge-multa {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        /* ==================== VALOR MONETÁRIO ==================== */
+        .valor-multa {
+            font-weight: 700;
+            color: var(--accent-red);
+        }
+        
+        .valor-malta-grande {
+            font-size: 14px;
+            color: #dc3545;
+            font-weight: 800;
+        }
+        
+        /* ==================== CARDS DE INFORMAÇÃO ==================== */
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--info-blue);
+        }
+        
+        .info-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+        
+        .info-card-content {
+            font-size: 13px;
+            color: var(--primary-darker);
+            line-height: 1.6;
+        }
+        
+        .info-card-link {
+            color: var(--accent-red);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .info-card-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* ==================== LINHA CLICÁVEL NA TABELA ==================== */
+        .clickable-row {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .clickable-row:hover {
+            background-color: rgba(41, 67, 90, 0.08) !important;
+            transform: scale(1.002);
+        }
+
+        /* ==================== DATA DE ATUALIZAÇÃO ==================== */
+        .data-atualizacao-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .data-atualizacao-box {
+            background: white;
+            border-radius: 8px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .data-atualizacao-box i {
+            color: var(--accent-red);
+        }
+
+        /* ==================== TOTAL REGISTROS DASHBOARD 2 ==================== */
+        .total-registros {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            background: rgba(41, 67, 90, 0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-left: 10px;
+        }
+
         /* ==================== RESPONSIVIDADE ==================== */
         @media (max-width: 768px) {
             .main-header {
@@ -930,133 +1097,22 @@
                 display: none;
             }
         }
-
-        /* ==================== BADGES PARA STATUS ==================== */
-        .badge-status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-        }
         
-        .badge-transitado {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-green);
+        /* ==================== IFRAME RESIZE ==================== */
+        .main-container {
+            min-height: 100vh;
         }
-        
-        .badge-multa {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-        }
-        
-        /* ==================== VALOR MONETÁRIO ==================== */
-        .valor-multa {
-            font-weight: 700;
-            color: var(--accent-red);
-        }
-        
-        .valor-malta-grande {
-            font-size: 14px;
-            color: #dc3545;
-            font-weight: 800;
-        }
-        
-        /* ==================== CARDS DE INFORMAÇÃO ==================== */
-        .info-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-            margin-bottom: 20px;
-            border-left: 5px solid var(--info-blue);
-        }
-        
-        .info-card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-        }
-        
-        .info-card-content {
-            font-size: 13px;
-            color: var(--primary-darker);
-            line-height: 1.6;
-        }
-        
-        .info-card-link {
-            color: var(--accent-red);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 10px;
-        }
-        
-        .info-card-link:hover {
-            text-decoration: underline;
-        }
-
-        /* ==================== INICIALIZAÇÃO ==================== */
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
-            loadInitialData();
-            setupTooltips();
-            setupDescriptiveTooltips();
-            setupAtualizacaoData();
-            console.log('Painel de Diárias e Viagens carregado com sucesso!!!');
-			iframeUpdateHeight();
-        });
-		// código incluir
-		function iframeUpdateHeight() { window.parent.postMessage({ iframeHeight: document.body.scrollHeight+10 }, '*'); }
-
-        
-        /* ==================== LINHA CLICÁVEL NA TABELA ==================== */
-        .clickable-row {
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .clickable-row:hover {
-            background-color: rgba(41, 67, 90, 0.08) !important;
-            transform: scale(1.002);
-        }
-                                       
     </style>
 </head>
 <body>
 
-           
-    <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
-    <div class="container">
-        
-        <!-- Mensagem de Status -->
-        <div id="statusMessage"></div>
-        
-        <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
-        <div class="nav-tabs-container">
-            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="dashboard1-tab" data-bs-toggle="tab" data-bs-target="#dashboard1" type="button" role="tab">
-                        <i class="fas fa-chart-bar me-2"></i>Visão Geral
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="dashboard2-tab" data-bs-toggle="tab" data-bs-target="#dashboard2" type="button" role="tab">
-                        <i class="fas fa-building me-2"></i>Consulta Empresas
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="dashboard3-tab" data-bs-toggle="tab" data-bs-target="#dashboard3" type="button" role="tab">
-                        <i class="fas fa-download me-2"></i>Downloads
-                    </button>
-                </li>
-            </ul>
-        </div>
-
-
+    <div class="main-container">
+        <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
+        <div class="container">
+            
+            <!-- Mensagem de Status -->
+            <div id="statusMessage"></div>
+            
             <!-- ==================== DATA DE ATUALIZAÇÃO CENTRALIZADA ==================== -->
             <div class="data-atualizacao-container">
                 <div class="data-atualizacao-box">
@@ -1064,514 +1120,541 @@
                     Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
                 </div>
             </div>
-        
-        <!-- ==================== CONTEÚDO DAS ABAS ==================== -->
-        <div class="tab-content" id="dashboardTabsContent">
             
-            <!-- ==================== DASHBOARD 1: VISÃO GERAL ==================== -->
-            <div class="tab-pane fade show active" id="dashboard1" role="tabpanel">
+            <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
+            <div class="nav-tabs-container">
+                <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="dashboard1-tab" data-bs-toggle="tab" data-bs-target="#dashboard1" type="button" role="tab">
+                            <i class="fas fa-chart-bar me-2"></i>Visão Geral
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dashboard2-tab" data-bs-toggle="tab" data-bs-target="#dashboard2" type="button" role="tab">
+                            <i class="fas fa-building me-2"></i>Consulta Empresas
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dashboard3-tab" data-bs-toggle="tab" data-bs-target="#dashboard3" type="button" role="tab">
+                            <i class="material-icons me-2">download</i>Downloads
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- ==================== CONTEÚDO DAS ABAS ==================== -->
+            <div class="tab-content" id="dashboardTabsContent">
                 
-                <!-- Filtros Dashboard 1 -->
-                <div class="filter-container">
-                    <div class="row">
-                        <div class="col-md-3 col-6">
-                            <div class="mb-3">
-                                <label for="anoDashboard1" class="form-label filter-label">Ano</label>
-                                <select class="form-select" id="anoDashboard1">
-                                    <option value="all">Todos os Anos</option>
-                                    <!-- Anos serão carregados dinamicamente -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="mb-3">
-                                <label for="orgaoLesadoDashboard1" class="form-label filter-label">Órgão Lesado</label>
-                                <select class="form-select" id="orgaoLesadoDashboard1">
-                                    <option value="all">Todos os Órgãos</option>
-                                    <!-- Opções serão carregadas dinamicamente -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="mb-3">
-                                <label for="tipoIrregularidadeDashboard1" class="form-label filter-label">Tipo de Irregularidade</label>
-                                <input type="text" class="form-control" list="irregularidadesListDashboard1" id="tipoIrregularidadeDashboard1" placeholder="Digite ou selecione...">
-                                <datalist id="irregularidadesListDashboard1">
-                                    <option value="all">Todas as Irregularidades</option>
-                                </datalist>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 flex-wrap">
-                                <button class="btn-primary-custom" id="aplicarFiltros">
-                                    <i class="fas fa-filter me-2"></i>Pesquisar
-                                </button>
-                                <button class="btn-secondary-custom" id="limparFiltros">
-                                    <i class="fas fa-redo me-2"></i>Limpar Filtros
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cards de Estatísticas Dashboard 1 -->
-                <div class="row mb-4" id="summaryCards">
-                    <!-- Cards serão carregados dinamicamente -->
-                </div>
-
-                <!-- Gráficos Dashboard 1 -->
-                <div class="row mb-4">
-                    <div class="col-md-4 col-12">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h4 class="chart-title">Multas por Ano</h4>
-                            </div>
-                            <div class="chart-wrapper">
-                                <canvas id="chartAno"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-12">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h4 class="chart-title">Multas por Órgão Lesado (Top 10)</h4>
-                            </div>
-                            <div class="chart-wrapper">
-                                <canvas id="chartOrgao"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-12">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h4 class="chart-title">Tipos de Irregularidade</h4>
-                            </div>
-                            <div class="chart-wrapper">
-                                <canvas id="chartIrregularidade"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ações Dashboard 1 -->
-                <div class="actions-container mb-4">
-                    <div class="export-buttons">
-                        <button class="btn-export" id="exportCSVDashboard1">
-                            <i class="fas fa-file-csv me-2"></i> Exportar CSV
-                        </button>
-                        <button class="btn-export" id="printDashboard1">
-                            <i class="fas fa-print me-2"></i> Imprimir
-                        </button>
-                        <button class="btn-export" id="Compartilharlink">
-                            <i class="material-icons me-2">share</i>Compartilhar Link
-                        </button>
-                    </div>
-                    <div class="right-aligned-container">
-                            <div class="items-per-page-container">
-                                <div class="items-per-page">
-                                    <span>Itens por página:</span>
-                                    <select id="itemsPerPageDashboard1">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50" selected>50</option>
-                                        <option value="100">100</option>
+                <!-- ==================== DASHBOARD 1: VISÃO GERAL ==================== -->
+                <div class="tab-pane fade show active" id="dashboard1" role="tabpanel">
+                    
+                    <!-- Filtros Dashboard 1 -->
+                    <div class="filter-container">
+                        <div class="row">
+                            <div class="col-md-3 col-6">
+                                <div class="mb-3">
+                                    <label for="anoDashboard1" class="form-label filter-label">Ano</label>
+                                    <select class="form-select" id="anoDashboard1">
+                                        <option value="all">Todos os Anos</option>
+                                        <!-- Anos serão carregados dinamicamente -->
                                     </select>
                                 </div>
-                                <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="mb-3">
+                                    <label for="orgaoLesadoDashboard1" class="form-label filter-label">Órgão Lesado</label>
+                                    <select class="form-select" id="orgaoLesadoDashboard1">
+                                        <option value="all">Todos os Órgãos</option>
+                                        <!-- Opções serão carregadas dinamicamente -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="mb-3">
+                                    <label for="tipoIrregularidadeDashboard1" class="form-label filter-label">Tipo de Irregularidade</label>
+                                    <input type="text" class="form-control" list="irregularidadesListDashboard1" id="tipoIrregularidadeDashboard1" placeholder="Digite ou selecione...">
+                                    <datalist id="irregularidadesListDashboard1">
+                                        <option value="all">Todas as Irregularidades</option>
+                                    </datalist>
+                                </div>
                             </div>
                         </div>
-                </div>
-
-                <!-- Tabela Dashboard 1 - RESUMO POR ÓRGÃO -->
-                <div class="table-container">
-                    <div class="table-fixed-header-container">
-                        <table class="table table-hover" id="visaoGeralTable">
-                            <thead>
-                                <tr>
-                                    <th data-sort="orgao_lesado" data-order="asc" onclick="sortTable('visaoGeral', 'orgao_lesado')">
-                                        Órgão Lesado <span class="sort-icon">▼</span>
-                                    </th>
-                                    <th data-sort="quantidade_processos" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_processos')">
-                                        Quantidade de Processos <span class="sort-icon">▼</span>
-                                    </th>
-                                    <th data-sort="quantidade_empresas" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_empresas')">
-                                        Empresas Sancionadas <span class="sort-icon">▼</span>
-                                    </th>
-                                    <th data-sort="valor_total_multa" data-order="desc" onclick="sortTable('visaoGeral', 'valor_total_multa')">
-                                        Valor Total de Multas <span class="sort-icon">▼</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="resumoTableBody">
-                                <!-- Dados serão carregados dinamicamente -->
-                            </tbody>
-                            <tfoot id="resumoTableFooter">
-                                <!-- Total geral será carregado dinamicamente -->
-                            </tfoot>
-                        </table>
-                    </div>
-                    <!-- Paginação Dashboard 1 -->
-                    <div class="pagination-container">
-                        <div class="pagination-info" id="paginationInfoDashboard1">
-                            Mostrando 0-0 de 0 registros
-                        </div>
-                        <nav aria-label="Paginação">
-                            <ul class="pagination mb-0" id="paginationDashboard1">
-                                <!-- Paginação será gerada dinamicamente -->
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                
-            </div> <!-- Fim Dashboard 1 -->
-
-            <!-- ==================== DASHBOARD 2: CONSULTA EMPRESAS ==================== -->
-            <div class="tab-pane fade" id="dashboard2" role="tabpanel">
-                
-                <!-- Filtros Dashboard 2 -->
-                <div class="filter-container">
-                    <div class="row">
-                        <div class="col-md-3 col-6">
-                            <div class="mb-3">
-                                <label for="anoDashboard2" class="form-label filter-label">Ano</label>
-                                <select class="form-select" id="anoDashboard2">
-                                    <option value="all">Todos os Anos</option>
-                                    <!-- Anos serão carregados dinamicamente -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="mb-3">
-                                <label for="orgaoLesadoDashboard2" class="form-label filter-label">Órgão Lesado</label>
-                                <select class="form-select" id="orgaoLesadoDashboard2">
-                                    <option value="all">Todos os Órgãos</option>
-                                    <!-- Opções serão carregadas dinamicamente -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="mb-3">
-                                <label for="nomeEmpresaDashboard2" class="form-label filter-label">Nome da Empresa</label>
-                                <input type="text" class="form-control" id="nomeEmpresaDashboard2" placeholder="Digite o nome da empresa...">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <div class="mb-3">
-                                <label for="cnpjEmpresaDashboard2" class="form-label filter-label">CNPJ</label>
-                                <input type="text" class="form-control" id="cnpjEmpresaDashboard2" placeholder="Digite o CNPJ...">
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="mb-3">
-                                <label for="tipoIrregularidadeDashboard2" class="form-label filter-label">Tipo de Irregularidade</label>
-                                <input type="text" class="form-control" list="irregularidadesListDashboard2" id="tipoIrregularidadeDashboard2" placeholder="Digite ou selecione...">
-                                <datalist id="irregularidadesListDashboard2">
-                                    <option value="all">Todas as Irregularidades</option>
-                                </datalist>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="mb-3">
-                                <label for="decisaoDashboard2" class="form-label filter-label">Decisão</label>
-                                <select class="form-select" id="decisaoDashboard2">
-                                    <option value="all">Todas as Decisões</option>
-                                    <option value="Multa">Multa</option>
-                                    <option value="Multa e P.Ext. de decisão condenatória">Multa e P.Ext.</option>
-                                    <option value="Transitado em Julgado">Transitado em Julgado</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 flex-wrap">
-                                <button class="btn-primary-custom" id="pesquisarEmpresas">
-                                    <i class="fas fa-search me-2"></i>Pesquisar
-                                </button>
-                                <button class="btn-secondary-custom" id="limparFiltrosDashboard2">
-                                    <i class="fas fa-times me-2"></i>Limpar Filtros
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Campo de Busca de Registros Dashboard 2 -->
-                <div class="actions-container mb-4">
-                    <div class="export-buttons">
-                        <button class="btn-export" id="exportCSVDashboard2">
-                            <i class="fas fa-file-csv"></i> Exportar CSV
-                        </button>
-                        <button class="btn-export" id="printDashboard2">
-                            <i class="fas fa-print"></i> Imprimir
-                        </button>
-                        <button class="btn-open-data" id="openDataDashboard2">
-                            <i class="fab fa-github"></i> GitHub Oficial
-                        </button>
-                        <button class="btn-export" id="Compartilharlink">
-                            <i class="material-icons me-2">share</i>Compartilhar Link
-                        </button>
-                    </div>
-
-                    <div class="search-box-container">
-                        <label for="searchEmpresas">Buscar registros:</label>
-                        <input type="text" id="searchEmpresas" placeholder="Buscar por empresa, CNPJ, órgão ou irregularidade...">
-                    </div>
-                </div>
-
-                <!-- Tabela de Empresas Dashboard 2 -->
-                <div class="table-container">
-                    <div class="table-fixed-header-container">
-                        <table class="table table-hover" id="empresasTable">
-                            <thead>
-                                <tr>
-                                    <th data-sort="empresa_processada" data-order="asc" onclick="sortTable('empresas', 'empresa_processada')">Empresa <span class="sort-icon">▼</span></th>
-                                    <th data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">CNPJ <span class="sort-icon">▼</span></th>
-                                    <th data-sort="orgao_lesado" data-order="asc" onclick="sortTable('empresas', 'orgao_lesado')">Órgão Lesado <span class="sort-icon">▼</span></th>
-                                    <th data-sort="conuta" data-order="asc" onclick="sortTable('empresas', 'conuta')">Irregularidade <span class="sort-icon">▼</span></th>
-                                    <th data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">Ano <span class="sort-icon">▼</span></th>
-                                    <th data-sort="valor_multa" data-order="desc" onclick="sortTable('empresas', 'valor_multa')">Valor Multa <span class="sort-icon">▼</span></th>
-                                    <th class="actions-column">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="empresasTableBody">
-                                <!-- Dados serão carregados dinamicamente -->
-                            </tbody>
-                            <tfoot id="empresasTableFooter">
-                                <!-- Total geral será carregado dinamicamente -->
-                            </tfoot>
-                        </table>
-                    </div>
-                    
-                    <!-- Paginação Dashboard 2 -->
-                    <div class="pagination-container">
-                        <div class="pagination-info" id="paginationInfoDashboard2">
-                            Mostrando 0-0 de 0 registros
-                        </div>
-                        <nav aria-label="Paginação">
-                            <ul class="pagination mb-0" id="paginationDashboard2">
-                                <!-- Paginação será gerada dinamicamente -->
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                
-            </div> <!-- Fim Dashboard 2 -->
-
-            <!-- ==================== DASHBOARD 3: DOWNLOADS ==================== -->
-            <div class="tab-pane fade" id="dashboard3" role="tabpanel">
-                
-                <!-- Informações sobre os dados -->
-                <div class="table-container">
-                    <div class="table-header">
-                        <h3 class="table-title">Informações e Downloads</h3>
-                        <span class="badge-open-data">
-                            <i class="fab fa-github"></i> GitHub
-                        </span>
-                    </div>
-                    <div class="p-4">
                         <div class="row">
-                            <div class="col-md-6 col-12">
-                                <div class="card-stats">
-                                    <i class="fab fa-github fa-3x mb-3" style="color: var(--primary-dark);"></i>
-                                    <h4>GitHub Oficial</h4>
-                                    <p class="text-muted" style="font-size: 13px;">Repositório oficial com dados e código-fonte</p>
-                                    <div class="mt-3">
-                                        <a href="https://github.com/transparencia-mg/empresas_sancionadas" target="_blank" class="btn-open-data w-100 d-block text-decoration-none">
-                                            <i class="fab fa-github me-2"></i>Acessar Repositório
-                                        </a>
+                            <div class="col-12">
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <button class="btn-pesquisar" id="aplicarFiltros">
+                                        <i class="fas fa-filter me-2"></i>Pesquisar
+                                    </button>
+                                    <button class="btn-secondary-custom" id="limparFiltros">
+                                        <i class="fas fa-redo me-2"></i>Limpar Filtros
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cards de Estatísticas Dashboard 1 -->
+                    <div class="row mb-4" id="summaryCards">
+                        <!-- Cards serão carregados dinamicamente -->
+                    </div>
+
+                    <!-- Gráficos Dashboard 1 -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 col-12">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h4 class="chart-title">Multas por Ano</h4>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="chartAno"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h4 class="chart-title">Multas por Órgão Lesado (Top 10)</h4>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="chartOrgao"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h4 class="chart-title">Tipos de Irregularidade</h4>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="chartIrregularidade"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações Dashboard 1 -->
+                    <div class="actions-container mb-4">
+                        <div class="export-buttons">
+                            <button class="btn-export" id="exportCSVDashboard1">
+                                <i class="fas fa-file-csv me-2"></i> Exportar CSV
+                            </button>
+                            <button class="btn-export" id="printDashboard1">
+                                <i class="fas fa-print me-2"></i> Imprimir
+                            </button>
+                        </div>
+                        <div class="right-aligned-container">
+                                <div class="items-per-page-container">
+                                    <div class="items-per-page">
+                                        <span>Itens por página:</span>
+                                        <select id="itemsPerPageDashboard1">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50" selected>50</option>
+                                            <option value="100">100</option>
+                                        </select>
                                     </div>
+                                    <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Tabela Dashboard 1 - RESUMO POR ÓRGÃO -->
+                    <div class="table-container">
+                        <div class="table-fixed-header-container">
+                            <table class="table table-hover" id="visaoGeralTable">
+                                <thead>
+                                    <tr>
+                                        <th data-sort="orgao_lesado" data-order="asc" onclick="sortTable('visaoGeral', 'orgao_lesado')">
+                                            Órgão Lesado <span class="sort-icon">▼</span>
+                                        </th>
+                                        <th data-sort="quantidade_processos" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_processos')">
+                                            Quantidade de Processos <span class="sort-icon">▼</span>
+                                        </th>
+                                        <th data-sort="quantidade_empresas" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_empresas')">
+                                            Empresas Sancionadas <span class="sort-icon">▼</span>
+                                        </th>
+                                        <th data-sort="valor_total_multa" data-order="desc" onclick="sortTable('visaoGeral', 'valor_total_multa')">
+                                            Valor Total de Multas <span class="sort-icon">▼</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resumoTableBody">
+                                    <!-- Dados serão carregados dinamicamente -->
+                                </tbody>
+                                <tfoot id="resumoTableFooter">
+                                    <!-- Total geral será carregado dinamicamente -->
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- Paginação Dashboard 1 -->
+                        <div class="pagination-container">
+                            <div class="pagination-info" id="paginationInfoDashboard1">
+                                Mostrando 0-0 de 0 registros
+                            </div>
+                            <nav aria-label="Paginação">
+                                <ul class="pagination mb-0" id="paginationDashboard1">
+                                    <!-- Paginação será gerada dinamicamente -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                </div> <!-- Fim Dashboard 1 -->
+
+                <!-- ==================== DASHBOARD 2: CONSULTA EMPRESAS ==================== -->
+                <div class="tab-pane fade" id="dashboard2" role="tabpanel">
+                    
+                    <!-- Filtros Dashboard 2 -->
+                    <div class="filter-container">
+                        <div class="row">
+                            <div class="col-md-3 col-6">
+                                <div class="mb-3">
+                                    <label for="anoDashboard2" class="form-label filter-label">Ano</label>
+                                    <select class="form-select" id="anoDashboard2">
+                                        <option value="all">Todos os Anos</option>
+                                        <!-- Anos serão carregados dinamicamente -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="mb-3">
+                                    <label for="orgaoLesadoDashboard2" class="form-label filter-label">Órgão Lesado</label>
+                                    <select class="form-select" id="orgaoLesadoDashboard2">
+                                        <option value="all">Todos os Órgãos</option>
+                                        <!-- Opções serão carregadas dinamicamente -->
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6 col-12">
-                                <div class="card-stats">
-                                    <i class="fas fa-database fa-3x mb-3" style="color: var(--open-data-green);"></i>
-                                    <h4>CSV Oficial</h4>
-                                    <p class="text-muted" style="font-size: 13px;">Arquivo CSV atualizado no GitHub</p>
-                                    <div class="mt-3">
-                                        <button class="btn-open-data w-100 d-block text-decoration-none" id="downloadDadosCompletos">
-                                            <i class="fas fa-download me-2"></i>Baixar CSV Oficial
-                                        </button>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="nomeEmpresaDashboard2" class="form-label filter-label">Nome da Empresa</label>
+                                    <input type="text" class="form-control" id="nomeEmpresaDashboard2" placeholder="Digite o nome da empresa...">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <div class="mb-3">
+                                    <label for="cnpjEmpresaDashboard2" class="form-label filter-label">CNPJ</label>
+                                    <input type="text" class="form-control" id="cnpjEmpresaDashboard2" placeholder="Digite o CNPJ...">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="mb-3">
+                                    <label for="tipoIrregularidadeDashboard2" class="form-label filter-label">Tipo de Irregularidade</label>
+                                    <input type="text" class="form-control" list="irregularidadesListDashboard2" id="tipoIrregularidadeDashboard2" placeholder="Digite ou selecione...">
+                                    <datalist id="irregularidadesListDashboard2">
+                                        <option value="all">Todas as Irregularidades</option>
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="mb-3">
+                                    <label for="decisaoDashboard2" class="form-label filter-label">Decisão</label>
+                                    <select class="form-select" id="decisaoDashboard2">
+                                        <option value="all">Todas as Decisões</option>
+                                        <option value="Multa">Multa</option>
+                                        <option value="Multa e P.Ext. de decisão condenatória">Multa e P.Ext.</option>
+                                        <option value="Transitado em Julgado">Transitado em Julgado</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row mt-4">
-                            <div class="col-md-6 col-12">
-                                <div class="card-stats">
-                                    <i class="fas fa-code fa-3x mb-3" style="color: var(--accent-red);"></i>
-                                    <h4>Código-Fonte</h4>
-                                    <p class="text-muted" style="font-size: 13px;">ETL e processamento de dados</p>
-                                    <div class="mt-3">
-                                        <a href="https://github.com/transparencia-mg/empresas_sancionadas/tree/main/code" target="_blank" class="btn-export w-100 d-block text-decoration-none">
-                                            <i class="fas fa-code me-2"></i>Ver Código-Fonte
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="card-stats">
-                                    <i class="fas fa-gavel fa-3x mb-3" style="color: var(--accent-red);"></i>
-                                    <h4>Legislação</h4>
-                                    <p class="text-muted" style="font-size: 13px;">Lei Anticorrupção (12.846/2013)</p>
-                                    <div class="mt-3">
-                                        <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="btn-export w-100 d-block text-decoration-none">
-                                            <i class="fas fa-external-link-alt me-2"></i>Consultar Legislação
-                                        </a>
-                                    </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <button class="btn-pesquisar" id="pesquisarEmpresas">
+                                        <i class="fas fa-search me-2"></i>Pesquisar
+                                    </button>
+                                    <button class="btn-secondary-custom" id="limparFiltrosDashboard2">
+                                        <i class="fas fa-times me-2"></i>Limpar Filtros
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="mt-4">
-                            <h5 class="mb-3">Metadados - Estrutura dos Dados</h5>
+                    <!-- Campo de Busca de Registros Dashboard 2 -->
+                    <div class="actions-container mb-4">
+                        <div class="export-buttons">
+                            <button class="btn-export" id="exportCSVDashboard2">
+                                <i class="fas fa-file-csv"></i> Exportar CSV
+                            </button>
+                            <button class="btn-export" id="printDashboard2">
+                                <i class="fas fa-print"></i> Imprimir
+                            </button>
+                            <button class="btn-download" id="openDataPortal">
+                                <i class="material-icons">public</i> Portal de Dados Abertos
+                            </button>
+                            <!-- Total de Registros -->
+                            <div class="total-registros">
+                                <i class="fas fa-database"></i>
+                                <span id="totalRegistrosDashboard2">0 registros</span>
+                            </div>
+                        </div>
+
+                        <div class="search-box-container">
+                            <label for="searchEmpresas">Buscar registros:</label>
+                            <input type="text" id="searchEmpresas" placeholder="Buscar por empresa, CNPJ, órgão ou irregularidade...">
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Empresas Dashboard 2 -->
+                    <div class="table-container">
+                        <div class="table-fixed-header-container">
+                            <table class="table table-hover" id="empresasTable">
+                                <thead>
+                                    <tr>
+                                        <th data-sort="empresa_processada" data-order="asc" onclick="sortTable('empresas', 'empresa_processada')">Empresa <span class="sort-icon">▼</span></th>
+                                        <th data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">CNPJ <span class="sort-icon">▼</span></th>
+                                        <th data-sort="orgao_lesado" data-order="asc" onclick="sortTable('empresas', 'orgao_lesado')">Órgão Lesado <span class="sort-icon">▼</span></th>
+                                        <th data-sort="conuta" data-order="asc" onclick="sortTable('empresas', 'conuta')">Irregularidade <span class="sort-icon">▼</span></th>
+                                        <th data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">Ano <span class="sort-icon">▼</span></th>
+                                        <th data-sort="valor_multa" data-order="desc" onclick="sortTable('empresas', 'valor_multa')">Valor Multa <span class="sort-icon">▼</span></th>
+                                        <th class="actions-column">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="empresasTableBody">
+                                    <!-- Dados serão carregados dinamicamente -->
+                                </tbody>
+                                <tfoot id="empresasTableFooter">
+                                    <!-- Total geral será carregado dinamicamente -->
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Paginação Dashboard 2 -->
+                        <div class="pagination-container">
+                            <div class="pagination-info" id="paginationInfoDashboard2">
+                                Mostrando 0-0 de 0 registros
+                            </div>
+                            <nav aria-label="Paginação">
+                                <ul class="pagination mb-0" id="paginationDashboard2">
+                                    <!-- Paginação será gerada dinamicamente -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                </div> <!-- Fim Dashboard 2 -->
+
+                <!-- ==================== DASHBOARD 3: DOWNLOADS ==================== -->
+                <div class="tab-pane fade" id="dashboard3" role="tabpanel">
+                    
+                    <!-- Informações sobre os dados -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Informações e Downloads</h3>
+                            <span class="badge-open-data">
+                                <i class="fab fa-github"></i> GitHub
+                            </span>
+                        </div>
+                        <div class="p-4">
+                            <div class="row">
+                                <div class="col-md-6 col-12 mb-4">
+                                    <div class="card-stats">
+                                        <i class="material-icons fa-3x mb-3" style="color: var(--primary-dark);">download</i>
+                                        <h4>Baixar Dados Completos</h4>
+                                        <p class="text-muted" style="font-size: 13px;">Arquivo CSV oficial atualizado</p>
+                                        <div class="mt-3">
+                                            <button class="btn-download w-100 d-block text-decoration-none" id="downloadDadosCompletos">
+                                                <i class="material-icons me-2">file_download</i>Baixar CSV Oficial
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 mb-4">
+                                    <div class="card-stats">
+                                        <i class="material-icons fa-3x mb-3" style="color: var(--open-data-green);">public</i>
+                                        <h4>Portal de Dados Abertos</h4>
+                                        <p class="text-muted" style="font-size: 13px;">Acesse o portal oficial</p>
+                                        <div class="mt-3">
+                                            <button class="btn-open-data w-100 d-block text-decoration-none" id="openDataPortalButton">
+                                                <i class="material-icons me-2">open_in_new</i>Acessar Portal
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6 col-12 mb-4">
+                                    <div class="card-stats">
+                                        <i class="fab fa-github fa-3x mb-3" style="color: var(--primary-dark);"></i>
+                                        <h4>GitHub Oficial</h4>
+                                        <p class="text-muted" style="font-size: 13px;">Repositório oficial com dados e código-fonte</p>
+                                        <div class="mt-3">
+                                            <a href="https://github.com/transparencia-mg/empresas_sancionadas" target="_blank" class="btn-export w-100 d-block text-decoration-none">
+                                                <i class="fab fa-github me-2"></i>Acessar Repositório
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 mb-4">
+                                    <div class="card-stats">
+                                        <i class="material-icons fa-3x mb-3" style="color: var(--accent-red);">gavel</i>
+                                        <h4>Legislação</h4>
+                                        <p class="text-muted" style="font-size: 13px;">Lei Anticorrupção (12.846/2013)</p>
+                                        <div class="mt-3">
+                                            <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="btn-export w-100 d-block text-decoration-none">
+                                                <i class="material-icons me-2">open_in_new</i>Consultar Legislação
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h5 class="mb-3">Metadados - Estrutura dos Dados</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Campo</th>
+                                                <th>Descrição</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>sei</td>
+                                                <td>Número do processo SEI</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>numero</td>
+                                                <td>Número do processo</td>
+                                                <td>Número</td>
+                                            </tr>
+                                            <tr>
+                                                <td>ano</td>
+                                                <td>Ano do processo</td>
+                                                <td>Número</td>
+                                            </tr>
+                                            <tr>
+                                                <td>orgao_lesado</td>
+                                                <td>Órgão que foi lesado</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>empresa_processada</td>
+                                                <td>Nome da empresa sancionada</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>cnpj</td>
+                                                <td>CNPJ da empresa</td>
+                                                <td>Texto (14 dígitos)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>conuta</td>
+                                                <td>Descrição da irregularidade</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>data_decisao</td>
+                                                <td>Data da decisão</td>
+                                                <td>Data</td>
+                                            </tr>
+                                            <tr>
+                                                <td>decisao</td>
+                                                <td>Tipo de decisão</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>fase</td>
+                                                <td>Fase do processo</td>
+                                                <td>Texto</td>
+                                            </tr>
+                                            <tr>
+                                                <td>valor_multa</td>
+                                                <td>Valor da multa aplicada</td>
+                                                <td>Número Decimal</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="alert alert-success mt-3">
+                                    <i class="fab fa-github me-2"></i>
+                                    <strong>Fonte dos Dados:</strong> Os dados são atualizados automaticamente a partir do <a href="https://github.com/transparencia-mg/empresas_sancionadas" target="_blank" class="alert-link">repositório GitHub oficial</a>.
+                                </div>
+                                
+                                <div class="alert alert-info mt-2">
+                                    <i class="material-icons me-2">sync</i>
+                                    <strong>Atualização Automática:</strong> O CSV é carregado diretamente do GitHub, garantindo acesso aos dados mais recentes sempre que a página é carregada.
+                                </div>
+                                
+                                <div class="alert alert-warning mt-2">
+                                    <i class="material-icons me-2">gavel</i>
+                                    <strong>Base Legal:</strong> Os dados são publicados em conformidade com a <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="alert-link">Lei Federal nº 12.846/2013</a> (Lei Anticorrupção).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div> <!-- Fim Dashboard 3 -->
+            </div>
+        </div>
+
+        <!-- ==================== MODAL DE DETALHES DA EMPRESA ==================== -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-detail">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel">
+                            <i class="fas fa-building me-2"></i>Detalhes da Empresa Sancionada
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="company-info" id="companyInfo">
+                            <!-- Informações da empresa serão carregadas dinamicamente -->
+                        </div>
+                        
+                        <div class="detail-table-container">
+                            <h6 class="mb-3">Histórico de Sanções</h6>
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table class="table table-hover detail-table">
                                     <thead>
                                         <tr>
-                                            <th>Campo</th>
-                                            <th>Descrição</th>
-                                            <th>Tipo</th>
+                                            <th>Processo SEI</th>
+                                            <th>Ano</th>
+                                            <th>Órgão Lesado</th>
+                                            <th>Irregularidade</th>
+                                            <th>Data Decisão</th>
+                                            <th>Decisão</th>
+                                            <th>Valor Multa</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>sei</td>
-                                            <td>Número do processo SEI</td>
-                                            <td>Texto</td>
-                                        </tr>
-                                        <tr>
-                                            <td>numero</td>
-                                            <td>Número do processo</td>
-                                            <td>Número</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ano</td>
-                                            <td>Ano do processo</td>
-                                            <td>Número</td>
-                                        </tr>
-                                        <tr>
-                                            <td>orgao_lesado</td>
-                                            <td>Órgão que foi lesado</td>
-                                            <td>Texto</td>
-                                        </tr>
-                                        <tr>
-                                            <td>empresa_processada</td>
-                                            <td>Nome da empresa sancionada</td>
-                                            <td>Texto</td>
-                                        </tr>
-                                        <tr>
-                                            <td>cnpj</td>
-                                            <td>CNPJ da empresa</td>
-                                            <td>Texto (14 dígitos)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>conuta</td>
-                                            <td>Descrição da irregularidade</td>
-                                            <td>Texto</td>
-                                        </tr>
-                                        <tr>
-                                            <td>data_decisao</td>
-                                            <td>Data da decisão</td>
-                                            <td>Data</td>
-                                        </tr>
-                                        <tr>
-                                            <td>decisao</td>
-                                            <td>Tipo de decisão</td>
-                                            <td>Texto</td>
-                                        </tr>
-                                        <tr>
-                                            <td>fase</td>
-                                            <td>Fase do processo</td>
-                                            <td>Texto</td>
-                                        </tr>
-                                        <tr>
-                                            <td>valor_multa</td>
-                                            <td>Valor da multa aplicada</td>
-                                            <td>Número Decimal</td>
-                                        </tr>
+                                    <tbody id="detailTableBody">
+                                        <!-- Histórico será carregado dinamicamente -->
                                     </tbody>
                                 </table>
                             </div>
-                            
-                            <div class="alert alert-success mt-3">
-                                <i class="fab fa-github me-2"></i>
-                                <strong>Fonte dos Dados:</strong> Os dados são atualizados automaticamente a partir do <a href="https://github.com/transparencia-mg/empresas_sancionadas" target="_blank" class="alert-link">repositório GitHub oficial</a>.
-                            </div>
-                            
-                            <div class="alert alert-info mt-2">
-                                <i class="fas fa-sync-alt me-2"></i>
-                                <strong>Atualização Automática:</strong> O CSV é carregado diretamente do GitHub, garantindo acesso aos dados mais recentes sempre que a página é carregada.
-                            </div>
-                            
-                            <div class="alert alert-warning mt-2">
-                                <i class="fas fa-gavel me-2"></i>
-                                <strong>Base Legal:</strong> Os dados são publicados em conformidade com a <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="alert-link">Lei Federal nº 12.846/2013</a> (Lei Anticorrupção).
-                            </div>
                         </div>
                     </div>
-                </div>
-                
-            </div> <!-- Fim Dashboard 3 -->
-        </div>
-    </div>
-
-    <!-- ==================== MODAL DE DETALHES DA EMPRESA ==================== -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-detail">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailModalLabel">
-                        <i class="fas fa-building me-2"></i>Detalhes da Empresa Sancionada
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="company-info" id="companyInfo">
-                        <!-- Informações da empresa serão carregadas dinamicamente -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Fechar
+                        </button>
                     </div>
-                    
-                    <div class="detail-table-container">
-                        <h6 class="mb-3">Histórico de Sanções</h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover detail-table">
-                                <thead>
-                                    <tr>
-                                        <th>Processo SEI</th>
-                                        <th>Ano</th>
-                                        <th>Órgão Lesado</th>
-                                        <th>Irregularidade</th>
-                                        <th>Data Decisão</th>
-                                        <th>Decisão</th>
-                                        <th>Valor Multa</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="detailTableBody">
-                                    <!-- Histórico será carregado dinamicamente -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-2"></i>Fechar
-                    </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- ==================== LOADING OVERLAY ==================== -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
+        <!-- ==================== LOADING OVERLAY ==================== -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="footer">
+            <p>© 2024 Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p>
+            <p id="footer-atualizacao">Última atualização: Carregando...</p>
+        </div>
     </div>
 
     <!-- ==================== SCRIPTS ==================== -->
@@ -1590,6 +1673,7 @@
         const DATASET_URL = 'https://raw.githubusercontent.com/transparencia-mg/empresas_sancionadas/main/dataset/data/empresas_sancionadas.csv';
         const GITHUB_REPO_URL = 'https://github.com/transparencia-mg/empresas_sancionadas';
         const LEGISLACAO_URL = 'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm';
+        const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/';
 
         // ============================================
         // VARIÁVEIS GLOBAIS
@@ -1619,14 +1703,11 @@
         };
 
         // ==================== INICIALIZAÇÃO ====================
-        // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
             loadInitialData();
-            setupIframeResizeObserver(); // Adicionado
-            updateDataAtualizacao();
-            console.log('Painel de Acordos de Cooperação Técnica carregado com sucesso!!!');
-            iframeUpdateHeight();
+            setupIframeResizeObserver();
+            console.log('Painel de Empresas Sancionadas carregado com sucesso!!!');
             
             // Atualizar altura quando trocar de aba
             const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
@@ -1637,36 +1718,46 @@
             });
         });
 
+        async function loadInitialData() {
+            showLoading(true);
+            try {
+                await loadData();
+            } catch (error) {
+                console.error('Erro ao carregar dados iniciais:', error);
+                showStatusMessage('Erro ao carregar dados. Por favor, recarregue a página.', 'danger');
+            } finally {
+                showLoading(false);
+            }
+        }
+
         function iframeUpdateHeight() { 
-            // Esperar um pouco para garantir que o conteúdo tenha sido renderizado
             setTimeout(() => {
                 const alturaTotal = document.documentElement.scrollHeight;
                 window.parent.postMessage({ 
                     type: 'iframeHeight',
                     height: alturaTotal,
-                    source: 'acordos-cooperacao'
+                    source: 'empresas-sancionadas'
                 }, '*');
                 console.log('Altura do iframe atualizada:', alturaTotal, 'px');
             }, 100);
         }
 
         function setupIframeResizeObserver() {
-            // Observar mudanças no conteúdo que podem alterar a altura
-            const resizeObserver = new ResizeObserver(() => {
-                iframeUpdateHeight();
-            });
-            
-            // Observar o container principal
-            const mainContainer = document.querySelector('.main-container');
-            if (mainContainer) {
-                resizeObserver.observe(mainContainer);
+            if (typeof ResizeObserver !== 'undefined') {
+                const resizeObserver = new ResizeObserver(() => {
+                    iframeUpdateHeight();
+                });
+                
+                const mainContainer = document.querySelector('.main-container');
+                if (mainContainer) {
+                    resizeObserver.observe(mainContainer);
+                }
+                
+                const tables = document.querySelectorAll('.table-container');
+                tables.forEach(table => {
+                    resizeObserver.observe(table);
+                });
             }
-            
-            // Observar mudanças nas tabelas
-            const tables = document.querySelectorAll('.table-container');
-            tables.forEach(table => {
-                resizeObserver.observe(table);
-            });
         }
 
         // ==================== CARREGAMENTO DE DADOS ====================
@@ -1674,18 +1765,16 @@
             showLoading(true);
             
             try {
-                console.log('Tentando carregar dados do GitHub...');
+                console.log('Carregando dados do GitHub...');
                 
                 // Usar CORS proxy para evitar problemas
-                const proxyUrl = 'https://corsproxy.io/?';
-                const targetUrl = encodeURIComponent(DATASET_URL);
-                const fetchUrl = proxyUrl + targetUrl;
-                
-                console.log('URL com proxy:', fetchUrl);
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const fetchUrl = proxyUrl + encodeURIComponent(DATASET_URL);
                 
                 const response = await fetch(fetchUrl, {
                     headers: {
-                        'Accept': 'text/csv'
+                        'Accept': 'text/csv',
+                        'Cache-Control': 'no-cache'
                     }
                 });
                 
@@ -1702,109 +1791,103 @@
                 console.log('CSV recebido, tamanho:', csvText.length, 'caracteres');
                 
                 // Processar com PapaParse
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        console.log(`Dados parseados: ${results.data.length} registros`);
-                        
-                        if (results.data.length === 0) {
-                            throw new Error('Nenhum dado encontrado no CSV');
+                return new Promise((resolve, reject) => {
+                    Papa.parse(csvText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        dynamicTyping: false,
+                        complete: function(results) {
+                            console.log(`Dados parseados: ${results.data.length} registros`);
+                            
+                            if (results.data.length === 0) {
+                                reject(new Error('Nenhum dado encontrado no CSV'));
+                                return;
+                            }
+                            
+                            // Processar dados
+                            empresasData = processCSVData(results.data);
+                            filteredDataDashboard1 = [...empresasData];
+                            filteredDataDashboard2 = [...empresasData];
+                            
+                            // Atualizar data
+                            lastUpdateDate = new Date();
+                            updateDataAtualizacao();
+                            
+                            console.log(`Dados processados: ${empresasData.length} registros válidos`);
+                            
+                            // Inicializar dashboard
+                            initializeDashboard();
+                            
+                            showLoading(false);
+                            showStatusMessage(`Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+                            resolve();
+                        },
+                        error: function(error) {
+                            console.error('Erro no PapaParse:', error);
+                            reject(new Error('Erro ao processar CSV: ' + error.message));
                         }
-                        
-                        // Processar dados
-                        empresasData = processCSVData(results.data);
-                        filteredDataDashboard1 = [...empresasData];
-                        filteredDataDashboard2 = [...empresasData];
-                        
-                        // Atualizar data
-                        lastUpdateDate = new Date();
-                        
-                        console.log(`Dados processados: ${empresasData.length} registros válidos`);
-                        
-                        // Inicializar dashboard
-                        initializeDashboard();
-                        
-                        showLoading(false);
-                        showStatusMessage(`Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
-                        
-                    },
-                    error: function(error) {
-                        console.error('Erro no PapaParse:', error);
-                        throw new Error('Erro ao processar CSV: ' + error.message);
-                    }
+                    });
                 });
                 
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
-                showLoading(false);
-                showStatusMessage(`Erro ao carregar dados: ${error.message}. Tentando método alternativo...`, 'danger');
                 
                 // Tentar método alternativo
-                setTimeout(() => {
-                    loadDataAlternative();
-                }, 2000);
-            }
-        }
-
-        // Método alternativo para carregar dados
-        async function loadDataAlternative() {
-            try {
-                console.log('Tentando método alternativo...');
-                showStatusMessage('Tentando método alternativo...', 'warning');
-                
-                // Usar método direto com fetch básico
-                const response = await fetch(DATASET_URL);
-                
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
-                }
-                
-                const csvText = await response.text();
-                
-                if (!csvText || csvText.trim().length === 0) {
-                    throw new Error('CSV vazio');
-                }
-                
-                // Processar manualmente se PapaParse falhar
-                const lines = csvText.split('\n');
-                const headers = lines[0].split(',');
-                const data = [];
-                
-                for (let i = 1; i < lines.length; i++) {
-                    if (lines[i].trim()) {
-                        const values = lines[i].split(',');
-                        const row = {};
-                        headers.forEach((header, index) => {
-                            row[header.trim()] = values[index] ? values[index].trim() : '';
-                        });
-                        data.push(row);
+                try {
+                    console.log('Tentando método alternativo...');
+                    const response = await fetch(DATASET_URL + '?t=' + Date.now());
+                    
+                    if (!response.ok) {
+                        throw new Error(`Erro HTTP: ${response.status}`);
                     }
+                    
+                    const csvText = await response.text();
+                    
+                    if (!csvText || csvText.trim().length === 0) {
+                        throw new Error('CSV vazio');
+                    }
+                    
+                    // Processar manualmente
+                    const lines = csvText.split('\n');
+                    const headers = lines[0].split(',');
+                    const data = [];
+                    
+                    for (let i = 1; i < lines.length; i++) {
+                        if (lines[i].trim()) {
+                            const values = lines[i].split(',');
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header.trim()] = values[index] ? values[index].trim() : '';
+                            });
+                            data.push(row);
+                        }
+                    }
+                    
+                    console.log(`Dados processados manualmente: ${data.length} registros`);
+                    
+                    // Processar dados
+                    empresasData = processCSVData(data);
+                    filteredDataDashboard1 = [...empresasData];
+                    filteredDataDashboard2 = [...empresasData];
+                    
+                    // Atualizar data
+                    lastUpdateDate = new Date();
+                    updateDataAtualizacao();
+                    
+                    // Inicializar dashboard
+                    initializeDashboard();
+                    
+                    showLoading(false);
+                    showStatusMessage(`Dados carregados com método alternativo! ${empresasData.length} registros disponíveis.`, 'success');
+                    
+                } catch (altError) {
+                    console.error('Erro no método alternativo:', altError);
+                    showLoading(false);
+                    
+                    // Mostrar dados de exemplo
+                    showExampleData();
+                    showStatusMessage('Não foi possível carregar os dados do repositório. Usando dados de exemplo.', 'warning');
                 }
-                
-                console.log(`Dados processados manualmente: ${data.length} registros`);
-                
-                // Processar dados
-                empresasData = processCSVData(data);
-                filteredDataDashboard1 = [...empresasData];
-                filteredDataDashboard2 = [...empresasData];
-                
-                // Atualizar data
-                lastUpdateDate = new Date();
-                
-                // Inicializar dashboard
-                initializeDashboard();
-                
-                showLoading(false);
-                showStatusMessage(`Dados carregados com método alternativo! ${empresasData.length} registros disponíveis.`, 'success');
-                
-            } catch (error) {
-                console.error('Erro no método alternativo:', error);
-                showLoading(false);
-                showStatusMessage('Não foi possível carregar os dados. Por favor, verifique sua conexão ou tente mais tarde.', 'danger');
-                
-                // Mostrar dados de exemplo
-                showExampleData();
             }
         }
 
@@ -1859,10 +1942,9 @@
             filteredDataDashboard2 = [...empresasData];
             
             lastUpdateDate = new Date();
+            updateDataAtualizacao();
             
             initializeDashboard();
-            
-            showStatusMessage('Dados de exemplo carregados. O sistema está funcionando, mas com dados limitados.', 'warning');
         }
 
         function processCSVData(data) {
@@ -1956,13 +2038,18 @@
             updateDashboard3();
             setupEventListeners();
             
+            // Atualizar altura do iframe
+            iframeUpdateHeight();
+            
             console.log(`Dashboard inicializado com ${empresasData.length} registros`);
         }
 
         // ==================== FUNÇÕES DE UTILIDADE ====================
         function showLoading(show) {
             const overlay = document.getElementById('loadingOverlay');
-            overlay.style.display = show ? 'flex' : 'none';
+            if (overlay) {
+                overlay.style.display = show ? 'flex' : 'none';
+            }
         }
 
         function showStatusMessage(message, type = 'info') {
@@ -1981,8 +2068,11 @@
             // Auto-dismiss após 10 segundos para sucesso/info
             if (type === 'success' || type === 'info') {
                 setTimeout(() => {
-                    const alert = bootstrap.Alert.getOrCreateInstance(container.querySelector('.alert'));
-                    alert.close();
+                    const alertElement = container.querySelector('.alert');
+                    if (alertElement) {
+                        const alert = bootstrap.Alert.getOrCreateInstance(alertElement);
+                        alert.close();
+                    }
                 }, 10000);
             }
         }
@@ -1997,7 +2087,11 @@
                 dataFormatada = new Date().toLocaleDateString('pt-BR');
             }
             
-            document.getElementById('footer-atualizacao').textContent = dataFormatada;
+            const headerElement = document.getElementById('data-atualizacao-header');
+            const footerElement = document.getElementById('footer-atualizacao');
+            
+            if (headerElement) headerElement.textContent = dataFormatada;
+            if (footerElement) footerElement.textContent = `Última atualização: ${dataFormatada}`;
         }
 
         function formatCurrency(value) {
@@ -2023,63 +2117,98 @@
         // ==================== CONFIGURAR EVENT LISTENERS ====================
         function setupEventListeners() {
             // Filtros Dashboard 1
-            document.getElementById('aplicarFiltros').addEventListener('click', function() {
-                applyFilters('dashboard1');
-            });
-            document.getElementById('limparFiltros').addEventListener('click', function() {
-                clearAllFilters();
-            });
+            const aplicarFiltrosBtn = document.getElementById('aplicarFiltros');
+            const limparFiltrosBtn = document.getElementById('limparFiltros');
+            
+            if (aplicarFiltrosBtn) {
+                aplicarFiltrosBtn.addEventListener('click', function() {
+                    applyFilters('dashboard1');
+                });
+            }
+            
+            if (limparFiltrosBtn) {
+                limparFiltrosBtn.addEventListener('click', function() {
+                    clearAllFilters();
+                });
+            }
             
             // Dashboard 2
-            document.getElementById('pesquisarEmpresas').addEventListener('click', function() {
-                applyFilters('dashboard2');
-            });
-            document.getElementById('limparFiltrosDashboard2').addEventListener('click', function() {
-                clearDashboard2Filters();
-            });
+            const pesquisarEmpresasBtn = document.getElementById('pesquisarEmpresas');
+            const limparFiltrosDashboard2Btn = document.getElementById('limparFiltrosDashboard2');
+            
+            if (pesquisarEmpresasBtn) {
+                pesquisarEmpresasBtn.addEventListener('click', function() {
+                    applyFilters('dashboard2');
+                });
+            }
+            
+            if (limparFiltrosDashboard2Btn) {
+                limparFiltrosDashboard2Btn.addEventListener('click', function() {
+                    clearDashboard2Filters();
+                });
+            }
             
             // Exportação
-            document.getElementById('exportCSVDashboard1').addEventListener('click', () => exportToCSV('dashboard1'));
-            document.getElementById('printDashboard1').addEventListener('click', () => printDashboard('dashboard1'));
-            document.getElementById('openDataDashboard1').addEventListener('click', () => {
-                window.open(GITHUB_REPO_URL, '_blank');
-            });
-           
-            document.getElementById('exportCSVDashboard2').addEventListener('click', () => exportToCSV('dashboard2'));
-            document.getElementById('printDashboard2').addEventListener('click', () => printDashboard('dashboard2'));
-            document.getElementById('openDataDashboard2').addEventListener('click', () => {
-                window.open(GITHUB_REPO_URL, '_blank');
-            });
+            const exportCSVDashboard1Btn = document.getElementById('exportCSVDashboard1');
+            const printDashboard1Btn = document.getElementById('printDashboard1');
+            const exportCSVDashboard2Btn = document.getElementById('exportCSVDashboard2');
+            const printDashboard2Btn = document.getElementById('printDashboard2');
+            
+            if (exportCSVDashboard1Btn) exportCSVDashboard1Btn.addEventListener('click', () => exportToCSV('dashboard1'));
+            if (printDashboard1Btn) printDashboard1Btn.addEventListener('click', () => printDashboard('dashboard1'));
+            if (exportCSVDashboard2Btn) exportCSVDashboard2Btn.addEventListener('click', () => exportToCSV('dashboard2'));
+            if (printDashboard2Btn) printDashboard2Btn.addEventListener('click', () => printDashboard('dashboard2'));
+            
+            // Portal de Dados Abertos
+            const openDataPortalBtn = document.getElementById('openDataPortal');
+            const openDataPortalButton = document.getElementById('openDataPortalButton');
+            
+            if (openDataPortalBtn) {
+                openDataPortalBtn.addEventListener('click', () => {
+                    window.open(PORTAL_DADOS_ABERTOS_URL, '_blank');
+                });
+            }
+            
+            if (openDataPortalButton) {
+                openDataPortalButton.addEventListener('click', () => {
+                    window.open(PORTAL_DADOS_ABERTOS_URL, '_blank');
+                });
+            }
             
             // Downloads
-            document.getElementById('downloadDadosCompletos').addEventListener('click', downloadDadosCompletos);
+            const downloadDadosCompletosBtn = document.getElementById('downloadDadosCompletos');
+            if (downloadDadosCompletosBtn) {
+                downloadDadosCompletosBtn.addEventListener('click', downloadDadosCompletos);
+            }
             
             // Campo de busca
-            document.getElementById('searchEmpresas').addEventListener('input', function(e) {
-                currentSearchTerm = e.target.value.toLowerCase();
-                filterEmpresasTable(currentSearchTerm);
-            });
-            
-            // Troca de abas
-            document.getElementById('dashboard1-tab').addEventListener('click', function() {
-                setTimeout(updateDashboard1, 100);
-            });
-            document.getElementById('dashboard2-tab').addEventListener('click', function() {
-                setTimeout(updateDashboard2, 100);
-            });
+            const searchEmpresasInput = document.getElementById('searchEmpresas');
+            if (searchEmpresasInput) {
+                searchEmpresasInput.addEventListener('input', function(e) {
+                    currentSearchTerm = e.target.value.toLowerCase();
+                    filterEmpresasTable(currentSearchTerm);
+                });
+            }
             
             // Itens por página
-            document.getElementById('itemsPerPageDashboard1').addEventListener('change', function() {
-                itemsPerPageDashboard1 = parseInt(this.value);
-                currentPageDashboard1 = 1;
-                updateResumoTable();
-            });
+            const itemsPerPageDashboard1Select = document.getElementById('itemsPerPageDashboard1');
+            const itemsPerPageDashboard2Select = document.getElementById('itemsPerPageDashboard2');
             
-            document.getElementById('itemsPerPageDashboard2').addEventListener('change', function() {
-                itemsPerPageDashboard2 = parseInt(this.value);
-                currentPageDashboard2 = 1;
-                updateEmpresasTable();
-            });
+            if (itemsPerPageDashboard1Select) {
+                itemsPerPageDashboard1Select.addEventListener('change', function() {
+                    itemsPerPageDashboard1 = parseInt(this.value);
+                    currentPageDashboard1 = 1;
+                    updateResumoTable();
+                });
+            }
+            
+            if (itemsPerPageDashboard2Select) {
+                itemsPerPageDashboard2Select.addEventListener('change', function() {
+                    itemsPerPageDashboard2 = parseInt(this.value);
+                    currentPageDashboard2 = 1;
+                    updateEmpresasTable();
+                });
+            }
         }
 
         // ==================== FUNÇÕES DE FILTRO ====================
@@ -2093,55 +2222,95 @@
             const anoSelect1 = document.getElementById('anoDashboard1');
             const anoSelect2 = document.getElementById('anoDashboard2');
             
-            // Limpar opções existentes (exceto a primeira)
-            while (anoSelect1.options.length > 1) anoSelect1.remove(1);
-            while (anoSelect2.options.length > 1) anoSelect2.remove(1);
+            if (anoSelect1) {
+                // Limpar opções existentes (exceto a primeira)
+                while (anoSelect1.options.length > 1) anoSelect1.remove(1);
+                
+                anos.forEach(ano => {
+                    const option1 = document.createElement('option');
+                    option1.value = ano;
+                    option1.textContent = ano;
+                    anoSelect1.appendChild(option1);
+                });
+            }
             
-            anos.forEach(ano => {
-                const option1 = document.createElement('option');
-                option1.value = ano;
-                option1.textContent = ano;
-                anoSelect1.appendChild(option1);
-                anoSelect2.appendChild(option1.cloneNode(true));
-            });
+            if (anoSelect2) {
+                // Limpar opções existentes (exceto a primeira)
+                while (anoSelect2.options.length > 1) anoSelect2.remove(1);
+                
+                anos.forEach(ano => {
+                    const option2 = document.createElement('option');
+                    option2.value = ano;
+                    option2.textContent = ano;
+                    anoSelect2.appendChild(option2);
+                });
+            }
             
             // Atualizar select de órgãos
             const orgaoSelect1 = document.getElementById('orgaoLesadoDashboard1');
             const orgaoSelect2 = document.getElementById('orgaoLesadoDashboard2');
             
-            // Limpar opções existentes (exceto a primeira)
-            while (orgaoSelect1.options.length > 1) orgaoSelect1.remove(1);
-            while (orgaoSelect2.options.length > 1) orgaoSelect2.remove(1);
+            if (orgaoSelect1) {
+                // Limpar opções existentes (exceto a primeira)
+                while (orgaoSelect1.options.length > 1) orgaoSelect1.remove(1);
+                
+                orgaos.forEach(orgao => {
+                    const option1 = document.createElement('option');
+                    option1.value = orgao;
+                    option1.textContent = orgao;
+                    orgaoSelect1.appendChild(option1);
+                });
+            }
             
-            orgaos.forEach(orgao => {
-                const option1 = document.createElement('option');
-                option1.value = orgao;
-                option1.textContent = orgao;
-                orgaoSelect1.appendChild(option1);
-                orgaoSelect2.appendChild(option1.cloneNode(true));
-            });
+            if (orgaoSelect2) {
+                // Limpar opções existentes (exceto a primeira)
+                while (orgaoSelect2.options.length > 1) orgaoSelect2.remove(1);
+                
+                orgaos.forEach(orgao => {
+                    const option2 = document.createElement('option');
+                    option2.value = orgao;
+                    option2.textContent = orgao;
+                    orgaoSelect2.appendChild(option2);
+                });
+            }
             
             // Atualizar datalist de irregularidades
             const datalist1 = document.getElementById('irregularidadesListDashboard1');
             const datalist2 = document.getElementById('irregularidadesListDashboard2');
             
-            // Limpar opções existentes (exceto a primeira)
-            while (datalist1.options.length > 0) datalist1.remove(0);
-            while (datalist2.options.length > 0) datalist2.remove(0);
+            if (datalist1) {
+                // Limpar opções existentes
+                while (datalist1.options.length > 0) datalist1.remove(0);
+                
+                // Adicionar opção padrão
+                const defaultOption1 = document.createElement('option');
+                defaultOption1.value = 'all';
+                defaultOption1.textContent = 'Todas as Irregularidades';
+                datalist1.appendChild(defaultOption1);
+                
+                irregularidades.forEach(irregularidade => {
+                    const option1 = document.createElement('option');
+                    option1.value = irregularidade;
+                    datalist1.appendChild(option1);
+                });
+            }
             
-            // Adicionar opção padrão
-            const defaultOption1 = document.createElement('option');
-            defaultOption1.value = 'all';
-            defaultOption1.textContent = 'Todas as Irregularidades';
-            datalist1.appendChild(defaultOption1);
-            datalist2.appendChild(defaultOption1.cloneNode(true));
-            
-            irregularidades.forEach(irregularidade => {
-                const option1 = document.createElement('option');
-                option1.value = irregularidade;
-                datalist1.appendChild(option1);
-                datalist2.appendChild(option1.cloneNode(true));
-            });
+            if (datalist2) {
+                // Limpar opções existentes
+                while (datalist2.options.length > 0) datalist2.remove(0);
+                
+                // Adicionar opção padrão
+                const defaultOption2 = document.createElement('option');
+                defaultOption2.value = 'all';
+                defaultOption2.textContent = 'Todas as Irregularidades';
+                datalist2.appendChild(defaultOption2);
+                
+                irregularidades.forEach(irregularidade => {
+                    const option2 = document.createElement('option');
+                    option2.value = irregularidade;
+                    datalist2.appendChild(option2);
+                });
+            }
         }
 
         function applyFilters(dashboard) {
@@ -2271,6 +2440,7 @@
             updateSummaryCards();
             updateResumoTable();
             updateCharts1();
+            iframeUpdateHeight();
         }
 
         function updateSummaryCards() {
@@ -2364,38 +2534,47 @@
             
             // Atualizar tabela
             const tbody = document.getElementById('resumoTableBody');
-            tbody.innerHTML = '';
-            
-            paginatedData.forEach(item => {
-                const row = document.createElement('tr');
-                row.className = 'clickable-row';
-                row.onclick = () => filterByOrgao(item.orgao_lesado);
-                row.innerHTML = `
-                    <td><strong>${item.orgao_lesado}</strong></td>
-                    <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
-                    <td>${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
-                    <td class="valor-multa-grande">${formatCurrency(item.valor_total_multa)}</td>
-                `;
-                tbody.appendChild(row);
-            });
+            if (tbody) {
+                tbody.innerHTML = '';
+                
+                paginatedData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.className = 'clickable-row';
+                    row.onclick = () => filterByOrgao(item.orgao_lesado);
+                    row.innerHTML = `
+                        <td><strong>${item.orgao_lesado}</strong></td>
+                        <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
+                        <td>${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
+                        <td class="valor-multa-grande">${formatCurrency(item.valor_total_multa)}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
             
             // Atualizar rodapé
             const tfoot = document.getElementById('resumoTableFooter');
-            tfoot.innerHTML = `
-                <tr class="table-total-row">
-                    <td><strong>TOTAL GERAL</strong></td>
-                    <td><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
-                    <td><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
-                    <td><strong class="valor-multa-grande">${formatCurrency(totalValor)}</strong></td>
-                </tr>
-            `;
+            if (tfoot) {
+                tfoot.innerHTML = `
+                    <tr class="table-total-row">
+                        <td><strong>TOTAL GERAL</strong></td>
+                        <td><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
+                        <td><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
+                        <td><strong class="valor-multa-grande">${formatCurrency(totalValor)}</strong></td>
+                    </tr>
+                `;
+            }
             
             // Atualizar contador
-            document.getElementById('resumoCountDashboard1').textContent = `${resumoData.length} registros`;
+            const resumoCount = document.getElementById('resumoCountDashboard1');
+            if (resumoCount) {
+                resumoCount.textContent = `${resumoData.length} registros`;
+            }
             
             // Atualizar informações de paginação
-            document.getElementById('paginationInfoDashboard1').textContent = 
-                `Mostrando ${startIndex + 1}-${endIndex} de ${resumoData.length} registros`;
+            const paginationInfo = document.getElementById('paginationInfoDashboard1');
+            if (paginationInfo) {
+                paginationInfo.textContent = `Mostrando ${startIndex + 1}-${endIndex} de ${resumoData.length} registros`;
+            }
             
             // Atualizar paginação
             updatePagination('dashboard1', totalPages, currentPageDashboard1);
@@ -2404,15 +2583,18 @@
         function filterByOrgao(orgao) {
             // Ir para a aba de consulta de empresas
             const tabButton = document.getElementById('dashboard2-tab');
-            tabButton.click();
-            
-            // Aplicar filtro no dashboard 2
-            document.getElementById('orgaoLesadoDashboard2').value = orgao;
-            
-            // Aplicar filtros
-            setTimeout(() => {
-                applyFilters('dashboard2');
-            }, 300);
+            if (tabButton) {
+                tabButton.click();
+                
+                // Aplicar filtro no dashboard 2
+                setTimeout(() => {
+                    const orgaoSelect = document.getElementById('orgaoLesadoDashboard2');
+                    if (orgaoSelect) {
+                        orgaoSelect.value = orgao;
+                        applyFilters('dashboard2');
+                    }
+                }, 300);
+            }
         }
 
         function sortResumoData(data) {
@@ -2466,13 +2648,17 @@
             const anos = Object.keys(anosMap).sort((a, b) => a - b);
             const counts = anos.map(ano => anosMap[ano].count);
             
-            const ctx = document.getElementById('chartAno').getContext('2d');
+            const ctx = document.getElementById('chartAno');
+            if (!ctx) return;
+            
+            const canvasCtx = ctx.getContext('2d');
+            if (!canvasCtx) return;
             
             if (charts.ano) {
                 charts.ano.destroy();
             }
             
-            charts.ano = new Chart(ctx, {
+            charts.ano = new Chart(canvasCtx, {
                 type: 'bar',
                 data: {
                     labels: anos,
@@ -2529,13 +2715,17 @@
             const orgaos = orgaosArray.map(item => item.orgao.substring(0, 20) + (item.orgao.length > 20 ? '...' : ''));
             const counts = orgaosArray.map(item => item.count);
             
-            const ctx = document.getElementById('chartOrgao').getContext('2d');
+            const ctx = document.getElementById('chartOrgao');
+            if (!ctx) return;
+            
+            const canvasCtx = ctx.getContext('2d');
+            if (!canvasCtx) return;
             
             if (charts.orgao) {
                 charts.orgao.destroy();
             }
             
-            charts.orgao = new Chart(ctx, {
+            charts.orgao = new Chart(canvasCtx, {
                 type: 'bar',
                 data: {
                     labels: orgaos,
@@ -2588,7 +2778,11 @@
             );
             const counts = irregularidadesArray.map(item => item.count);
             
-            const ctx = document.getElementById('chartIrregularidade').getContext('2d');
+            const ctx = document.getElementById('chartIrregularidade');
+            if (!ctx) return;
+            
+            const canvasCtx = ctx.getContext('2d');
+            if (!canvasCtx) return;
             
             if (charts.irregularidade) {
                 charts.irregularidade.destroy();
@@ -2605,7 +2799,7 @@
                 '#4ECDC4'
             ];
             
-            charts.irregularidade = new Chart(ctx, {
+            charts.irregularidade = new Chart(canvasCtx, {
                 type: 'pie',
                 data: {
                     labels: irregularidades,
@@ -2658,51 +2852,63 @@
             
             // Atualizar tabela
             const tbody = document.getElementById('empresasTableBody');
-            tbody.innerHTML = '';
-            
-            paginatedData.forEach((row, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${row.empresa_processada}</td>
-                    <td>${row.cnpj || 'NÃO INFORMADO'}</td>
-                    <td>${row.orgao_lesado}</td>
-                    <td>${row.conuta}</td>
-                    <td>${row.ano || 'N/A'}</td>
-                    <td class="valor-multa">${formatCurrency(row.valor_multa)}</td>
-                    <td class="actions-column">
-                        <div class="action-buttons">
-                            <button class="btn-action btn-history" onclick="showCompanyDetail('${escapeString(row.cnpj || row.empresa_processada)}')">
-                                <i class="fas fa-history"></i>
-                                <span>Histórico</span>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+            if (tbody) {
+                tbody.innerHTML = '';
+                
+                paginatedData.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.empresa_processada}</td>
+                        <td>${row.cnpj || 'NÃO INFORMADO'}</td>
+                        <td>${row.orgao_lesado}</td>
+                        <td>${row.conuta}</td>
+                        <td>${row.ano || 'N/A'}</td>
+                        <td class="valor-multa">${formatCurrency(row.valor_multa)}</td>
+                        <td class="actions-column">
+                            <div class="action-buttons">
+                                <button class="btn-action btn-history" onclick="showCompanyDetail('${escapeString(row.cnpj || row.empresa_processada)}')">
+                                    <i class="fas fa-history"></i>
+                                    <span>Histórico</span>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
             
             // Atualizar rodapé
             const tfoot = document.getElementById('empresasTableFooter');
-            tfoot.innerHTML = `
-                <tr class="table-total-row">
-                    <td colspan="5"><strong>TOTAL GERAL</strong></td>
-                    <td><strong class="valor-multa-grande">${formatCurrency(totalValor)}</strong></td>
-                    <td></td>
-                </tr>
-            `;
+            if (tfoot) {
+                tfoot.innerHTML = `
+                    <tr class="table-total-row">
+                        <td colspan="5"><strong>TOTAL GERAL</strong></td>
+                        <td><strong class="valor-multa-grande">${formatCurrency(totalValor)}</strong></td>
+                        <td></td>
+                    </tr>
+                `;
+            }
             
-            // Atualizar contador
-            document.getElementById('resumoCountDashboard2').textContent = `${sortedData.length} empresas`;
+            // Atualizar total de registros no dashboard 2
+            const totalRegistrosElement = document.getElementById('totalRegistrosDashboard2');
+            if (totalRegistrosElement) {
+                totalRegistrosElement.textContent = `${sortedData.length} registros`;
+            }
             
             // Atualizar informações de paginação
-            document.getElementById('paginationInfoDashboard2').textContent = 
-                `Mostrando ${startIndex + 1}-${endIndex} de ${sortedData.length} registros`;
+            const paginationInfo = document.getElementById('paginationInfoDashboard2');
+            if (paginationInfo) {
+                paginationInfo.textContent = `Mostrando ${startIndex + 1}-${endIndex} de ${sortedData.length} registros`;
+            }
             
             // Atualizar paginação
             updatePagination('dashboard2', totalPages, currentPageDashboard2);
+            
+            iframeUpdateHeight();
         }
 
         function escapeString(str) {
+            if (!str) return '';
             return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
         }
 
@@ -2752,55 +2958,63 @@
             
             // Preencher informações da empresa
             const companyInfo = document.getElementById('companyInfo');
-            companyInfo.innerHTML = `
-                <div class="company-info-grid">
-                    <div class="info-item">
-                        <span class="info-label">Empresa</span>
-                        <span class="info-value">${firstRecord.empresa_processada}</span>
+            if (companyInfo) {
+                companyInfo.innerHTML = `
+                    <div class="company-info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Empresa</span>
+                            <span class="info-value">${firstRecord.empresa_processada}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">CNPJ</span>
+                            <span class="info-value">${firstRecord.cnpj || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Total de Processos</span>
+                            <span class="info-value">${companyRecords.length}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Valor Total em Multas</span>
+                            <span class="info-value valor-multa">${formatCurrency(
+                                companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0)
+                            )}</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">CNPJ</span>
-                        <span class="info-value">${firstRecord.cnpj || 'NÃO INFORMADO'}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Total de Processos</span>
-                        <span class="info-value">${companyRecords.length}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Valor Total em Multas</span>
-                        <span class="info-value valor-multa">${formatCurrency(
-                            companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0)
-                        )}</span>
-                    </div>
-                </div>
-            `;
+                `;
+            }
             
             // Preencher histórico
             const detailTableBody = document.getElementById('detailTableBody');
-            detailTableBody.innerHTML = '';
-            
-            companyRecords.forEach(record => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${record.sei || 'N/A'}</td>
-                    <td>${record.ano || 'N/A'}</td>
-                    <td>${record.orgao_lesado}</td>
-                    <td>${record.conuta}</td>
-                    <td>${formatDate(record.data_decisao)}</td>
-                    <td><span class="badge-status ${record.decisao.includes('Multa') ? 'badge-multa' : 'badge-transitado'}">${record.decisao}</span></td>
-                    <td class="valor-multa">${formatCurrency(record.valor_multa)}</td>
-                `;
-                detailTableBody.appendChild(tr);
-            });
+            if (detailTableBody) {
+                detailTableBody.innerHTML = '';
+                
+                companyRecords.forEach(record => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${record.sei || 'N/A'}</td>
+                        <td>${record.ano || 'N/A'}</td>
+                        <td>${record.orgao_lesado}</td>
+                        <td>${record.conuta}</td>
+                        <td>${formatDate(record.data_decisao)}</td>
+                        <td><span class="badge-status ${record.decisao.includes('Multa') ? 'badge-multa' : 'badge-transitado'}">${record.decisao}</span></td>
+                        <td class="valor-multa">${formatCurrency(record.valor_multa)}</td>
+                    `;
+                    detailTableBody.appendChild(tr);
+                });
+            }
             
             // Mostrar modal
-            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-            modal.show();
+            const modalElement = document.getElementById('detailModal');
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
         }
 
         // ==================== DASHBOARD 3: DOWNLOADS ====================
         function updateDashboard3() {
             // Nada específico para atualizar aqui
+            iframeUpdateHeight();
         }
 
         function downloadDadosCompletos() {
@@ -2809,7 +3023,7 @@
             try {
                 // Criar link para download
                 const link = document.createElement('a');
-                link.href = DATASET_URL;
+                link.href = DATASET_URL + '?t=' + Date.now(); // Adicionar timestamp para evitar cache
                 link.download = 'empresas_sancionadas_mg.csv';
                 link.target = '_blank';
                 document.body.appendChild(link);
