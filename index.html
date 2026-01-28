@@ -1831,31 +1831,47 @@
             showLoading(true, 'Conectando ao GitHub...');
             
             try {
-                // Usar timestamp para evitar cache
-                const timestamp = new Date().getTime();
-                const url = `${DATASET_URL}?t=${timestamp}`;
+                // URL original do CSV
+                const originalUrl = DATASET_URL;
                 
-                console.log('URL do CSV:', url);
-                showLoading(true, 'Buscando dados do repositório...');
+                // Lista de proxies CORS para tentar
+                const proxyUrls = [
+                    `https://api.allorigins.win/raw?url=${encodeURIComponent(originalUrl)}`,
+                    `https://corsproxy.io/?${encodeURIComponent(originalUrl)}`,
+                    `https://thingproxy.freeboard.io/fetch/${originalUrl}`,
+                    originalUrl // Tentar direto como último recurso
+                ];
                 
-                // Tentar fetch direto primeiro
                 let response;
-                try {
-                    response = await fetch(url, {
-                        cache: 'no-cache',
-                        headers: {
-                            'Accept': 'text/csv'
+                let lastError;
+                
+                // Tentar cada proxy até um funcionar
+                for (let i = 0; i < proxyUrls.length; i++) {
+                    try {
+                        console.log(`Tentando proxy ${i + 1}/${proxyUrls.length}:`, proxyUrls[i]);
+                        showLoading(true, `Conectando (${i + 1}/${proxyUrls.length})...`);
+                        
+                        response = await fetch(proxyUrls[i], {
+                            cache: 'no-cache',
+                            headers: {
+                                'Accept': 'text/csv',
+                                'Content-Type': 'text/csv'
+                            }
+                        });
+                        
+                        if (response && response.ok) {
+                            console.log(`✅ Proxy ${i + 1} funcionou!`);
+                            break;
                         }
-                    });
-                } catch (fetchError) {
-                    console.log('Fetch direto falhou, tentando com proxy CORS...');
-                    // Usar proxy CORS
-                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-                    response = await fetch(proxyUrl);
+                    } catch (error) {
+                        lastError = error;
+                        console.warn(`❌ Proxy ${i + 1} falhou:`, error.message);
+                        continue;
+                    }
                 }
                 
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+                if (!response || !response.ok) {
+                    throw new Error(`Não foi possível conectar ao GitHub após ${proxyUrls.length} tentativas. Último erro: ${lastError?.message || 'Desconhecido'}`);
                 }
                 
                 const csvText = await response.text();
@@ -1864,15 +1880,12 @@
                     throw new Error('CSV vazio ou sem conteúdo');
                 }
                 
-                console.log('CSV recebido, tamanho:', csvText.length, 'caracteres');
-                
-                // Verificar primeiras linhas
-                const firstLines = csvText.split('\n').slice(0, 3).join('\n');
-                console.log('Primeiras linhas do CSV:\n', firstLines);
+                console.log('✅ CSV recebido com sucesso! Tamanho:', csvText.length, 'caracteres');
+                console.log('📋 Primeiras 500 caracteres do CSV:', csvText.substring(0, 500));
                 
                 showLoading(true, 'Processando dados CSV...');
                 
-                // Processar com PapaParse usando ponto e vírgula como separador
+                // Processar com PapaParse
                 return new Promise((resolve, reject) => {
                     Papa.parse(csvText, {
                         header: true,
@@ -1880,7 +1893,7 @@
                         delimiter: ';', // Ponto e vírgula como separador
                         complete: function(results) {
                             console.log(`=== DADOS PARSEADOS COM SUCESSO ===`);
-                            console.log(`Total de registros: ${results.data.length}`);
+                            console.log(`Total de registros brutos: ${results.data.length}`);
                             console.log('Colunas encontradas:', results.meta.fields);
                             
                             if (results.data.length === 0) {
@@ -1889,10 +1902,10 @@
                             }
                             
                             // Mostrar amostra dos dados
-                            console.log('Amostra dos dados (2 primeiros registros):');
-                            results.data.slice(0, 2).forEach((row, i) => {
-                                console.log(`Registro ${i + 1}:`, row);
-                            });
+                            console.log('Amostra dos dados (primeiros 2 registros):');
+                            for (let i = 0; i < Math.min(2, results.data.length); i++) {
+                                console.log(`Registro ${i + 1}:`, results.data[i]);
+                            }
                             
                             // Processar dados
                             empresasData = processCSVData(results.data);
@@ -1904,7 +1917,7 @@
                             updateDataAtualizacao();
                             
                             console.log(`=== DADOS PROCESSADOS ===`);
-                            console.log(`Registros válidos: ${empresasData.length}`);
+                            console.log(`✅ Registros válidos: ${empresasData.length}`);
                             
                             if (empresasData.length > 0) {
                                 console.log('Primeiro registro processado:', empresasData[0]);
@@ -1914,18 +1927,18 @@
                             initializeDashboard();
                             
                             showLoading(false);
-                            showStatusMessage(`Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+                            showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
                             resolve();
                         },
                         error: function(error) {
-                            console.error('Erro no PapaParse:', error);
+                            console.error('❌ Erro no PapaParse:', error);
                             reject(new Error('Erro ao processar CSV: ' + error.message));
                         }
                     });
                 });
                 
             } catch (error) {
-                console.error('Erro ao carregar dados:', error);
+                console.error('❌ Erro ao carregar dados:', error);
                 throw error;
             }
         }
@@ -1940,59 +1953,73 @@
                 try {
                     const row = data[i];
                     
-                    // Verificar estrutura dos dados
-                    if (i === 0) {
-                        console.log('Estrutura da primeira linha:', Object.keys(row));
+                    // Verificar se a linha tem dados
+                    if (!row || Object.keys(row).length === 0) {
+                        continue;
                     }
                     
                     // Extrair dados exatamente como estão no CSV
                     const sei = row['sei'] || '';
                     const numero = row['numero'] || '';
                     
-                    // Extrair ano - pode estar como número
+                    // Extrair ano - pode estar como número ou string
                     let ano = null;
                     if (row['ano']) {
-                        ano = parseInt(row['ano']);
+                        const anoStr = String(row['ano']).trim();
+                        ano = parseInt(anoStr);
+                        if (isNaN(ano)) {
+                            ano = null;
+                        }
                     }
                     
                     const portaria = row['portaria'] || '';
                     const data_publicacao = row['data_publicacao'] || '';
                     const orgao_instaurador = row['orgao_instaurador'] || '';
-                    const orgao_lesado = row['orgao_lesado'] || 'NÃO INFORMADO';
-                    const empresa_processada = row['empresa_processada'] || 'NÃO INFORMADO';
+                    const orgao_lesado = (row['orgao_lesado'] || 'NÃO INFORMADO').trim();
+                    const empresa_processada = (row['empresa_processada'] || 'NÃO INFORMADO').trim();
                     const tipo_societario = row['tipo_societario'] || '';
                     
                     // CNPJ - limpar e formatar
                     let cnpj = row['cnpj'] || '';
-                    cnpj = cnpj.toString().replace(/\D/g, '');
-                    if (cnpj && cnpj.length === 14) {
-                        cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                    if (cnpj) {
+                        cnpj = cnpj.toString().replace(/\D/g, '');
+                        if (cnpj.length === 14) {
+                            cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                        }
                     }
                     
-                    const conuta = row['conuta'] || 'NÃO INFORMADO';
+                    const conuta = (row['conuta'] || 'NÃO INFORMADO').trim();
                     const data_decisao = row['data_decisao'] || '';
-                    const decisao = row['decisao'] || 'NÃO INFORMADO';
-                    const fase = row['fase'] || 'NÃO INFORMADO';
+                    const decisao = (row['decisao'] || 'NÃO INFORMADO').trim();
+                    const fase = (row['fase'] || 'NÃO INFORMADO').trim();
                     
                     // Valor da multa - converter para número
                     let valor_multa = null;
                     const valorField = row['valor_multa'] || '';
                     if (valorField) {
-                        // Remover R$, pontos e converter vírgula para ponto
-                        const cleanValue = String(valorField)
-                            .replace(/R\$/g, '')
-                            .replace(/\./g, '')
-                            .replace(',', '.')
-                            .trim();
-                        
-                        valor_multa = parseFloat(cleanValue);
-                        if (isNaN(valor_multa)) {
-                            // Tentar outro formato - pode estar como string
-                            const altClean = String(valorField).replace(/[^\d,]/g, '').replace(',', '.');
-                            valor_multa = parseFloat(altClean);
+                        try {
+                            // Remover R$, pontos e converter vírgula para ponto
+                            let cleanValue = String(valorField)
+                                .replace(/R\$/gi, '')
+                                .replace(/[^\d,.-]/g, '')
+                                .trim();
+                            
+                            // Substituir ponto por nada e vírgula por ponto
+                            if (cleanValue.includes('.') && cleanValue.includes(',')) {
+                                // Formato 1.234,56
+                                cleanValue = cleanValue.replace(/\./g, '').replace(',', '.');
+                            } else if (cleanValue.includes(',')) {
+                                // Formato 1234,56
+                                cleanValue = cleanValue.replace(',', '.');
+                            }
+                            
+                            valor_multa = parseFloat(cleanValue);
                             if (isNaN(valor_multa)) {
                                 valor_multa = null;
                             }
+                        } catch (e) {
+                            console.warn(`Erro ao converter valor da multa na linha ${i}:`, valorField, e);
+                            valor_multa = null;
                         }
                     }
                     
@@ -2003,15 +2030,16 @@
                         portaria: portaria.trim(),
                         data_publicacao: data_publicacao.trim(),
                         orgao_instaurador: orgao_instaurador.trim(),
-                        orgao_lesado: orgao_lesado.trim(),
-                        empresa_processada: empresa_processada.trim(),
+                        orgao_lesado: orgao_lesado,
+                        empresa_processada: empresa_processada,
                         tipo_societario: tipo_societario.trim(),
                         cnpj: cnpj,
-                        conuta: conuta.trim(),
+                        conuta: conuta,
                         data_decisao: data_decisao.trim(),
-                        decisao: decisao.trim(),
-                        fase: fase.trim(),
-                        valor_multa: valor_multa
+                        decisao: decisao,
+                        fase: fase,
+                        valor_multa: valor_multa,
+                        originalIndex: i // Manter índice original para debug
                     };
                     
                     // Apenas incluir se tiver empresa processada
@@ -2022,7 +2050,7 @@
                     }
                     
                 } catch (error) {
-                    console.warn(`Erro ao processar linha ${i}:`, error);
+                    console.warn(`Erro ao processar linha ${i}:`, error, data[i]);
                 }
             }
             
@@ -2091,6 +2119,40 @@
                     decisao: 'Multa',
                     fase: 'Concluído',
                     valor_multa: 30000.00
+                },
+                {
+                    sei: '00533.000004/2022-78',
+                    numero: '533/2022',
+                    ano: 2022,
+                    portaria: 'Portaria 101/2022',
+                    data_publicacao: '05/03/2022',
+                    orgao_instaurador: 'CONTROLADORIA GERAL DO ESTADO',
+                    orgao_lesado: 'SECRETARIA DE ESTADO DE TRANSPORTES',
+                    empresa_processada: 'EMPRESA EXEMPLO D ME',
+                    tipo_societario: 'ME',
+                    cnpj: '55.666.777/0001-88',
+                    conuta: 'Falta de documentação comprobatória',
+                    data_decisao: '15/08/2023',
+                    decisao: 'Multa',
+                    fase: 'Concluído',
+                    valor_multa: 15000.00
+                },
+                {
+                    sei: '00534.000005/2023-33',
+                    numero: '534/2023',
+                    ano: 2023,
+                    portaria: 'Portaria 202/2023',
+                    data_publicacao: '12/09/2023',
+                    orgao_instaurador: 'CONTROLADORIA GERAL DO ESTADO',
+                    orgao_lesado: 'SECRETARIA DE ESTADO DA FAZENDA',
+                    empresa_processada: 'EMPRESA EXEMPLO E LTDA',
+                    tipo_societario: 'LTDA',
+                    cnpj: '33.444.555/0001-66',
+                    conuta: 'Descumprimento de cláusulas contratuais',
+                    data_decisao: '30/11/2023',
+                    decisao: 'Multa e P.Ext. de decisão condenatória',
+                    fase: 'Concluído',
+                    valor_multa: 45000.00
                 }
             ];
             
@@ -2102,7 +2164,7 @@
             
             initializeDashboard();
             
-            showStatusMessage('Dados de exemplo carregados. O sistema está funcionando, mas com dados limitados.', 'warning');
+            showStatusMessage('⚠️ Dados de exemplo carregados. O sistema está funcionando, mas com dados limitados. Recarregue para tentar novamente.', 'warning');
         }
 
         function initializeDashboard() {
@@ -2116,10 +2178,10 @@
                 updateDashboard2();
                 setupEventListeners();
                 
-                console.log(`Dashboard inicializado com ${empresasData.length} registros`);
+                console.log(`✅ Dashboard inicializado com ${empresasData.length} registros`);
                 
             } catch (error) {
-                console.error('Erro ao inicializar dashboard:', error);
+                console.error('❌ Erro ao inicializar dashboard:', error);
                 showStatusMessage('Erro ao inicializar interface. Recarregue a página.', 'danger');
             }
         }
@@ -2326,7 +2388,7 @@
                 });
             }
             
-            console.log('Event listeners configurados com sucesso');
+            console.log('✅ Event listeners configurados com sucesso');
         }
 
         // ==================== FUNÇÕES DE FILTRO ====================
@@ -2340,9 +2402,9 @@
             
             try {
                 // Coletar opções únicas
-                const anos = [...new Set(empresasData.map(row => row.ano).filter(Boolean))].sort((a, b) => b - a);
-                const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(Boolean))].sort();
-                const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(Boolean))].sort();
+                const anos = [...new Set(empresasData.map(row => row.ano).filter(ano => ano !== null && !isNaN(ano)))].sort((a, b) => b - a);
+                const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(orgao => orgao && orgao !== 'NÃO INFORMADO'))].sort();
+                const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(irr => irr && irr !== 'NÃO INFORMADO'))].sort();
                 
                 console.log(`Anos encontrados: ${anos.length}`, anos);
                 console.log(`Órgãos encontrados: ${orgaos.length}`);
@@ -2440,10 +2502,10 @@
                     });
                 }
                 
-                console.log('Opções de filtro atualizadas com sucesso');
+                console.log('✅ Opções de filtro atualizadas com sucesso');
                 
             } catch (error) {
-                console.error('Erro ao atualizar filtros:', error);
+                console.error('❌ Erro ao atualizar filtros:', error);
             }
         }
 
@@ -2467,7 +2529,7 @@
                 
                 if (irregularidade && irregularidade !== 'all') {
                     filtered = filtered.filter(row => 
-                        row.conuta.toLowerCase().includes(irregularidade.toLowerCase())
+                        row.conuta && row.conuta.toLowerCase().includes(irregularidade.toLowerCase())
                     );
                 }
                 
@@ -2476,6 +2538,7 @@
                 updateDashboard1();
                 
                 console.log(`Dashboard 1 filtrado: ${filtered.length} registros`);
+                showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
                 
             } else if (dashboard === 'dashboard2') {
                 const ano = document.getElementById('anoDashboard2').value;
@@ -2497,7 +2560,7 @@
                 
                 if (empresa) {
                     filtered = filtered.filter(row => 
-                        row.empresa_processada.toLowerCase().includes(empresa.toLowerCase())
+                        row.empresa_processada && row.empresa_processada.toLowerCase().includes(empresa.toLowerCase())
                     );
                 }
                 
@@ -2511,7 +2574,7 @@
                 
                 if (irregularidade && irregularidade !== 'all') {
                     filtered = filtered.filter(row => 
-                        row.conuta.toLowerCase().includes(irregularidade.toLowerCase())
+                        row.conuta && row.conuta.toLowerCase().includes(irregularidade.toLowerCase())
                     );
                 }
                 
@@ -2526,6 +2589,7 @@
                 updateDashboard2();
                 
                 console.log(`Dashboard 2 filtrado: ${filtered.length} registros`);
+                showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
             }
         }
 
@@ -2543,7 +2607,9 @@
                     (row.empresa_processada && row.empresa_processada.toLowerCase().includes(searchTerm)) ||
                     (row.cnpj && row.cnpj.includes(searchTerm)) ||
                     (row.orgao_lesado && row.orgao_lesado.toLowerCase().includes(searchTerm)) ||
-                    (row.conuta && row.conuta.toLowerCase().includes(searchTerm))
+                    (row.conuta && row.conuta.toLowerCase().includes(searchTerm)) ||
+                    (row.numero && row.numero.toLowerCase().includes(searchTerm)) ||
+                    (row.sei && row.sei.toLowerCase().includes(searchTerm))
                 );
             });
             
@@ -2564,6 +2630,8 @@
             filteredDataDashboard1 = [...empresasData];
             currentPageDashboard1 = 1;
             updateDashboard1();
+            
+            showStatusMessage('Filtros limpos', 'info');
         }
 
         function clearDashboard2Filters() {
@@ -2581,6 +2649,8 @@
             currentSearchTerm = '';
             currentPageDashboard2 = 1;
             updateDashboard2();
+            
+            showStatusMessage('Filtros limpos', 'info');
         }
 
         // ==================== DASHBOARD 1: VISÃO GERAL ====================
@@ -2597,11 +2667,27 @@
             
             // Calcular estatísticas
             const totalProcessos = data.length;
-            const totalEmpresas = new Set(data.map(row => (row.cnpj || '') + '|' + row.empresa_processada)).size;
+            
+            // Empresas únicas (considerando CNPJ ou nome)
+            const empresasUnicas = new Set();
+            data.forEach(row => {
+                const key = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                if (key !== '|') {
+                    empresasUnicas.add(key);
+                }
+            });
+            const totalEmpresas = empresasUnicas.size;
+            
             const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
-            const orgaosAfetados = new Set(data.map(row => row.orgao_lesado)).size;
+            const orgaosAfetados = new Set(data.map(row => row.orgao_lesado).filter(Boolean)).size;
             
             console.log(`Estatísticas: ${totalProcessos} processos, ${totalEmpresas} empresas, ${totalMultas} multas, ${orgaosAfetados} órgãos`);
+            
+            // Atualizar badge
+            const resumoCountElement = document.getElementById('resumoCountDashboard1');
+            if (resumoCountElement) {
+                resumoCountElement.textContent = `${orgaosAfetados} órgãos`;
+            }
             
             // Criar cards
             cardsContainer.innerHTML = `
@@ -2636,9 +2722,1000 @@
             `;
         }
 
-        // [Restante do código JavaScript permanece igual...]
-        // Continuaria com as funções restantes que já foram definidas anteriormente
+        function updateResumoTable() {
+            console.log('Atualizando tabela de resumo...');
+            
+            const data = filteredDataDashboard1;
+            const tbody = document.getElementById('resumoTableBody');
+            const tfoot = document.getElementById('resumoTableFooter');
+            
+            if (!tbody || !tfoot) {
+                console.error('Elementos da tabela não encontrados');
+                return;
+            }
+            
+            // Agrupar por órgão lesado
+            const resumoPorOrgao = {};
+            
+            data.forEach(row => {
+                const orgao = row.orgao_lesado || 'NÃO INFORMADO';
+                
+                if (!resumoPorOrgao[orgao]) {
+                    resumoPorOrgao[orgao] = {
+                        orgao: orgao,
+                        quantidade_processos: 0,
+                        empresas: new Set(),
+                        valor_total_multa: 0
+                    };
+                }
+                
+                resumoPorOrgao[orgao].quantidade_processos++;
+                
+                // Adicionar empresa única
+                const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                if (empresaKey !== '|') {
+                    resumoPorOrgao[orgao].empresas.add(empresaKey);
+                }
+                
+                // Somar valor da multa
+                if (row.valor_multa) {
+                    resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
+                }
+            });
+            
+            // Converter objeto para array
+            let resumoArray = Object.values(resumoPorOrgao).map(item => ({
+                orgao_lesado: item.orgao,
+                quantidade_processos: item.quantidade_processos,
+                quantidade_empresas: item.empresas.size,
+                valor_total_multa: item.valor_total_multa
+            }));
+            
+            // Ordenar
+            resumoArray.sort((a, b) => {
+                const column = currentSortDashboard1.column;
+                const order = currentSortDashboard1.order;
+                
+                let aValue = a[column];
+                let bValue = b[column];
+                
+                // Converter para números se necessário
+                if (column === 'quantidade_processos' || column === 'quantidade_empresas' || column === 'valor_total_multa') {
+                    aValue = parseFloat(aValue) || 0;
+                    bValue = parseFloat(bValue) || 0;
+                } else {
+                    aValue = String(aValue || '').toLowerCase();
+                    bValue = String(bValue || '').toLowerCase();
+                }
+                
+                if (order === 'asc') {
+                    return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+                } else {
+                    return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+                }
+            });
+            
+            // Calcular totais
+            const totalProcessos = resumoArray.reduce((sum, item) => sum + item.quantidade_processos, 0);
+            const totalEmpresas = resumoArray.reduce((sum, item) => sum + item.quantidade_empresas, 0);
+            const totalMultas = resumoArray.reduce((sum, item) => sum + item.valor_total_multa, 0);
+            
+            // Paginação
+            const totalPages = Math.ceil(resumoArray.length / itemsPerPageDashboard1);
+            const startIndex = (currentPageDashboard1 - 1) * itemsPerPageDashboard1;
+            const endIndex = Math.min(startIndex + itemsPerPageDashboard1, resumoArray.length);
+            const paginatedData = resumoArray.slice(startIndex, endIndex);
+            
+            // Atualizar tabela
+            tbody.innerHTML = '';
+            
+            paginatedData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'clickable-row';
+                tr.onclick = () => filterByOrgao(item.orgao_lesado);
+                
+                tr.innerHTML = `
+                    <td><strong>${item.orgao_lesado}</strong></td>
+                    <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
+                    <td>${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
+                    <td class="valor-multa">${formatCurrency(item.valor_total_multa)}</td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+            
+            // Atualizar rodapé
+            tfoot.innerHTML = `
+                <tr class="table-total-row">
+                    <td><strong>TOTAL GERAL</strong></td>
+                    <td><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
+                    <td><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
+                    <td class="valor-multa-grande"><strong>${formatCurrency(totalMultas)}</strong></td>
+                </tr>
+            `;
+            
+            // Atualizar paginação
+            updatePagination('dashboard1', resumoArray.length, totalPages);
+            
+            console.log(`Tabela de resumo atualizada: ${resumoArray.length} órgãos`);
+        }
 
+        function filterByOrgao(orgao) {
+            console.log(`Filtrando por órgão: ${orgao}`);
+            
+            // Ir para Dashboard 2 e aplicar filtro
+            const dashboard2Tab = document.getElementById('dashboard2-tab');
+            if (dashboard2Tab) {
+                dashboard2Tab.click();
+                
+                // Aguardar um pouco para a aba carregar
+                setTimeout(() => {
+                    document.getElementById('orgaoLesadoDashboard2').value = orgao;
+                    applyFilters('dashboard2');
+                    
+                    showStatusMessage(`Filtro aplicado: Órgão ${orgao}`, 'info');
+                }, 300);
+            }
+        }
+
+        function updateCharts1() {
+            console.log('Atualizando gráficos do Dashboard 1...');
+            
+            const data = filteredDataDashboard1;
+            
+            // Gráfico 1: Multas por Ano
+            const anosData = {};
+            data.forEach(row => {
+                if (row.ano) {
+                    if (!anosData[row.ano]) {
+                        anosData[row.ano] = 0;
+                    }
+                    anosData[row.ano] += (row.valor_multa || 0);
+                }
+            });
+            
+            const anos = Object.keys(anosData).sort((a, b) => a - b);
+            const valoresAnos = anos.map(ano => anosData[ano]);
+            
+            // Gráfico 2: Top 10 Órgãos
+            const orgaosData = {};
+            data.forEach(row => {
+                const orgao = row.orgao_lesado || 'NÃO INFORMADO';
+                if (!orgaosData[orgao]) {
+                    orgaosData[orgao] = 0;
+                }
+                orgaosData[orgao] += (row.valor_multa || 0);
+            });
+            
+            // Ordenar e pegar top 10
+            const orgaosArray = Object.entries(orgaosData)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            const orgaosTop10 = orgaosArray.map(item => item[0]);
+            const valoresOrgaos = orgaosArray.map(item => item[1]);
+            
+            // Gráfico 3: Tipos de Irregularidade (top 10)
+            const irregularidadesData = {};
+            data.forEach(row => {
+                const irregularidade = row.conuta || 'NÃO INFORMADO';
+                if (!irregularidadesData[irregularidade]) {
+                    irregularidadesData[irregularidade] = 0;
+                }
+                irregularidadesData[irregularidade]++;
+            });
+            
+            const irregularidadesArray = Object.entries(irregularidadesData)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            const irregularidadesTop10 = irregularidadesArray.map(item => item[0]);
+            const contagemIrregularidades = irregularidadesArray.map(item => item[1]);
+            
+            // Criar ou atualizar gráficos
+            createOrUpdateChart('chartAno', {
+                type: 'bar',
+                data: {
+                    labels: anos,
+                    datasets: [{
+                        label: 'Valor das Multas (R$)',
+                        data: valoresAnos,
+                        backgroundColor: chartColors.primary,
+                        borderColor: chartColors.dark,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `R$ ${context.raw.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + (value / 1000).toFixed(0) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            createOrUpdateChart('chartOrgao', {
+                type: 'bar',
+                data: {
+                    labels: orgaosTop10,
+                    datasets: [{
+                        label: 'Valor das Multas (R$)',
+                        data: valoresOrgaos,
+                        backgroundColor: chartColors.accent,
+                        borderColor: chartColors.bright,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `R$ ${context.raw.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + (value / 1000).toFixed(0) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            createOrUpdateChart('chartIrregularidade', {
+                type: 'doughnut',
+                data: {
+                    labels: irregularidadesTop10,
+                    datasets: [{
+                        label: 'Quantidade',
+                        data: contagemIrregularidades,
+                        backgroundColor: [
+                            chartColors.primary,
+                            chartColors.accent,
+                            chartColors.secondaryBlue,
+                            chartColors.secondaryBrown,
+                            chartColors.secondaryTeal,
+                            chartColors.openDataGreen,
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 10,
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            console.log('✅ Gráficos atualizados');
+        }
+
+        // ==================== DASHBOARD 2: CONSULTA EMPRESAS ====================
+        function updateDashboard2() {
+            console.log('Atualizando Dashboard 2...');
+            updateTotalRegistros();
+            updateEmpresasTable();
+        }
+
+        function updateTotalRegistros() {
+            const totalElement = document.getElementById('totalRegistrosDashboard2');
+            if (totalElement) {
+                totalElement.textContent = `${filteredDataDashboard2.length.toLocaleString('pt-BR')} registros`;
+            }
+        }
+
+        function updateEmpresasTable() {
+            console.log('Atualizando tabela de empresas...');
+            
+            const data = filteredDataDashboard2;
+            const tbody = document.getElementById('empresasTableBody');
+            const tfoot = document.getElementById('empresasTableFooter');
+            
+            if (!tbody || !tfoot) {
+                console.error('Elementos da tabela não encontrados');
+                return;
+            }
+            
+            // Ordenar dados
+            let sortedData = [...data];
+            sortedData.sort((a, b) => {
+                const column = currentSortDashboard2.column;
+                const order = currentSortDashboard2.order;
+                
+                let aValue = a[column];
+                let bValue = b[column];
+                
+                // Converter para números se necessário
+                if (column === 'ano' || column === 'valor_multa') {
+                    aValue = parseFloat(aValue) || 0;
+                    bValue = parseFloat(bValue) || 0;
+                } else {
+                    aValue = String(aValue || '').toLowerCase();
+                    bValue = String(bValue || '').toLowerCase();
+                }
+                
+                if (order === 'asc') {
+                    return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+                } else {
+                    return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+                }
+            });
+            
+            // Calcular totais
+            const totalMultas = sortedData.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
+            
+            // Paginação
+            const totalPages = Math.ceil(sortedData.length / itemsPerPageDashboard2);
+            const startIndex = (currentPageDashboard2 - 1) * itemsPerPageDashboard2;
+            const endIndex = Math.min(startIndex + itemsPerPageDashboard2, sortedData.length);
+            const paginatedData = sortedData.slice(startIndex, endIndex);
+            
+            // Atualizar tabela
+            tbody.innerHTML = '';
+            
+            paginatedData.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'clickable-row';
+                tr.onclick = () => showCompanyDetails(row.cnpj || row.empresa_processada);
+                
+                // Decisão formatada
+                let decisaoFormatada = row.decisao || 'N/A';
+                let decisaoBadge = '';
+                
+                if (decisaoFormatada.includes('Multa')) {
+                    decisaoBadge = '<span class="badge-status badge-multa">Multa</span>';
+                } else if (decisaoFormatada.includes('Transitado')) {
+                    decisaoBadge = '<span class="badge-status badge-transitado">Transitado</span>';
+                }
+                
+                // Irregularidade truncada se muito longa
+                let irregularidade = row.conuta || 'NÃO INFORMADO';
+                if (irregularidade.length > 60) {
+                    irregularidade = irregularidade.substring(0, 57) + '...';
+                }
+                
+                tr.innerHTML = `
+                    <td>
+                        <strong>${row.empresa_processada || 'NÃO INFORMADO'}</strong>
+                        ${row.tipo_societario ? `<br><small class="text-muted">${row.tipo_societario}</small>` : ''}
+                    </td>
+                    <td>${row.cnpj || 'NÃO INFORMADO'}</td>
+                    <td>${row.orgao_lesado || 'NÃO INFORMADO'}</td>
+                    <td>${irregularidade}</td>
+                    <td>${row.ano || 'N/A'}</td>
+                    <td class="valor-multa">${row.valor_multa ? formatCurrency(row.valor_multa) : 'N/A'}</td>
+                    <td class="actions-column">
+                        <div class="action-buttons">
+                            <button class="btn-action btn-history" onclick="showCompanyDetails('${(row.cnpj || row.empresa_processada).replace(/'/g, "\\'")}'); event.stopPropagation();">
+                                <i class="material-icons">history</i>
+                                <span>Histórico</span>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+            
+            // Atualizar rodapé
+            tfoot.innerHTML = `
+                <tr class="table-total-row">
+                    <td colspan="5"><strong>TOTAL GERAL</strong></td>
+                    <td class="valor-multa-grande"><strong>${formatCurrency(totalMultas)}</strong></td>
+                    <td></td>
+                </tr>
+            `;
+            
+            // Atualizar paginação
+            updatePagination('dashboard2', sortedData.length, totalPages);
+            
+            console.log(`Tabela de empresas atualizada: ${sortedData.length} registros`);
+        }
+
+        function sortTable(dashboard, column) {
+            console.log(`Ordenando ${dashboard} por ${column}`);
+            
+            if (dashboard === 'visaoGeral') {
+                // Alternar ordem
+                if (currentSortDashboard1.column === column) {
+                    currentSortDashboard1.order = currentSortDashboard1.order === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSortDashboard1.column = column;
+                    currentSortDashboard1.order = 'asc';
+                }
+                
+                // Atualizar ícones
+                updateSortIcons('visaoGeralTable', column, currentSortDashboard1.order);
+                
+                // Atualizar tabela
+                updateResumoTable();
+                
+            } else if (dashboard === 'empresas') {
+                // Alternar ordem
+                if (currentSortDashboard2.column === column) {
+                    currentSortDashboard2.order = currentSortDashboard2.order === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSortDashboard2.column = column;
+                    currentSortDashboard2.order = 'asc';
+                }
+                
+                // Atualizar ícones
+                updateSortIcons('empresasTable', column, currentSortDashboard2.order);
+                
+                // Atualizar tabela
+                updateEmpresasTable();
+            }
+        }
+
+        function updateSortIcons(tableId, sortedColumn, order) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+            
+            // Resetar todos os ícones
+            const headers = table.querySelectorAll('th');
+            headers.forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+                const icon = th.querySelector('.sort-icon');
+                if (icon) {
+                    icon.innerHTML = order === 'asc' ? '▼' : '▲';
+                }
+            });
+            
+            // Destacar coluna atual
+            const targetHeader = Array.from(headers).find(th => 
+                th.getAttribute('data-sort') === sortedColumn
+            );
+            
+            if (targetHeader) {
+                targetHeader.classList.add(`sorted-${order}`);
+                const icon = targetHeader.querySelector('.sort-icon');
+                if (icon) {
+                    icon.innerHTML = order === 'asc' ? '▲' : '▼';
+                }
+            }
+        }
+
+        // ==================== FUNÇÕES DE PAGINAÇÃO ====================
+        function updatePagination(dashboard, totalItems, totalPages) {
+            const paginationInfoId = `paginationInfo${dashboard.charAt(0).toUpperCase() + dashboard.slice(1)}`;
+            const paginationId = `pagination${dashboard.charAt(0).toUpperCase() + dashboard.slice(1)}`;
+            
+            const paginationInfo = document.getElementById(paginationInfoId);
+            const pagination = document.getElementById(paginationId);
+            
+            if (!paginationInfo || !pagination) return;
+            
+            const currentPage = dashboard === 'dashboard1' ? currentPageDashboard1 : currentPageDashboard2;
+            const itemsPerPage = dashboard === 'dashboard1' ? itemsPerPageDashboard1 : itemsPerPageDashboard2;
+            
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+            
+            paginationInfo.textContent = `Mostrando ${startItem.toLocaleString('pt-BR')}-${endItem.toLocaleString('pt-BR')} de ${totalItems.toLocaleString('pt-BR')} registros`;
+            
+            // Gerar links de paginação
+            let paginationHTML = '';
+            
+            // Botão anterior
+            if (currentPage > 1) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="changePage('${dashboard}', ${currentPage - 1}); return false;">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                `;
+            }
+            
+            // Números de página
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Ajustar se estiver no início
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentPage) {
+                    paginationHTML += `
+                        <li class="page-item active">
+                            <span class="page-link">${i}</span>
+                        </li>
+                    `;
+                } else {
+                    paginationHTML += `
+                        <li class="page-item">
+                            <a class="page-link" href="#" onclick="changePage('${dashboard}', ${i}); return false;">${i}</a>
+                        </li>
+                    `;
+                }
+            }
+            
+            // Botão próximo
+            if (currentPage < totalPages) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="changePage('${dashboard}', ${currentPage + 1}); return false;">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                `;
+            }
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changePage(dashboard, page) {
+            if (dashboard === 'dashboard1') {
+                currentPageDashboard1 = page;
+                updateResumoTable();
+            } else if (dashboard === 'dashboard2') {
+                currentPageDashboard2 = page;
+                updateEmpresasTable();
+            }
+            
+            // Rolar para o topo da tabela
+            const tableContainer = document.querySelector('.table-fixed-header-container');
+            if (tableContainer) {
+                tableContainer.scrollTop = 0;
+            }
+        }
+
+        // ==================== FUNÇÕES DE GRÁFICOS ====================
+        function createOrUpdateChart(chartId, config) {
+            const canvas = document.getElementById(chartId);
+            if (!canvas) {
+                console.error(`Canvas não encontrado: ${chartId}`);
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Destruir gráfico existente
+            if (charts[chartId]) {
+                charts[chartId].destroy();
+            }
+            
+            // Criar novo gráfico
+            charts[chartId] = new Chart(ctx, config);
+        }
+
+        // ==================== FUNÇÕES DE EXPORTAÇÃO ====================
+        function exportToCSV(dashboard) {
+            console.log(`Exportando ${dashboard} para CSV...`);
+            
+            let dataToExport = [];
+            let filename = '';
+            
+            if (dashboard === 'dashboard1') {
+                // Exportar resumo por órgão
+                const data = filteredDataDashboard1;
+                
+                // Agrupar por órgão (mesma lógica da tabela)
+                const resumoPorOrgao = {};
+                
+                data.forEach(row => {
+                    const orgao = row.orgao_lesado || 'NÃO INFORMADO';
+                    
+                    if (!resumoPorOrgao[orgao]) {
+                        resumoPorOrgao[orgao] = {
+                            orgao: orgao,
+                            quantidade_processos: 0,
+                            empresas: new Set(),
+                            valor_total_multa: 0
+                        };
+                    }
+                    
+                    resumoPorOrgao[orgao].quantidade_processos++;
+                    
+                    const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                    if (empresaKey !== '|') {
+                        resumoPorOrgao[orgao].empresas.add(empresaKey);
+                    }
+                    
+                    if (row.valor_multa) {
+                        resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
+                    }
+                });
+                
+                dataToExport = Object.values(resumoPorOrgao).map(item => ({
+                    'Órgão Lesado': item.orgao,
+                    'Quantidade de Processos': item.quantidade_processos,
+                    'Empresas Sancionadas': item.empresas.size,
+                    'Valor Total de Multas (R$)': item.valor_total_multa
+                }));
+                
+                filename = `resumo_orgaos_sancionados_${new Date().toISOString().slice(0,10)}.csv`;
+                
+            } else if (dashboard === 'dashboard2') {
+                // Exportar dados completos
+                dataToExport = filteredDataDashboard2.map(row => ({
+                    'Processo SEI': row.sei,
+                    'Número do Processo': row.numero,
+                    'Ano': row.ano,
+                    'Portaria': row.portaria,
+                    'Data Publicação': row.data_publicacao,
+                    'Órgão Instaurador': row.orgao_instaurador,
+                    'Órgão Lesado': row.orgao_lesado,
+                    'Empresa Processada': row.empresa_processada,
+                    'Tipo Societário': row.tipo_societario,
+                    'CNPJ': row.cnpj,
+                    'Irregularidade': row.conuta,
+                    'Data Decisão': row.data_decisao,
+                    'Decisão': row.decisao,
+                    'Fase': row.fase,
+                    'Valor da Multa (R$)': row.valor_multa
+                }));
+                
+                filename = `empresas_sancionadas_completo_${new Date().toISOString().slice(0,10)}.csv`;
+            }
+            
+            // Converter para CSV
+            const csv = Papa.unparse(dataToExport, {
+                delimiter: ';',
+                header: true
+            });
+            
+            // Criar e baixar arquivo
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            
+            showStatusMessage(`Arquivo ${filename} exportado com sucesso!`, 'success');
+        }
+
+        function printDashboard(dashboard) {
+            console.log(`Imprimindo ${dashboard}...`);
+            
+            // Criar uma nova janela para impressão
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Empresas Sancionadas - ${dashboard === 'dashboard1' ? 'Visão Geral' : 'Consulta Empresas'}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #29435A; border-bottom: 2px solid #B93C42; padding-bottom: 10px; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th { background-color: #f8f9fa; color: #29435A; text-align: left; padding: 10px; border-bottom: 2px solid #dee2e6; }
+                        td { padding: 8px 10px; border-bottom: 1px solid #dee2e6; }
+                        .total-row { font-weight: bold; background-color: #f8f9fa; }
+                        .valor { text-align: right; }
+                        .footer { margin-top: 30px; font-size: 12px; color: #666; text-align: center; }
+                        @media print {
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+            `);
+            
+            if (dashboard === 'dashboard1') {
+                // Criar tabela de resumo para impressão
+                const data = filteredDataDashboard1;
+                
+                // Agrupar por órgão (mesma lógica da tabela)
+                const resumoPorOrgao = {};
+                
+                data.forEach(row => {
+                    const orgao = row.orgao_lesado || 'NÃO INFORMADO';
+                    
+                    if (!resumoPorOrgao[orgao]) {
+                        resumoPorOrgao[orgao] = {
+                            orgao: orgao,
+                            quantidade_processos: 0,
+                            empresas: new Set(),
+                            valor_total_multa: 0
+                        };
+                    }
+                    
+                    resumoPorOrgao[orgao].quantidade_processos++;
+                    
+                    const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                    if (empresaKey !== '|') {
+                        resumoPorOrgao[orgao].empresas.add(empresaKey);
+                    }
+                    
+                    if (row.valor_multa) {
+                        resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
+                    }
+                });
+                
+                const resumoArray = Object.values(resumoPorOrgao);
+                const totalProcessos = resumoArray.reduce((sum, item) => sum + item.quantidade_processos, 0);
+                const totalEmpresas = resumoArray.reduce((sum, item) => sum + item.empresas.size, 0);
+                const totalMultas = resumoArray.reduce((sum, item) => sum + item.valor_total_multa, 0);
+                
+                printWindow.document.write(`
+                    <h1>Resumo por Órgão Lesado</h1>
+                    <p><strong>Data da consulta:</strong> ${new Date().toLocaleString('pt-BR')}</p>
+                    <p><strong>Total de processos:</strong> ${totalProcessos.toLocaleString('pt-BR')}</p>
+                    <p><strong>Total de empresas:</strong> ${totalEmpresas.toLocaleString('pt-BR')}</p>
+                    <p><strong>Valor total das multas:</strong> ${formatCurrency(totalMultas)}</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Órgão Lesado</th>
+                                <th>Processos</th>
+                                <th>Empresas</th>
+                                <th class="valor">Valor Multas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `);
+                
+                resumoArray.forEach(item => {
+                    printWindow.document.write(`
+                        <tr>
+                            <td>${item.orgao}</td>
+                            <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
+                            <td>${item.empresas.size.toLocaleString('pt-BR')}</td>
+                            <td class="valor">${formatCurrency(item.valor_total_multa)}</td>
+                        </tr>
+                    `);
+                });
+                
+                printWindow.document.write(`
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td><strong>TOTAL GERAL</strong></td>
+                                <td><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
+                                <td><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
+                                <td class="valor"><strong>${formatCurrency(totalMultas)}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                `);
+                
+            } else if (dashboard === 'dashboard2') {
+                // Criar tabela de empresas para impressão
+                const data = filteredDataDashboard2;
+                const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
+                
+                printWindow.document.write(`
+                    <h1>Consulta de Empresas Sancionadas</h1>
+                    <p><strong>Data da consulta:</strong> ${new Date().toLocaleString('pt-BR')}</p>
+                    <p><strong>Total de registros:</strong> ${data.length.toLocaleString('pt-BR')}</p>
+                    <p><strong>Valor total das multas:</strong> ${formatCurrency(totalMultas)}</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>CNPJ</th>
+                                <th>Órgão Lesado</th>
+                                <th>Irregularidade</th>
+                                <th>Ano</th>
+                                <th class="valor">Valor Multa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `);
+                
+                data.forEach(row => {
+                    printWindow.document.write(`
+                        <tr>
+                            <td>${row.empresa_processada || 'NÃO INFORMADO'}</td>
+                            <td>${row.cnpj || 'NÃO INFORMADO'}</td>
+                            <td>${row.orgao_lesado || 'NÃO INFORMADO'}</td>
+                            <td>${(row.conuta || 'NÃO INFORMADO').substring(0, 50)}${(row.conuta || '').length > 50 ? '...' : ''}</td>
+                            <td>${row.ano || 'N/A'}</td>
+                            <td class="valor">${row.valor_multa ? formatCurrency(row.valor_multa) : 'N/A'}</td>
+                        </tr>
+                    `);
+                });
+                
+                printWindow.document.write(`
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5"><strong>TOTAL GERAL</strong></td>
+                                <td class="valor"><strong>${formatCurrency(totalMultas)}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                `);
+            }
+            
+            printWindow.document.write(`
+                <div class="footer">
+                    <p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p>
+                    <p>Última atualização: ${lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A'}</p>
+                </div>
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        setTimeout(function() {
+                            window.close();
+                        }, 1000);
+                    };
+                </script>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            
+            showStatusMessage('Preparando impressão...', 'info');
+        }
+
+        function downloadDadosCompletos() {
+            console.log('Baixando dados completos...');
+            
+            // Baixar o CSV original
+            const filename = `empresas_sancionadas_${new Date().toISOString().slice(0,10)}.csv`;
+            const link = document.createElement('a');
+            link.href = DATASET_URL;
+            link.download = filename;
+            link.click();
+            
+            showStatusMessage(`Download iniciado: ${filename}`, 'success');
+        }
+
+        // ==================== MODAL DE DETALHES ====================
+        function showCompanyDetails(identifier) {
+            console.log(`Mostrando detalhes para: ${identifier}`);
+            
+            // Encontrar todos os registros da empresa (por CNPJ ou nome)
+            const companyRecords = empresasData.filter(row => 
+                (row.cnpj && row.cnpj.includes(identifier.replace(/\D/g, ''))) ||
+                (row.empresa_processada && row.empresa_processada.toLowerCase().includes(identifier.toLowerCase()))
+            );
+            
+            if (companyRecords.length === 0) {
+                showStatusMessage('Nenhum registro encontrado para esta empresa.', 'warning');
+                return;
+            }
+            
+            // Pegar o primeiro registro para informações gerais
+            const firstRecord = companyRecords[0];
+            
+            // Atualizar modal
+            const modalLabel = document.getElementById('detailModalLabel');
+            const companyInfo = document.getElementById('companyInfo');
+            const detailTableBody = document.getElementById('detailTableBody');
+            
+            if (modalLabel) {
+                modalLabel.innerHTML = `<i class="material-icons me-2">business</i>${firstRecord.empresa_processada || 'Empresa Sancionada'}`;
+            }
+            
+            if (companyInfo) {
+                companyInfo.innerHTML = `
+                    <div class="company-info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Empresa</span>
+                            <span class="info-value">${firstRecord.empresa_processada || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">CNPJ</span>
+                            <span class="info-value">${firstRecord.cnpj || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tipo Societário</span>
+                            <span class="info-value">${firstRecord.tipo_societario || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Total de Processos</span>
+                            <span class="info-value">${companyRecords.length}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Valor Total em Multas</span>
+                            <span class="info-value valor-multa">${formatCurrency(companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0))}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (detailTableBody) {
+                detailTableBody.innerHTML = '';
+                
+                // Ordenar por ano (mais recente primeiro)
+                companyRecords.sort((a, b) => (b.ano || 0) - (a.ano || 0));
+                
+                companyRecords.forEach(record => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${record.sei || 'N/A'}</td>
+                        <td>${record.ano || 'N/A'}</td>
+                        <td>${record.orgao_lesado || 'NÃO INFORMADO'}</td>
+                        <td>${record.conuta || 'NÃO INFORMADO'}</td>
+                        <td>${formatDate(record.data_decisao)}</td>
+                        <td>${record.decisao || 'NÃO INFORMADO'}</td>
+                        <td class="valor-multa">${record.valor_multa ? formatCurrency(record.valor_multa) : 'N/A'}</td>
+                    `;
+                    detailTableBody.appendChild(tr);
+                });
+            }
+            
+            // Mostrar modal
+            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+            
+            console.log(`Modal mostrado com ${companyRecords.length} registros`);
+        }
+
+        // ==================== DEBUG ====================
+        function showDebugInfo() {
+            const debugElement = document.getElementById('debugInfo');
+            if (debugElement) {
+                debugElement.innerHTML = `
+                    Dados carregados: ${empresasData.length} registros<br>
+                    Dashboard 1: ${filteredDataDashboard1.length} registros<br>
+                    Dashboard 2: ${filteredDataDashboard2.length} registros<br>
+                    Última atualização: ${lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A'}<br>
+                    User Agent: ${navigator.userAgent}
+                `;
+                debugElement.style.display = 'block';
+            }
+        }
+
+        // ==================== INICIALIZAÇÃO FINAL ====================
+        // Expor funções globais para uso no HTML
+        window.sortTable = sortTable;
+        window.showCompanyDetails = showCompanyDetails;
+        window.changePage = changePage;
+        
+        // Inicializar ícones de ordenação
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSortIcons('visaoGeralTable', currentSortDashboard1.column, currentSortDashboard1.order);
+            updateSortIcons('empresasTable', currentSortDashboard2.column, currentSortDashboard2.order);
+        });
+
+        console.log('✅ Sistema de Empresas Sancionadas carregado e pronto!');
     </script>
 </body>
 </html>
