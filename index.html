@@ -1827,63 +1827,26 @@
 
         // ==================== CARREGAMENTO DE DADOS ====================
         async function loadData() {
-            console.log('=== CARREGANDO DADOS DO GITHUB ===');
-            showLoading(true, 'Conectando ao GitHub...');
-            
-            try {
-                // URL original do CSV
-                const originalUrl = DATASET_URL;
-                
-                // Lista de proxies CORS para tentar
-                const proxyUrls = [
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(originalUrl)}`,
-                    `https://corsproxy.io/?${encodeURIComponent(originalUrl)}`,
-                    `https://thingproxy.freeboard.io/fetch/${originalUrl}`,
-                    originalUrl // Tentar direto como último recurso
-                ];
-                
-                let response;
-                let lastError;
-                
-                // Tentar cada proxy até um funcionar
-                for (let i = 0; i < proxyUrls.length; i++) {
-                    try {
-                        console.log(`Tentando proxy ${i + 1}/${proxyUrls.length}:`, proxyUrls[i]);
-                        showLoading(true, `Conectando (${i + 1}/${proxyUrls.length})...`);
-                        
-                        response = await fetch(proxyUrls[i], {
-                            cache: 'no-cache',
-                            headers: {
-                                'Accept': 'text/csv',
-                                'Content-Type': 'text/csv'
-                            }
-                        });
-                        
-                        if (response && response.ok) {
-                            console.log(`✅ Proxy ${i + 1} funcionou!`);
-                            break;
-                        }
-                    } catch (error) {
-                        lastError = error;
-                        console.warn(`❌ Proxy ${i + 1} falhou:`, error.message);
-                        continue;
-                    }
-                }
-                
-                if (!response || !response.ok) {
-                    throw new Error(`Não foi possível conectar ao GitHub após ${proxyUrls.length} tentativas. Último erro: ${lastError?.message || 'Desconhecido'}`);
-                }
-                
-                const csvText = await response.text();
-                
-                if (!csvText || csvText.trim().length === 0) {
-                    throw new Error('CSV vazio ou sem conteúdo');
-                }
-                
-                console.log('✅ CSV recebido com sucesso! Tamanho:', csvText.length, 'caracteres');
-                console.log('📋 Primeiras 500 caracteres do CSV:', csvText.substring(0, 500));
-                
-                showLoading(true, 'Processando dados CSV...');
+    const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
+    
+    try {
+        console.log(`Carregando dados de: ${DATASET_URL}`);
+        const response = await fetch(DATASET_URL);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const csvText = await response.text();
+        console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
+        return parseCSV(csvText);
+        
+    } catch (error) {
+        console.error('❌ Erro ao carregar dados:', error);
+        console.log('⚠️ Usando dados de exemplo como fallback');
+        return loadSampleData();
+    }
+}
                 
                 // Processar com PapaParse
                 return new Promise((resolve, reject) => {
