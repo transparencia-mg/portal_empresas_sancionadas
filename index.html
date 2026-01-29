@@ -1770,65 +1770,88 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
     <script>
-        // ============================================
-        // CONFIGURAÇÕES E CONSTANTES
-        // ============================================
-        const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
-        const GITHUB_REPO_URL = 'https://github.com/transparencia-mg/empresas_sancionadas';
-        const LEGISLACAO_URL = 'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm';
-        const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/';
 
-        // ============================================
-        // VARIÁVEIS GLOBAIS
-        // ============================================
-        let empresasData = [];
-        let filteredDataDashboard1 = [];
-        let filteredDataDashboard2 = [];
-        let currentPageDashboard1 = 1;
-        let currentPageDashboard2 = 1;
-        let itemsPerPageDashboard1 = 50;
-        let itemsPerPageDashboard2 = 50;
-        let charts = {};
-        let currentSortDashboard1 = { column: 'orgao_lesado', order: 'asc' };
-        let currentSortDashboard2 = { column: 'empresa_processada', order: 'asc' };
-        let currentSearchTerm = '';
-        let lastUpdateDate = null;
-        
-        const chartColors = {
-            primary: '#29435A',
-            accent: '#B93C42',
-            bright: '#DB233F',
-            dark: '#132837',
-            secondaryBlue: '#3F704D',
-            secondaryBrown: '#8B7355',
-            secondaryTeal: '#20B2AA',
-            openDataGreen: '#2E7D32'
-        };
+// ============================================
+// CONFIGURAÇÕES E CONSTANTES
+// ============================================
+const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
+const GITHUB_REPO_URL = 'https://github.com/transparencia-mg/empresas_sancionadas';
+const LEGISLACAO_URL = 'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm';
+const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/';
 
-        // ==================== INICIALIZAÇÃO ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
-            setupEventListeners();
-            loadInitialData();
-        });
+// ============================================
+// VARIÁVEIS GLOBAIS
+// ============================================
+let empresasData = [];
+let filteredDataDashboard1 = [];
+let filteredDataDashboard2 = [];
+let currentPageDashboard1 = 1;
+let currentPageDashboard2 = 1;
+let itemsPerPageDashboard1 = 50;
+let itemsPerPageDashboard2 = 50;
+let charts = {};
+let currentSortDashboard1 = { column: 'orgao_lesado', order: 'asc' };
+let currentSortDashboard2 = { column: 'empresa_processada', order: 'asc' };
+let currentSearchTerm = '';
+let lastUpdateDate = null;
 
-        async function loadInitialData() {
-            showLoading(true, 'Iniciando carregamento...');
-            try {
-                await loadData();
-            } catch (error) {
-                console.error('Erro ao carregar dados iniciais:', error);
-                showStatusMessage('Erro ao carregar dados. Usando dados de exemplo.', 'danger');
-                showExampleData();
-            } finally {
-                showLoading(false);
-            }
-        }
+const chartColors = {
+    primary: '#29435A',
+    accent: '#B93C42',
+    bright: '#DB233F',
+    dark: '#132837',
+    secondaryBlue: '#3F704D',
+    secondaryBrown: '#8B7355',
+    secondaryTeal: '#20B2AA',
+    openDataGreen: '#2E7D32'
+};
 
-        // ==================== CARREGAMENTO DE DADOS ====================
-        async function loadData() {
-    const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
+// ==================== INICIALIZAÇÃO ====================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
+    setupEventListeners();
+    loadInitialData();
+});
+
+// ==================== FUNÇÕES DE CARREGAMENTO ====================
+async function loadInitialData() {
+    console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
+    showLoading(true);
+    showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
     
+    try {
+        empresasData = await loadData();
+        
+        if (empresasData && empresasData.length > 0) {
+            filteredDataDashboard1 = [...empresasData];
+            filteredDataDashboard2 = [...empresasData];
+            
+            lastUpdateDate = new Date();
+            updateDataAtualizacao();
+            
+            console.log(`=== DADOS PROCESSADOS ===`);
+            console.log(`✅ Registros válidos: ${empresasData.length}`);
+            
+            if (empresasData.length > 0) {
+                console.log('Primeiro registro processado:', empresasData[0]);
+            }
+            
+            // Inicializar dashboard
+            initializeDashboard();
+            
+            showLoading(false);
+            showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+        } else {
+            throw new Error('Nenhum dado válido foi carregado');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar dados iniciais:', error);
+        showLoading(false);
+        showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
+    }
+}
+
+async function loadData() {
     try {
         console.log(`=== CARREGANDO DADOS DO GITHUB ===`);
         console.log(`Carregando dados de: ${DATASET_URL}`);
@@ -2009,46 +2032,52 @@ function processCSVData(data) {
     return processedData;
 }
 
-async function loadInitialData() {
-    console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
-    showLoading(true);
-    showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
+function loadSampleData() {
+    console.log('=== CARREGANDO DADOS DE EXEMPLO ===');
+    // Retornar dados de exemplo limitados
+    return [
+        {
+            sei: '1520.01.0004459/2019-09',
+            numero: '1',
+            ano: 2021,
+            portaria: '1',
+            data_publicacao: '2021-09-19',
+            orgao_instaurador: 'CGE',
+            orgao_lesado: 'SEESP',
+            empresa_processada: 'EMPRESA EXEMPLO 1 LTDA',
+            tipo_societario: 'SOCIEDADE LIMITADA',
+            cnpj: '11.111.111/0001-11',
+            conuta: 'Irregularidade de exemplo',
+            data_decisao: '2021-10-11',
+            decisao: 'Multa aplicada',
+            fase: 'TRANSITADO EM JULGADO',
+            valor_multa: 100000
+        }
+        // Adicione mais dados de exemplo conforme necessário
+    ];
+}
+
+// ==================== DASHBOARD ====================
+function initializeDashboard() {
+    console.log('=== INICIALIZANDO DASHBOARD ===');
     
     try {
-        empresasData = await loadData();
+        // Atualizar interface
+        updateDataAtualizacao();
+        updateFilterOptions();
+        updateDashboard1();
+        updateDashboard2();
         
-        if (empresasData && empresasData.length > 0) {
-            filteredDataDashboard1 = [...empresasData];
-            filteredDataDashboard2 = [...empresasData];
-            
-            lastUpdateDate = new Date();
-            updateDataAtualizacao();
-            
-            console.log(`=== DADOS PROCESSADOS ===`);
-            console.log(`✅ Registros válidos: ${empresasData.length}`);
-            
-            if (empresasData.length > 0) {
-                console.log('Primeiro registro processado:', empresasData[0]);
-            }
-            
-            // Inicializar dashboard
-            initializeDashboard();
-            
-            showLoading(false);
-            showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
-        } else {
-            throw new Error('Nenhum dado válido foi carregado');
-        }
+        console.log(`✅ Dashboard inicializado com ${empresasData.length} registros`);
+        
     } catch (error) {
-        console.error('Erro ao carregar dados iniciais:', error);
-        showLoading(false);
-        showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
+        console.error('❌ Erro ao inicializar dashboard:', error);
+        showStatusMessage('Erro ao inicializar interface. Recarregue a página.', 'danger');
     }
 }
 
-// Função loadSampleData() deve estar definida em outro lugar
-// function loadSampleData() { ... }
 
+        
         // ==================== FUNÇÕES DE UTILIDADE ====================
         function showLoading(show, message = '') {
             const overlay = document.getElementById('loadingOverlay');
