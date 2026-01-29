@@ -1770,313 +1770,310 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
     <script>
+        // ============================================
+        // CONFIGURAÇÕES E CONSTANTES
+        // ============================================
+        const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
+        const GITHUB_REPO_URL = 'https://github.com/transparencia-mg/empresas_sancionadas';
+        const LEGISLACAO_URL = 'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm';
+        const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/';
 
-// ============================================
-// CONFIGURAÇÕES E CONSTANTES
-// ============================================
-const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
-const GITHUB_REPO_URL = 'https://github.com/transparencia-mg/empresas_sancionadas';
-const LEGISLACAO_URL = 'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm';
-const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/';
+        // ============================================
+        // VARIÁVEIS GLOBAIS
+        // ============================================
+        let empresasData = [];
+        let filteredDataDashboard1 = [];
+        let filteredDataDashboard2 = [];
+        let currentPageDashboard1 = 1;
+        let currentPageDashboard2 = 1;
+        let itemsPerPageDashboard1 = 50;
+        let itemsPerPageDashboard2 = 50;
+        let charts = {};
+        let currentSortDashboard1 = { column: 'orgao_lesado', order: 'asc' };
+        let currentSortDashboard2 = { column: 'empresa_processada', order: 'asc' };
+        let currentSearchTerm = '';
+        let lastUpdateDate = null;
 
-// ============================================
-// VARIÁVEIS GLOBAIS
-// ============================================
-let empresasData = [];
-let filteredDataDashboard1 = [];
-let filteredDataDashboard2 = [];
-let currentPageDashboard1 = 1;
-let currentPageDashboard2 = 1;
-let itemsPerPageDashboard1 = 50;
-let itemsPerPageDashboard2 = 50;
-let charts = {};
-let currentSortDashboard1 = { column: 'orgao_lesado', order: 'asc' };
-let currentSortDashboard2 = { column: 'empresa_processada', order: 'asc' };
-let currentSearchTerm = '';
-let lastUpdateDate = null;
+        const chartColors = {
+            primary: '#29435A',
+            accent: '#B93C42',
+            bright: '#DB233F',
+            dark: '#132837',
+            secondaryBlue: '#3F704D',
+            secondaryBrown: '#8B7355',
+            secondaryTeal: '#20B2AA',
+            openDataGreen: '#2E7D32'
+        };
 
-const chartColors = {
-    primary: '#29435A',
-    accent: '#B93C42',
-    bright: '#DB233F',
-    dark: '#132837',
-    secondaryBlue: '#3F704D',
-    secondaryBrown: '#8B7355',
-    secondaryTeal: '#20B2AA',
-    openDataGreen: '#2E7D32'
-};
-
-// ==================== INICIALIZAÇÃO ====================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
-    setupEventListeners();
-    loadInitialData();
-});
-
-// ==================== FUNÇÕES DE CARREGAMENTO ====================
-async function loadInitialData() {
-    console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
-    showLoading(true);
-    showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
-    
-    try {
-        empresasData = await loadData();
-        
-        if (empresasData && empresasData.length > 0) {
-            filteredDataDashboard1 = [...empresasData];
-            filteredDataDashboard2 = [...empresasData];
-            
-            lastUpdateDate = new Date();
-            updateDataAtualizacao();
-            
-            console.log(`=== DADOS PROCESSADOS ===`);
-            console.log(`✅ Registros válidos: ${empresasData.length}`);
-            
-            if (empresasData.length > 0) {
-                console.log('Primeiro registro processado:', empresasData[0]);
-            }
-            
-            // Inicializar dashboard
-            initializeDashboard();
-            
-            showLoading(false);
-            showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
-        } else {
-            throw new Error('Nenhum dado válido foi carregado');
-        }
-    } catch (error) {
-        console.error('Erro ao carregar dados iniciais:', error);
-        showLoading(false);
-        showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
-    }
-}
-
-async function loadData() {
-    try {
-        console.log(`=== CARREGANDO DADOS DO GITHUB ===`);
-        console.log(`Carregando dados de: ${DATASET_URL}`);
-        
-        const response = await fetch(DATASET_URL);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const csvText = await response.text();
-        console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
-        console.log(`📋 Primeiras 500 caracteres do CSV: ${csvText.substring(0, 500)}...`);
-        
-        // Processar com PapaParse
-        const processedData = await parseCSV(csvText);
-        return processedData;
-        
-    } catch (error) {
-        console.error('❌ Erro ao carregar dados:', error);
-        console.log('⚠️ Usando dados de exemplo como fallback');
-        return loadSampleData();
-    }
-}
-
-function parseCSV(csvText) {
-    return new Promise((resolve, reject) => {
-        Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true,
-            delimiter: ';', // Ponto e vírgula como separador
-            complete: function(results) {
-                console.log(`=== DADOS PARSEADOS COM SUCESSO ===`);
-                console.log(`Total de registros brutos: ${results.data.length}`);
-                console.log('Colunas encontradas:', results.meta.fields);
-                
-                if (results.data.length === 0) {
-                    reject(new Error('Nenhum dado encontrado no CSV'));
-                    return;
-                }
-                
-                // Mostrar amostra dos dados
-                console.log('Amostra dos dados (primeiros 2 registros):');
-                for (let i = 0; i < Math.min(2, results.data.length); i++) {
-                    console.log(`Registro ${i + 1}:`, results.data[i]);
-                }
-                
-                // Processar dados
-                const empresasData = processCSVData(results.data);
-                resolve(empresasData);
-            },
-            error: function(error) {
-                console.error('❌ Erro no PapaParse:', error);
-                reject(new Error('Erro ao processar CSV: ' + error.message));
-            }
+        // ==================== INICIALIZAÇÃO ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
+            setupEventListeners();
+            loadInitialData();
         });
-    });
-}
 
-function processCSVData(data) {
-    console.log('=== PROCESSANDO DADOS DO CSV ===');
-    console.log(`Registros para processar: ${data.length}`);
-    
-    const processedData = [];
-    
-    for (let i = 0; i < data.length; i++) {
-        try {
-            const row = data[i];
+        // ==================== FUNÇÕES DE CARREGAMENTO ====================
+        async function loadInitialData() {
+            console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
+            showLoading(true);
+            showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
             
-            // Verificar se a linha tem dados
-            if (!row || Object.keys(row).length === 0) {
-                continue;
-            }
-            
-            // Extrair dados exatamente como estão no CSV
-            const sei = row['sei'] || '';
-            const numero = row['numero'] || '';
-            
-            // Extrair ano - pode estar como número ou string
-            let ano = null;
-            if (row['ano']) {
-                const anoStr = String(row['ano']).trim();
-                ano = parseInt(anoStr);
-                if (isNaN(ano)) {
-                    ano = null;
+            try {
+                empresasData = await loadData();
+                
+                if (empresasData && empresasData.length > 0) {
+                    filteredDataDashboard1 = [...empresasData];
+                    filteredDataDashboard2 = [...empresasData];
+                    
+                    lastUpdateDate = new Date();
+                    updateDataAtualizacao();
+                    
+                    console.log(`=== DADOS PROCESSADOS ===`);
+                    console.log(`✅ Registros válidos: ${empresasData.length}`);
+                    
+                    if (empresasData.length > 0) {
+                        console.log('Primeiro registro processado:', empresasData[0]);
+                    }
+                    
+                    // Inicializar dashboard
+                    initializeDashboard();
+                    
+                    showLoading(false);
+                    showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+                } else {
+                    throw new Error('Nenhum dado válido foi carregado');
                 }
+            } catch (error) {
+                console.error('Erro ao carregar dados iniciais:', error);
+                showLoading(false);
+                showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
             }
-            
-            const portaria = row['portaria'] || '';
-            const data_publicacao = row['data_publicacao'] || '';
-            const orgao_instaurador = row['orgao_instaurador'] || '';
-            const orgao_lesado = (row['orgao_lesado'] || 'NÃO INFORMADO').trim();
-            const empresa_processada = (row['empresa_processada'] || 'NÃO INFORMADO').trim();
-            const tipo_societario = row['tipo_societario'] || '';
-            
-            // CNPJ - limpar e formatar
-            let cnpj = row['cnpj'] || '';
-            if (cnpj) {
-                cnpj = cnpj.toString().replace(/\D/g, '');
-                if (cnpj.length === 14) {
-                    cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+        }
+
+        async function loadData() {
+            try {
+                console.log(`=== CARREGANDO DADOS DO GITHUB ===`);
+                console.log(`Carregando dados de: ${DATASET_URL}`);
+                
+                const response = await fetch(DATASET_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                
+                const csvText = await response.text();
+                console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
+                console.log(`📋 Primeiras 500 caracteres do CSV: ${csvText.substring(0, 500)}...`);
+                
+                // Processar com PapaParse
+                const processedData = await parseCSV(csvText);
+                return processedData;
+                
+            } catch (error) {
+                console.error('❌ Erro ao carregar dados:', error);
+                console.log('⚠️ Usando dados de exemplo como fallback');
+                return loadSampleData();
             }
+        }
+
+        function parseCSV(csvText) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    delimiter: ';', // Ponto e vírgula como separador
+                    complete: function(results) {
+                        console.log(`=== DADOS PARSEADOS COM SUCESSO ===`);
+                        console.log(`Total de registros brutos: ${results.data.length}`);
+                        console.log('Colunas encontradas:', results.meta.fields);
+                        
+                        if (results.data.length === 0) {
+                            reject(new Error('Nenhum dado encontrado no CSV'));
+                            return;
+                        }
+                        
+                        // Mostrar amostra dos dados
+                        console.log('Amostra dos dados (primeiros 2 registros):');
+                        for (let i = 0; i < Math.min(2, results.data.length); i++) {
+                            console.log(`Registro ${i + 1}:`, results.data[i]);
+                        }
+                        
+                        // Processar dados
+                        const empresasData = processCSVData(results.data);
+                        resolve(empresasData);
+                    },
+                    error: function(error) {
+                        console.error('❌ Erro no PapaParse:', error);
+                        reject(new Error('Erro ao processar CSV: ' + error.message));
+                    }
+                });
+            });
+        }
+
+        function processCSVData(data) {
+            console.log('=== PROCESSANDO DADOS DO CSV ===');
+            console.log(`Registros para processar: ${data.length}`);
             
-            const conuta = (row['conuta'] || 'NÃO INFORMADO').trim();
-            const data_decisao = row['data_decisao'] || '';
-            const decisao = (row['decisao'] || 'NÃO INFORMADO').trim();
-            const fase = (row['fase'] || 'NÃO INFORMADO').trim();
+            const processedData = [];
             
-            // Valor da multa - converter para número
-            let valor_multa = null;
-            const valorField = row['valor_multa'] || '';
-            if (valorField) {
+            for (let i = 0; i < data.length; i++) {
                 try {
-                    // Remover R$, pontos e converter vírgula para ponto
-                    let cleanValue = String(valorField)
-                        .replace(/R\$/gi, '')
-                        .replace(/[^\d,.-]/g, '')
-                        .trim();
+                    const row = data[i];
                     
-                    // Substituir ponto por nada e vírgula por ponto
-                    if (cleanValue.includes('.') && cleanValue.includes(',')) {
-                        // Formato 1.234,56
-                        cleanValue = cleanValue.replace(/\./g, '').replace(',', '.');
-                    } else if (cleanValue.includes(',')) {
-                        // Formato 1234,56
-                        cleanValue = cleanValue.replace(',', '.');
+                    // Verificar se a linha tem dados
+                    if (!row || Object.keys(row).length === 0) {
+                        continue;
                     }
                     
-                    valor_multa = parseFloat(cleanValue);
-                    if (isNaN(valor_multa)) {
-                        valor_multa = null;
+                    // Extrair dados exatamente como estão no CSV
+                    const sei = row['sei'] || '';
+                    const numero = row['numero'] || '';
+                    
+                    // Extrair ano - pode estar como número ou string
+                    let ano = null;
+                    if (row['ano']) {
+                        const anoStr = String(row['ano']).trim();
+                        ano = parseInt(anoStr);
+                        if (isNaN(ano)) {
+                            ano = null;
+                        }
                     }
-                } catch (e) {
-                    console.warn(`Erro ao converter valor da multa na linha ${i}:`, valorField, e);
-                    valor_multa = null;
+                    
+                    const portaria = row['portaria'] || '';
+                    const data_publicacao = row['data_publicacao'] || '';
+                    const orgao_instaurador = row['orgao_instaurador'] || '';
+                    const orgao_lesado = (row['orgao_lesado'] || 'NÃO INFORMADO').trim();
+                    const empresa_processada = (row['empresa_processada'] || 'NÃO INFORMADO').trim();
+                    const tipo_societario = row['tipo_societario'] || '';
+                    
+                    // CNPJ - limpar e formatar
+                    let cnpj = row['cnpj'] || '';
+                    if (cnpj) {
+                        cnpj = cnpj.toString().replace(/\D/g, '');
+                        if (cnpj.length === 14) {
+                            cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                        }
+                    }
+                    
+                    const conuta = (row['conuta'] || 'NÃO INFORMADO').trim();
+                    const data_decisao = row['data_decisao'] || '';
+                    const decisao = (row['decisao'] || 'NÃO INFORMADO').trim();
+                    const fase = (row['fase'] || 'NÃO INFORMADO').trim();
+                    
+                    // Valor da multa - converter para número
+                    let valor_multa = null;
+                    const valorField = row['valor_multa'] || '';
+                    if (valorField) {
+                        try {
+                            // Remover R$, pontos e converter vírgula para ponto
+                            let cleanValue = String(valorField)
+                                .replace(/R\$/gi, '')
+                                .replace(/[^\d,.-]/g, '')
+                                .trim();
+                            
+                            // Substituir ponto por nada e vírgula por ponto
+                            if (cleanValue.includes('.') && cleanValue.includes(',')) {
+                                // Formato 1.234,56
+                                cleanValue = cleanValue.replace(/\./g, '').replace(',', '.');
+                            } else if (cleanValue.includes(',')) {
+                                // Formato 1234,56
+                                cleanValue = cleanValue.replace(',', '.');
+                            }
+                            
+                            valor_multa = parseFloat(cleanValue);
+                            if (isNaN(valor_multa)) {
+                                valor_multa = null;
+                            }
+                        } catch (e) {
+                            console.warn(`Erro ao converter valor da multa na linha ${i}:`, valorField, e);
+                            valor_multa = null;
+                        }
+                    }
+                    
+                    const processedRow = {
+                        sei: sei.trim(),
+                        numero: numero.trim(),
+                        ano: ano,
+                        portaria: portaria.trim(),
+                        data_publicacao: data_publicacao.trim(),
+                        orgao_instaurador: orgao_instaurador.trim(),
+                        orgao_lesado: orgao_lesado,
+                        empresa_processada: empresa_processada,
+                        tipo_societario: tipo_societario.trim(),
+                        cnpj: cnpj,
+                        conuta: conuta,
+                        data_decisao: data_decisao.trim(),
+                        decisao: decisao,
+                        fase: fase,
+                        valor_multa: valor_multa,
+                        originalIndex: i // Manter índice original para debug
+                    };
+                    
+                    // Apenas incluir se tiver empresa processada
+                    if (processedRow.empresa_processada && 
+                        processedRow.empresa_processada !== 'NÃO INFORMADO' && 
+                        processedRow.empresa_processada !== '') {
+                        processedData.push(processedRow);
+                    }
+                    
+                } catch (error) {
+                    console.warn(`Erro ao processar linha ${i}:`, error, data[i]);
                 }
             }
             
-            const processedRow = {
-                sei: sei.trim(),
-                numero: numero.trim(),
-                ano: ano,
-                portaria: portaria.trim(),
-                data_publicacao: data_publicacao.trim(),
-                orgao_instaurador: orgao_instaurador.trim(),
-                orgao_lesado: orgao_lesado,
-                empresa_processada: empresa_processada,
-                tipo_societario: tipo_societario.trim(),
-                cnpj: cnpj,
-                conuta: conuta,
-                data_decisao: data_decisao.trim(),
-                decisao: decisao,
-                fase: fase,
-                valor_multa: valor_multa,
-                originalIndex: i // Manter índice original para debug
-            };
+            console.log(`=== PROCESSAMENTO CONCLUÍDO ===`);
+            console.log(`Registros válidos: ${processedData.length} de ${data.length}`);
             
-            // Apenas incluir se tiver empresa processada
-            if (processedRow.empresa_processada && 
-                processedRow.empresa_processada !== 'NÃO INFORMADO' && 
-                processedRow.empresa_processada !== '') {
-                processedData.push(processedRow);
+            if (processedData.length > 0) {
+                console.log('Exemplo de registro processado:', processedData[0]);
             }
             
-        } catch (error) {
-            console.warn(`Erro ao processar linha ${i}:`, error, data[i]);
+            return processedData;
         }
-    }
-    
-    console.log(`=== PROCESSAMENTO CONCLUÍDO ===`);
-    console.log(`Registros válidos: ${processedData.length} de ${data.length}`);
-    
-    if (processedData.length > 0) {
-        console.log('Exemplo de registro processado:', processedData[0]);
-    }
-    
-    return processedData;
-}
 
-function loadSampleData() {
-    console.log('=== CARREGANDO DADOS DE EXEMPLO ===');
-    // Retornar dados de exemplo limitados
-    return [
-        {
-            sei: '1520.01.0004459/2019-09',
-            numero: '1',
-            ano: 2021,
-            portaria: '1',
-            data_publicacao: '2021-09-19',
-            orgao_instaurador: 'CGE',
-            orgao_lesado: 'SEESP',
-            empresa_processada: 'EMPRESA EXEMPLO 1 LTDA',
-            tipo_societario: 'SOCIEDADE LIMITADA',
-            cnpj: '11.111.111/0001-11',
-            conuta: 'Irregularidade de exemplo',
-            data_decisao: '2021-10-11',
-            decisao: 'Multa aplicada',
-            fase: 'TRANSITADO EM JULGADO',
-            valor_multa: 100000
+        function loadSampleData() {
+            console.log('=== CARREGANDO DADOS DE EXEMPLO ===');
+            // Retornar dados de exemplo limitados
+            return [
+                {
+                    sei: '1520.01.0004459/2019-09',
+                    numero: '1',
+                    ano: 2021,
+                    portaria: '1',
+                    data_publicacao: '2021-09-19',
+                    orgao_instaurador: 'CGE',
+                    orgao_lesado: 'SEESP',
+                    empresa_processada: 'EMPRESA EXEMPLO 1 LTDA',
+                    tipo_societario: 'SOCIEDADE LIMITADA',
+                    cnpj: '11.111.111/0001-11',
+                    conuta: 'Irregularidade de exemplo',
+                    data_decisao: '2021-10-11',
+                    decisao: 'Multa aplicada',
+                    fase: 'TRANSITADO EM JULGADO',
+                    valor_multa: 100000
+                }
+                // Adicione mais dados de exemplo conforme necessário
+            ];
         }
-        // Adicione mais dados de exemplo conforme necessário
-    ];
-}
 
-// ==================== DASHBOARD ====================
-function initializeDashboard() {
-    console.log('=== INICIALIZANDO DASHBOARD ===');
-    
-    try {
-        // Atualizar interface
-        updateDataAtualizacao();
-        updateFilterOptions();
-        updateDashboard1();
-        updateDashboard2();
-        
-        console.log(`✅ Dashboard inicializado com ${empresasData.length} registros`);
-        
-    } catch (error) {
-        console.error('❌ Erro ao inicializar dashboard:', error);
-        showStatusMessage('Erro ao inicializar interface. Recarregue a página.', 'danger');
-    }
-}
-
-
+        // ==================== DASHBOARD ====================
+        function initializeDashboard() {
+            console.log('=== INICIALIZANDO DASHBOARD ===');
+            
+            try {
+                // Atualizar interface
+                updateDataAtualizacao();
+                updateFilterOptions();
+                updateDashboard1();
+                updateDashboard2();
+                
+                console.log(`✅ Dashboard inicializado com ${empresasData.length} registros`);
+                
+            } catch (error) {
+                console.error('❌ Erro ao inicializar dashboard:', error);
+                showStatusMessage('Erro ao inicializar interface. Recarregue a página.', 'danger');
+            }
+        }
         
         // ==================== FUNÇÕES DE UTILIDADE ====================
         function showLoading(show, message = '') {
@@ -3474,8 +3471,7 @@ function initializeDashboard() {
                         setTimeout(function() {
                             window.close();
                         }, 1000);
-                    `);
-            }
+                    }
                 </script>
                 </body>
                 </html>
