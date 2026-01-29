@@ -3322,20 +3322,13 @@
         }).format(value);
     };
     
-    // Iniciar o conteúdo HTML
-    let htmlContent = '<!DOCTYPE html><html><head>';
-    htmlContent += '<title>Empresas Sancionadas - ' + (dashboard === 'dashboard1' ? 'Visão Geral' : 'Consulta Empresas') + '</title>';
-    htmlContent += '<style>';
-    htmlContent += 'body { font-family: Arial, sans-serif; margin: 20px; }';
-    htmlContent += 'h1 { color: #29435A; border-bottom: 2px solid #B93C42; padding-bottom: 10px; }';
-    htmlContent += 'table { width: 100%; border-collapse: collapse; margin-top: 20px; }';
-    htmlContent += 'th { background-color: #f8f9fa; color: #29435A; text-align: left; padding: 10px; border-bottom: 2px solid #dee2e6; }';
-    htmlContent += 'td { padding: 8px 10px; border-bottom: 1px solid #dee2e6; }';
-    htmlContent += '.total-row { font-weight: bold; background-color: #f8f9fa; }';
-    htmlContent += '.valor { text-align: right; }';
-    htmlContent += '.footer { margin-top: 30px; font-size: 12px; color: #666; text-align: center; }';
-    htmlContent += '@media print { .no-print { display: none; } }';
-    htmlContent += '</style></head><body>';
+    // Preparar dados
+    let title = dashboard === 'dashboard1' ? 'Visão Geral' : 'Consulta Empresas';
+    let htmlContent = '<!DOCTYPE html><html><head><title>Empresas Sancionadas - ' + title + '</title>';
+    
+    // CSS inline
+    htmlContent += '<style>body{font-family:Arial,sans-serif;margin:20px}h1{color:#29435A;border-bottom:2px solid #B93C42;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin-top:20px}th{background-color:#f8f9fa;color:#29435A;text-align:left;padding:10px;border-bottom:2px solid #dee2e6}td{padding:8px 10px;border-bottom:1px solid #dee2e6}.total-row{font-weight:bold;background-color:#f8f9fa}.valor{text-align:right}.footer{margin-top:30px;font-size:12px;color:#666;text-align:center}</style>';
+    htmlContent += '</head><body>';
     
     if (dashboard === 'dashboard1') {
         // Criar tabela de resumo para impressão
@@ -3378,27 +3371,19 @@
         htmlContent += '<p><strong>Total de processos:</strong> ' + totalProcessos.toLocaleString('pt-BR') + '</p>';
         htmlContent += '<p><strong>Total de empresas:</strong> ' + totalEmpresas.toLocaleString('pt-BR') + '</p>';
         htmlContent += '<p><strong>Valor total das multas:</strong> ' + formatCurrencyForPrint(totalMultas) + '</p>';
-        htmlContent += '<table>';
-        htmlContent += '<thead><tr><th>Órgão Lesado</th><th>Processos</th><th>Empresas</th><th class="valor">Valor Multas</th></tr></thead>';
-        htmlContent += '<tbody>';
+        htmlContent += '<table><thead><tr><th>Órgão Lesado</th><th>Processos</th><th>Empresas</th><th class="valor">Valor Multas</th></tr></thead><tbody>';
         
         resumoArray.forEach(item => {
-            htmlContent += '<tr>';
-            htmlContent += '<td>' + item.orgao + '</td>';
-            htmlContent += '<td>' + item.quantidade_processos.toLocaleString('pt-BR') + '</td>';
-            htmlContent += '<td>' + item.empresas.size.toLocaleString('pt-BR') + '</td>';
-            htmlContent += '<td class="valor">' + formatCurrencyForPrint(item.valor_total_multa) + '</td>';
-            htmlContent += '</tr>';
+            htmlContent += '<tr><td>' + item.orgao + '</td><td>' + 
+                item.quantidade_processos.toLocaleString('pt-BR') + '</td><td>' + 
+                item.empresas.size.toLocaleString('pt-BR') + '</td><td class="valor">' + 
+                formatCurrencyForPrint(item.valor_total_multa) + '</td></tr>';
         });
         
-        htmlContent += '</tbody>';
-        htmlContent += '<tfoot><tr class="total-row">';
-        htmlContent += '<td><strong>TOTAL GERAL</strong></td>';
-        htmlContent += '<td><strong>' + totalProcessos.toLocaleString('pt-BR') + '</strong></td>';
-        htmlContent += '<td><strong>' + totalEmpresas.toLocaleString('pt-BR') + '</strong></td>';
-        htmlContent += '<td class="valor"><strong>' + formatCurrencyForPrint(totalMultas) + '</strong></td>';
-        htmlContent += '</tr></tfoot>';
-        htmlContent += '</table>';
+        htmlContent += '</tbody><tfoot><tr class="total-row"><td><strong>TOTAL GERAL</strong></td><td><strong>' + 
+            totalProcessos.toLocaleString('pt-BR') + '</strong></td><td><strong>' + 
+            totalEmpresas.toLocaleString('pt-BR') + '</strong></td><td class="valor"><strong>' + 
+            formatCurrencyForPrint(totalMultas) + '</strong></td></tr></tfoot></table>';
         
     } else if (dashboard === 'dashboard2') {
         // Criar tabela de empresas para impressão
@@ -3409,65 +3394,38 @@
         htmlContent += '<p><strong>Data da consulta:</strong> ' + new Date().toLocaleString('pt-BR') + '</p>';
         htmlContent += '<p><strong>Total de registros:</strong> ' + data.length.toLocaleString('pt-BR') + '</p>';
         htmlContent += '<p><strong>Valor total das multas:</strong> ' + formatCurrencyForPrint(totalMultas) + '</p>';
-        htmlContent += '<table>';
-        htmlContent += '<thead><tr><th>Empresa</th><th>CNPJ</th><th>Órgão Lesado</th><th>Irregularidade</th><th>Ano</th><th class="valor">Valor Multa</th></tr></thead>';
-        htmlContent += '<tbody>';
+        htmlContent += '<table><thead><tr><th>Empresa</th><th>CNPJ</th><th>Órgão Lesado</th><th>Irregularidade</th><th>Ano</th><th class="valor">Valor Multa</th></tr></thead><tbody>';
         
         data.forEach(row => {
             const irregularidade = (row.conuta || 'NÃO INFORMADO');
             const irregularidadeTruncada = irregularidade.length > 50 ? irregularidade.substring(0, 47) + '...' : irregularidade;
             const valorFormatado = row.valor_multa ? formatCurrencyForPrint(row.valor_multa) : 'N/A';
             
-            htmlContent += '<tr>';
-            htmlContent += '<td>' + (row.empresa_processada || 'NÃO INFORMADO') + '</td>';
-            htmlContent += '<td>' + (row.cnpj || 'NÃO INFORMADO') + '</td>';
-            htmlContent += '<td>' + (row.orgao_lesado || 'NÃO INFORMADO') + '</td>';
-            htmlContent += '<td>' + irregularidadeTruncada + '</td>';
-            htmlContent += '<td>' + (row.ano || 'N/A') + '</td>';
-            htmlContent += '<td class="valor">' + valorFormatado + '</td>';
-            htmlContent += '</tr>';
+            htmlContent += '<tr><td>' + (row.empresa_processada || 'NÃO INFORMADO') + 
+                '</td><td>' + (row.cnpj || 'NÃO INFORMADO') + 
+                '</td><td>' + (row.orgao_lesado || 'NÃO INFORMADO') + 
+                '</td><td>' + irregularidadeTruncada + 
+                '</td><td>' + (row.ano || 'N/A') + 
+                '</td><td class="valor">' + valorFormatado + '</td></tr>';
         });
         
-        htmlContent += '</tbody>';
-        htmlContent += '<tfoot><tr class="total-row">';
-        htmlContent += '<td colspan="5"><strong>TOTAL GERAL</strong></td>';
-        htmlContent += '<td class="valor"><strong>' + formatCurrencyForPrint(totalMultas) + '</strong></td>';
-        htmlContent += '</tr></tfoot>';
-        htmlContent += '</table>';
+        htmlContent += '</tbody><tfoot><tr class="total-row"><td colspan="5"><strong>TOTAL GERAL</strong></td><td class="valor"><strong>' + 
+            formatCurrencyForPrint(totalMultas) + '</strong></td></tr></tfoot></table>';
     }
     
-    htmlContent += '<div class="footer">';
-    htmlContent += '<p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p>';
-    htmlContent += '<p>Última atualização: ' + (lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A') + '</p>';
-    htmlContent += '</div>';
-    htmlContent += '<script>';
-    htmlContent += 'window.onload = function() {';
-    htmlContent += 'window.print();';
-    htmlContent += 'setTimeout(function() {';
-    htmlContent += 'window.close();';
-    htmlContent += '}, 1000);';
-    htmlContent += '}';
-    htmlContent += '</script>';
+    htmlContent += '<div class="footer"><p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p><p>Última atualização: ' + 
+        (lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A') + '</p></div>';
+    
+    // Script para imprimir e fechar
+    htmlContent += '<script>window.onload=function(){window.print();setTimeout(function(){window.close();},1000);}</script>';
     htmlContent += '</body></html>';
     
+    // Escrever e fechar
     printWindow.document.write(htmlContent);
     printWindow.document.close();
     
     showStatusMessage('Preparando impressão...', 'info');
 }
-        
-        function downloadDadosCompletos() {
-            console.log('Baixando dados completos...');
-            
-            // Baixar o CSV original
-            const filename = `empresas_sancionadas_${new Date().toISOString().slice(0,10)}.csv`;
-            const link = document.createElement('a');
-            link.href = DATASET_URL;
-            link.download = filename;
-            link.click();
-            
-            showStatusMessage(`Download iniciado: ${filename}`, 'success');
-        }
 
         // ==================== MODAL DE DETALHES ====================
         function showCompanyDetails(identifier) {
