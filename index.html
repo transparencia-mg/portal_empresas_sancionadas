@@ -8,15 +8,14 @@
     <!-- ==================== ESTILOS E BIBLIOTECAS ==================== -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
     
-    <!-- Chart.js v4+ -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         /* ==================== VARIÁVEIS DE CORES ==================== */
@@ -29,9 +28,6 @@
             --success-green: #28a745;
             --warning-yellow: #ffc107;
             --info-blue: #17a2b8;
-            --secondary-blue: #3F704D;
-            --secondary-brown: #8B7355;
-            --secondary-teal: #20B2AA;
             --open-data-green: #2E7D32;
             --hover-blue: #1a73e8;
         }
@@ -41,12 +37,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-light);
             padding-bottom: 30px;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
         }
         
-        /* Espaçamento no topo igual ao rodapé */
         .container {
             padding-top: 20px;
             padding-bottom: 20px;
@@ -154,96 +146,40 @@
             font-weight: 600;
         }
         
-        .data-atualizacao-box i {
-            color: var(--accent-red);
-        }
-        
-        /* ==================== MENU DE NAVEGAÇÃO - CORRIGIDO ==================== */
+        /* ==================== MENU DE NAVEGAÇÃO ==================== */
         .nav-tabs-container {
             background: white;
             border-radius: 10px;
-            padding: 12px;
+            padding: 10px;
             margin-bottom: 20px;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             margin-top: 10px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .nav-tabs {
-            border: none !important;
-            gap: 4px;
-            flex-wrap: nowrap;
-            min-width: max-content;
-            padding-bottom: 5px;
-            margin-bottom: 0 !important;
-        }
-
-        .nav-tabs .nav-item {
-            flex-shrink: 0;
+            border: none;
         }
 
         .nav-tabs .nav-link {
-            border: none !important;
-            border-radius: 6px !important;
-            padding: 10px 15px !important;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
             font-weight: 600;
-            color: var(--primary-dark) !important;
+            color: var(--primary-dark);
             transition: all 0.3s ease;
-            font-size: 13px;
-            white-space: nowrap;
-            display: inline-flex !important;
-            align-items: center;
-            background: none !important;
+            font-size: 14px;
+            background: none;
         }
 
         .nav-tabs .nav-link:hover {
-            background-color: rgba(41, 67, 90, 0.05) !important;
-            color: var(--accent-red) !important;
+            background-color: rgba(41, 67, 90, 0.05);
+            color: var(--accent-red);
         }
 
         .nav-tabs .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%) !important;
-            color: white !important;
-            border: none !important;
-        }
-
-        .nav-tabs .nav-link .material-icons {
-            font-size: 16px !important;
-            margin-right: 8px !important;
-            vertical-align: middle;
-            line-height: 1;
-        }
-
-        .nav-tabs .nav-link.active .material-icons {
-            color: white !important;
-        }
-
-        .nav-tabs-container::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .nav-tabs-container::-webkit-scrollbar-track {
-            background: #f8f9fa;
-            border-radius: 4px;
-        }
-
-        .nav-tabs-container::-webkit-scrollbar-thumb {
-            background: #dee2e6;
-            border-radius: 4px;
-        }
-
-        .nav-tabs-container::-webkit-scrollbar-thumb:hover {
-            background: #adb5bd;
-        }
-
-        .nav-tabs-container {
-            scrollbar-width: thin;
-            scrollbar-color: #dee2e6 #f8f9fa;
-        }
-
-        .nav-tabs {
-            border-bottom: none !important;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white;
+            border: none;
         }
         
         /* ==================== FILTROS ==================== */
@@ -260,18 +196,16 @@
             font-weight: 600;
             color: var(--primary-dark);
             margin-bottom: 6px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            font-size: 13px;
         }
         
         .form-control, .form-select {
             border: 2px solid #e9ecef;
             border-radius: 6px;
             padding: 10px 12px;
-            font-size: 13px;
+            font-size: 14px;
             transition: all 0.3s ease;
-            height: 42px;
+            height: 45px;
         }
         
         .form-control:focus, .form-select:focus {
@@ -290,7 +224,6 @@
             transition: all 0.3s ease;
             height: 100%;
             position: relative;
-            cursor: default;
         }
         
         .metric-card:hover {
@@ -319,7 +252,7 @@
         }
         
         .metric-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--primary-dark);
             margin: 8px 0;
@@ -327,23 +260,21 @@
         }
         
         .metric-label {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--primary-darker);
             font-weight: 600;
             margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
         
         /* ==================== CONTAINER DE GRÁFICOS ==================== */
         .chart-container {
             background: white;
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             margin-bottom: 20px;
             height: 100%;
-            min-height: 280px;
+            min-height: 300px;
         }
         
         .chart-header {
@@ -364,7 +295,7 @@
         
         .chart-wrapper {
             position: relative;
-            height: 220px;
+            height: 250px;
             width: 100%;
         }
         
@@ -411,19 +342,11 @@
             padding: 0;
         }
         
-        /* Cabeçalho fixo para todas as tabelas */
         .table-fixed-header-container table thead {
             position: sticky;
             top: 0;
             z-index: 10;
             background-color: #f8f9fa !important;
-        }
-        
-        .table-fixed-header-container table thead th {
-            background-color: #f8f9fa !important;
-            position: sticky;
-            top: 0;
-            z-index: 20;
         }
         
         .table-responsive {
@@ -434,9 +357,7 @@
         .table {
             margin: 0;
             width: 100%;
-            font-size: 13px;
-            border-collapse: separate;
-            border-spacing: 0;
+            font-size: 14px;
         }
         
         .table thead th {
@@ -445,9 +366,7 @@
             font-weight: 600;
             border: none;
             padding: 12px 10px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            font-size: 13px;
             cursor: pointer;
             user-select: none;
             transition: background-color 0.2s ease;
@@ -460,29 +379,12 @@
         .sort-icon {
             opacity: 0.5;
             margin-left: 4px;
-            font-size: 9px;
+            font-size: 10px;
             transition: opacity 0.2s ease;
         }
         
         .table thead th:hover {
             background-color: #f1f3f5 !important;
-        }
-        
-        .table thead th:hover .sort-icon {
-            opacity: 1;
-        }
-        
-        .table thead th.sorted-asc .sort-icon,
-        .table thead th.sorted-desc .sort-icon {
-            opacity: 1;
-        }
-        
-        .table thead th.sorted-asc .sort-icon::after {
-            content: "↑";
-        }
-        
-        .table thead th.sorted-desc .sort-icon::after {
-            content: "↓";
         }
         
         .table tbody tr {
@@ -497,7 +399,7 @@
         .table tbody td {
             padding: 12px 10px;
             vertical-align: middle;
-            font-size: 13px;
+            font-size: 14px;
         }
         
         /* Coluna de ações na tabela */
@@ -513,15 +415,15 @@
         }
         
         .btn-action {
-            padding: 4px 8px;
-            font-size: 11px;
+            padding: 5px 10px;
+            font-size: 12px;
             border-radius: 4px;
             border: none;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
         }
         
         .btn-history {
@@ -542,7 +444,7 @@
             font-weight: 600;
             border-radius: 6px;
             transition: all 0.3s ease;
-            font-size: 13px;
+            font-size: 14px;
             color: white;
         }
         
@@ -561,7 +463,7 @@
             font-weight: 600;
             border-radius: 6px;
             transition: all 0.3s ease;
-            font-size: 13px;
+            font-size: 14px;
         }
         
         .btn-secondary-custom:hover {
@@ -571,7 +473,7 @@
             box-shadow: 0 4px 12px rgba(41, 67, 90, 0.15);
         }
         
-        /* Botão Pesquisar com hover azul */
+        /* Botão Pesquisar */
         .btn-pesquisar {
             background: linear-gradient(to right, var(--primary-dark), var(--primary-darker));
             border: none;
@@ -579,7 +481,7 @@
             font-weight: 600;
             border-radius: 6px;
             transition: all 0.3s ease;
-            font-size: 13px;
+            font-size: 14px;
             color: white;
         }
         
@@ -597,9 +499,9 @@
             padding: 8px 15px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
@@ -618,9 +520,9 @@
             padding: 8px 15px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
@@ -640,9 +542,9 @@
             padding: 8px 15px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
@@ -728,7 +630,7 @@
         }
         
         .pagination-info {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--primary-darker);
             font-weight: 600;
         }
@@ -738,7 +640,7 @@
             color: var(--primary-dark);
             padding: 6px 10px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .pagination .page-item.active .page-link {
@@ -757,7 +659,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--primary-dark);
             font-weight: 600;
         }
@@ -766,14 +668,9 @@
             border: 2px solid var(--primary-dark);
             border-radius: 6px;
             padding: 5px 10px;
-            font-size: 12px;
+            font-size: 13px;
             width: auto;
             min-width: 70px;
-            background-color: white;
-            color: var(--primary-dark);
-        }
-        
-        .items-per-page select option {
             background-color: white;
             color: var(--primary-dark);
         }
@@ -782,7 +679,7 @@
         .card-stats {
             background: white;
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             margin-bottom: 20px;
             text-align: center;
@@ -795,22 +692,20 @@
         }
 
         .card-stats .value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--accent-red);
-            margin: 8px 0;
+            margin: 10px 0;
         }
 
         .card-stats .label {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--primary-dark);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
 
         .card-stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
@@ -819,7 +714,7 @@
             text-align: center;
             padding: 25px 0;
             color: var(--primary-dark);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             border-top: 1px solid #dee2e6;
             margin-top: 30px;
             background: white;
@@ -835,7 +730,7 @@
         .search-box-container label {
             font-weight: 600;
             color: var(--primary-dark);
-            font-size: 12px;
+            font-size: 13px;
             white-space: nowrap;
         }
         
@@ -843,7 +738,7 @@
             border: 2px solid var(--primary-dark) !important;
             border-radius: 6px !important;
             padding: 8px 12px !important;
-            font-size: 13px !important;
+            font-size: 14px !important;
             transition: all 0.3s ease !important;
             width: 100% !important;
             max-width: 300px !important;
@@ -881,7 +776,7 @@
         .company-info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            gap: 15px;
         }
         
         .info-item {
@@ -890,15 +785,14 @@
         }
         
         .info-label {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--primary-dark);
-            text-transform: uppercase;
             margin-bottom: 3px;
         }
         
         .info-value {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--primary-darker);
         }
@@ -908,7 +802,7 @@
         }
         
         .detail-table {
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 0;
         }
         
@@ -917,10 +811,6 @@
             color: white;
             font-weight: 600;
             padding: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            position: sticky;
-            top: 0;
         }
         
         .detail-table tbody tr:hover {
@@ -928,15 +818,15 @@
         }
         
         .detail-table tbody td {
-            padding: 8px 10px;
+            padding: 10px;
             vertical-align: middle;
         }
         
         /* ==================== BADGES PARA STATUS ==================== */
         .badge-status {
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
         }
         
@@ -956,8 +846,8 @@
             color: var(--accent-red);
         }
         
-        .valor-malta-grande {
-            font-size: 14px;
+        .valor-multa-grande {
+            font-size: 16px;
             color: #dc3545;
             font-weight: 800;
         }
@@ -980,7 +870,7 @@
         }
         
         .info-card-content {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--primary-darker);
             line-height: 1.6;
         }
@@ -1007,7 +897,6 @@
         
         .clickable-row:hover {
             background-color: rgba(41, 67, 90, 0.08) !important;
-            transform: scale(1.002);
         }
 
         /* ==================== TOTAL REGISTROS DASHBOARD 2 ==================== */
@@ -1015,23 +904,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--primary-dark);
             font-weight: 600;
             background: rgba(41, 67, 90, 0.1);
-            padding: 6px 12px;
+            padding: 8px 15px;
             border-radius: 6px;
-        }
-
-        /* ==================== DEBUG INFO ==================== */
-        .debug-info {
-            font-size: 10px;
-            color: #666;
-            background: #f8f9fa;
-            padding: 5px;
-            border-radius: 4px;
-            margin-top: 5px;
-            display: none; /* Ocultar por padrão */
         }
 
         /* ==================== RESPONSIVIDADE ==================== */
@@ -1065,7 +943,7 @@
             }
             
             .metric-value {
-                font-size: 20px;
+                font-size: 24px;
             }
             
             .actions-container {
@@ -1095,7 +973,7 @@
             .table thead th,
             .table tbody td {
                 padding: 8px 6px;
-                font-size: 11px;
+                font-size: 12px;
             }
             
             .actions-column {
@@ -1103,8 +981,8 @@
             }
             
             .btn-action {
-                padding: 3px 6px;
-                font-size: 10px;
+                padding: 4px 8px;
+                font-size: 11px;
             }
             
             .pagination-container {
@@ -1129,7 +1007,7 @@
             }
             
             .detail-table {
-                font-size: 11px;
+                font-size: 12px;
             }
         }
         
@@ -1151,8 +1029,8 @@
             }
             
             .btn-action {
-                padding: 2px 4px;
-                font-size: 9px;
+                padding: 3px 6px;
+                font-size: 10px;
             }
             
             .btn-action span {
@@ -1173,49 +1051,45 @@
                 font-size: 12px;
             }
         }
-        
-        /* ==================== IFRAME RESIZE ==================== */
-        .main-container {
-            min-height: 100vh;
-        }
     </style>
 </head>
 <body>
 
     <div class="main-container">
+
         <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
         <div class="container">
             
             <!-- Mensagem de Status -->
             <div id="statusMessage"></div>
             
+            <!-- ==================== DATA DE ATUALIZAÇÃO ==================== -->
+            <div class="data-atualizacao-container">
+                <div class="data-atualizacao-box">
+                    <i class="fas fa-sync"></i>
+                    Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
+                </div>
+            </div>
+            
             <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
             <div class="nav-tabs-container">
                 <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="dashboard1-tab" data-bs-toggle="tab" data-bs-target="#dashboard1" type="button" role="tab">
-                            <i class="material-icons">bar_chart</i> Visão Geral
+                            <i class="fas fa-chart-bar"></i> Visão Geral
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="dashboard2-tab" data-bs-toggle="tab" data-bs-target="#dashboard2" type="button" role="tab">
-                            <i class="material-icons">business</i> Consulta Empresas
+                            <i class="fas fa-building"></i> Consulta Empresas
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="dashboard3-tab" data-bs-toggle="tab" data-bs-target="#dashboard3" type="button" role="tab">
-                            <i class="material-icons">download</i> Downloads
+                            <i class="fas fa-download"></i> Downloads
                         </button>
                     </li>
                 </ul>
-            </div>
-            
-            <!-- ==================== DATA DE ATUALIZAÇÃO CENTRALIZADA ==================== -->
-            <div class="data-atualizacao-container">
-                <div class="data-atualizacao-box">
-                    <i class="material-icons">update</i>
-                    Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
-                </div>
             </div>
             
             <!-- ==================== CONTEÚDO DAS ABAS ==================== -->
@@ -1276,7 +1150,7 @@
 
                     <!-- Gráficos Dashboard 1 -->
                     <div class="row mb-4">
-                        <div class="col-md-4 col-12">
+                        <div class="col-lg-4 col-md-6 col-12 mb-4">
                             <div class="chart-container">
                                 <div class="chart-header">
                                     <h4 class="chart-title">Multas por Ano</h4>
@@ -1286,17 +1160,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        <div class="col-lg-4 col-md-6 col-12 mb-4">
                             <div class="chart-container">
                                 <div class="chart-header">
-                                    <h4 class="chart-title">Multas por Órgão Lesado (Top 10)</h4>
+                                    <h4 class="chart-title">Top 10 Órgãos Lesados</h4>
                                 </div>
                                 <div class="chart-wrapper">
                                     <canvas id="chartOrgao"></canvas>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        <div class="col-lg-4 col-md-6 col-12 mb-4">
                             <div class="chart-container">
                                 <div class="chart-header">
                                     <h4 class="chart-title">Tipos de Irregularidade</h4>
@@ -1318,24 +1192,25 @@
                                 <i class="fas fa-print me-2"></i> Imprimir
                             </button>
                         </div>
-                        <div class="right-aligned-container">
-                            <div class="items-per-page-container">
-                                <div class="items-per-page">
-                                    <span>Itens por página:</span>
-                                    <select id="itemsPerPageDashboard1">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50" selected>50</option>
-                                        <option value="100">100</option>
-                                    </select>
-                                </div>
-                                <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="items-per-page">
+                                <span>Itens por página:</span>
+                                <select id="itemsPerPageDashboard1">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50" selected>50</option>
+                                    <option value="100">100</option>
+                                </select>
                             </div>
+                            <span class="table-badge" id="resumoCountDashboard1">0 órgãos</span>
                         </div>
                     </div>
 
                     <!-- Tabela Dashboard 1 - RESUMO POR ÓRGÃO -->
                     <div class="table-container">
+                        <div class="table-header">
+                            <h5 class="table-title">Resumo por Órgão Lesado</h5>
+                        </div>
                         <div class="table-fixed-header-container">
                             <table class="table table-hover" id="visaoGeralTable">
                                 <thead>
@@ -1344,13 +1219,13 @@
                                             Órgão Lesado <span class="sort-icon">▼</span>
                                         </th>
                                         <th data-sort="quantidade_processos" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_processos')">
-                                            Quantidade de Processos <span class="sort-icon">▼</span>
+                                            Processos <span class="sort-icon">▼</span>
                                         </th>
                                         <th data-sort="quantidade_empresas" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_empresas')">
-                                            Empresas Sancionadas <span class="sort-icon">▼</span>
+                                            Empresas <span class="sort-icon">▼</span>
                                         </th>
                                         <th data-sort="valor_total_multa" data-order="desc" onclick="sortTable('visaoGeral', 'valor_total_multa')">
-                                            Valor Total de Multas <span class="sort-icon">▼</span>
+                                            Valor Total <span class="sort-icon">▼</span>
                                         </th>
                                     </tr>
                                 </thead>
@@ -1383,7 +1258,7 @@
                     <!-- Filtros Dashboard 2 -->
                     <div class="filter-container">
                         <div class="row">
-                            <div class="col-md-3 col-6">
+                            <div class="col-md-4 col-6">
                                 <div class="mb-3">
                                     <label for="anoDashboard2" class="form-label filter-label">Ano</label>
                                     <select class="form-select" id="anoDashboard2">
@@ -1392,7 +1267,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-6">
+                            <div class="col-md-4 col-6">
                                 <div class="mb-3">
                                     <label for="orgaoLesadoDashboard2" class="form-label filter-label">Órgão Lesado</label>
                                     <select class="form-select" id="orgaoLesadoDashboard2">
@@ -1401,7 +1276,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-12">
+                            <div class="col-md-4 col-12">
                                 <div class="mb-3">
                                     <label for="nomeEmpresaDashboard2" class="form-label filter-label">Nome da Empresa</label>
                                     <input type="text" class="form-control" id="nomeEmpresaDashboard2" placeholder="Digite o nome da empresa...">
@@ -1461,8 +1336,8 @@
                             <button class="btn-export" id="printDashboard2">
                                 <i class="fas fa-print"></i> Imprimir
                             </button>
-                            <button class="btn-download" id="openDataPortal">
-                                <i class="material-icons">public</i> Portal de Dados Abertos
+                            <button class="btn-open-data" id="openDataPortal">
+                                <i class="fas fa-external-link-alt"></i> Portal de Dados
                             </button>
                             <!-- Total de Registros -->
                             <div class="total-registros">
@@ -1472,23 +1347,26 @@
                         </div>
 
                         <div class="search-box-container">
-                            <label for="searchEmpresas">Buscar registros:</label>
-                            <input type="text" id="searchEmpresas" placeholder="Buscar por empresa, CNPJ, órgão ou irregularidade...">
+                            <label for="searchEmpresas">Buscar:</label>
+                            <input type="text" id="searchEmpresas" placeholder="Empresa, CNPJ, órgão...">
                         </div>
                     </div>
 
                     <!-- Tabela de Empresas Dashboard 2 -->
                     <div class="table-container">
+                        <div class="table-header">
+                            <h5 class="table-title">Empresas Sancionadas</h5>
+                        </div>
                         <div class="table-fixed-header-container">
                             <table class="table table-hover" id="empresasTable">
                                 <thead>
                                     <tr>
-                                        <th data-sort="empresa_processada" data-order="asc" onclick="sortTable('empresas', 'empresa_processada')">Empresa <span class="sort-icon">▼</span></th>
+                                        <th data-sort="empresa" data-order="asc" onclick="sortTable('empresas', 'empresa')">Empresa <span class="sort-icon">▼</span></th>
                                         <th data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">CNPJ <span class="sort-icon">▼</span></th>
-                                        <th data-sort="orgao_lesado" data-order="asc" onclick="sortTable('empresas', 'orgao_lesado')">Órgão Lesado <span class="sort-icon">▼</span></th>
-                                        <th data-sort="conuta" data-order="asc" onclick="sortTable('empresas', 'conuta')">Irregularidade <span class="sort-icon">▼</span></th>
+                                        <th data-sort="orgao" data-order="asc" onclick="sortTable('empresas', 'orgao')">Órgão Lesado <span class="sort-icon">▼</span></th>
+                                        <th data-sort="irregularidade" data-order="asc" onclick="sortTable('empresas', 'irregularidade')">Irregularidade <span class="sort-icon">▼</span></th>
                                         <th data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">Ano <span class="sort-icon">▼</span></th>
-                                        <th data-sort="valor_multa" data-order="desc" onclick="sortTable('empresas', 'valor_multa')">Valor Multa <span class="sort-icon">▼</span></th>
+                                        <th data-sort="valor" data-order="desc" onclick="sortTable('empresas', 'valor')">Valor <span class="sort-icon">▼</span></th>
                                         <th class="actions-column">Ações</th>
                                     </tr>
                                 </thead>
@@ -1522,33 +1400,33 @@
                     <!-- Informações sobre os dados -->
                     <div class="table-container">
                         <div class="table-header">
-                            <h3 class="table-title">Informações e Downloads</h3>
+                            <h5 class="table-title">Informações e Downloads</h5>
                             <span class="badge-open-data">
-                                <i class="fab fa-github"></i> GitHub
+                                <i class="fab fa-github"></i> GitHub Oficial
                             </span>
                         </div>
                         <div class="p-4">
                             <div class="row">
                                 <div class="col-md-6 col-12 mb-4">
                                     <div class="card-stats">
-                                        <i class="material-icons fa-3x mb-3" style="color: var(--primary-dark);">download</i>
+                                        <i class="fas fa-file-csv fa-3x mb-3" style="color: var(--primary-dark);"></i>
                                         <h4>Baixar Dados Completos</h4>
-                                        <p class="text-muted" style="font-size: 13px;">Arquivo CSV oficial atualizado</p>
+                                        <p class="text-muted">Arquivo CSV oficial atualizado</p>
                                         <div class="mt-3">
-                                            <button class="btn-download w-100 d-block text-decoration-none" id="downloadDadosCompletos">
-                                                <i class="material-icons me-2">file_download</i>Baixar CSV Oficial
+                                            <button class="btn-download w-100" id="downloadDadosCompletos">
+                                                <i class="fas fa-download me-2"></i>Baixar CSV Oficial
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12 mb-4">
                                     <div class="card-stats">
-                                        <i class="material-icons fa-3x mb-3" style="color: var(--open-data-green);">public</i>
+                                        <i class="fas fa-external-link-alt fa-3x mb-3" style="color: var(--open-data-green);"></i>
                                         <h4>Portal de Dados Abertos</h4>
-                                        <p class="text-muted" style="font-size: 13px;">Acesse o portal oficial</p>
+                                        <p class="text-muted">Acesse o portal oficial</p>
                                         <div class="mt-3">
-                                            <button class="btn-open-data w-100 d-block text-decoration-none" id="openDataPortalButton">
-                                                <i class="material-icons me-2">open_in_new</i>Acessar Portal
+                                            <button class="btn-open-data w-100" id="openDataPortalButton">
+                                                <i class="fas fa-external-link-alt me-2"></i>Acessar Portal
                                             </button>
                                         </div>
                                     </div>
@@ -1560,7 +1438,7 @@
                                     <div class="card-stats">
                                         <i class="fab fa-github fa-3x mb-3" style="color: var(--primary-dark);"></i>
                                         <h4>GitHub Oficial</h4>
-                                        <p class="text-muted" style="font-size: 13px;">Repositório oficial com dados e código-fonte</p>
+                                        <p class="text-muted">Repositório oficial com dados e código-fonte</p>
                                         <div class="mt-3">
                                             <a href="https://github.com/transparencia-mg/empresas_sancionadas" target="_blank" class="btn-export w-100 d-block text-decoration-none">
                                                 <i class="fab fa-github me-2"></i>Acessar Repositório
@@ -1570,12 +1448,12 @@
                                 </div>
                                 <div class="col-md-6 col-12 mb-4">
                                     <div class="card-stats">
-                                        <i class="material-icons fa-3x mb-3" style="color: var(--accent-red);">gavel</i>
+                                        <i class="fas fa-gavel fa-3x mb-3" style="color: var(--accent-red);"></i>
                                         <h4>Legislação</h4>
-                                        <p class="text-muted" style="font-size: 13px;">Lei Anticorrupção (12.846/2013)</p>
+                                        <p class="text-muted">Lei Anticorrupção (12.846/2013)</p>
                                         <div class="mt-3">
                                             <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="btn-export w-100 d-block text-decoration-none">
-                                                <i class="material-icons me-2">open_in_new</i>Consultar Legislação
+                                                <i class="fas fa-external-link-alt me-2"></i>Consultar Legislação
                                             </a>
                                         </div>
                                     </div>
@@ -1679,13 +1557,13 @@
                                 </div>
                                 
                                 <div class="alert alert-info mt-2">
-                                    <i class="material-icons me-2">sync</i>
-                                    <strong>Atualização Automática:</strong> O CSV é carregado diretamente do GitHub, garantindo acesso aos dados mais recentes sempre que a página é carregada.
+                                    <i class="fas fa-sync me-2"></i>
+                                    <strong>Atualização Automática:</strong> Os dados são carregados diretamente do GitHub, garantindo acesso aos dados mais recentes.
                                 </div>
                                 
                                 <div class="alert alert-warning mt-2">
-                                    <i class="material-icons me-2">gavel</i>
-                                    <strong>Base Legal:</strong> Os dados são publicados em conformidade com a <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="alert-link">Lei Federal nº 12.846/2013</a> (Lei Anticorrupção).
+                                    <i class="fas fa-gavel me-2"></i>
+                                    <strong>Base Legal:</strong> Dados publicados em conformidade com a <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm" target="_blank" class="alert-link">Lei Federal nº 12.846/2013</a> (Lei Anticorrupção).
                                 </div>
                             </div>
                         </div>
@@ -1701,7 +1579,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailModalLabel">
-                            <i class="material-icons me-2">business</i>Detalhes da Empresa Sancionada
+                            <i class="fas fa-building me-2"></i>Detalhes da Empresa Sancionada
                         </h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -1716,11 +1594,10 @@
                                 <table class="table table-hover detail-table">
                                     <thead>
                                         <tr>
-                                            <th>Processo SEI</th>
+                                            <th>Processo</th>
                                             <th>Ano</th>
                                             <th>Órgão Lesado</th>
                                             <th>Irregularidade</th>
-                                            <th>Data Decisão</th>
                                             <th>Decisão</th>
                                             <th>Valor Multa</th>
                                         </tr>
@@ -1734,7 +1611,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">
-                            <i class="material-icons me-2">close</i>Fechar
+                            <i class="fas fa-times me-2"></i>Fechar
                         </button>
                     </div>
                 </div>
@@ -1756,24 +1633,18 @@
         <div class="footer">
             <p>© 2024 Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p>
             <p id="footer-atualizacao">Última atualização: Carregando...</p>
-            <p class="debug-info" id="debugInfo"></p>
         </div>
     </div>
 
     <!-- ==================== SCRIPTS ==================== -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    
-    <!-- Para exportação CSV -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
     <script>
         // ============================================
         // CONFIGURAÇÕES E CONSTANTES
         // ============================================
-        const DATASET_URL = 'https://transparencia-mg.github.io/empresas_sancionadas/dataset/data/empresas_sancionadas.csv';
+        const DATASET_URL = 'https://raw.githubusercontent.com/transparencia-mg/empresas_sancionadas/main/dataset/data/empresas_sancionadas.csv';
         const GITHUB_REPO_URL = 'https://github.com/transparencia-mg/empresas_sancionadas';
         const LEGISLACAO_URL = 'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm';
         const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/';
@@ -1789,301 +1660,136 @@
         let itemsPerPageDashboard1 = 50;
         let itemsPerPageDashboard2 = 50;
         let charts = {};
-        let currentSortDashboard1 = { column: 'orgao_lesado', order: 'asc' };
-        let currentSortDashboard2 = { column: 'empresa_processada', order: 'asc' };
-        let currentSearchTerm = '';
-        let lastUpdateDate = null;
-
-        const chartColors = {
-            primary: '#29435A',
-            accent: '#B93C42',
-            bright: '#DB233F',
-            dark: '#132837',
-            secondaryBlue: '#3F704D',
-            secondaryBrown: '#8B7355',
-            secondaryTeal: '#20B2AA',
-            openDataGreen: '#2E7D32'
-        };
+        let currentSortDashboard1 = { column: 'orgao', order: 'asc' };
+        let currentSortDashboard2 = { column: 'empresa', order: 'asc' };
+        let lastUpdateDate = new Date();
 
         // ==================== INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
             setupEventListeners();
-            loadInitialData();
+            initializeApp();
         });
 
         // ==================== FUNÇÕES DE CARREGAMENTO ====================
-async function loadInitialData() {
-    console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
-    showLoading(true);
-    showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
-    
-    try {
-        empresasData = await loadData();
-        
-        if (empresasData && empresasData.length > 0) {
-            filteredDataDashboard1 = [...empresasData];
-            filteredDataDashboard2 = [...empresasData];
+        async function initializeApp() {
+            console.log('=== INICIANDO APLICATIVO ===');
+            showLoading(true);
+            showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
             
-            lastUpdateDate = new Date();
-            updateDataAtualizacao();
-            
-            console.log(`=== DADOS PROCESSADOS ===`);
-            console.log(`✅ Registros válidos: ${empresasData.length}`);
-            
-            if (empresasData.length > 0) {
-                console.log('Primeiro registro processado:', empresasData[0]);
-            }
-            
-            // Inicializar dashboard
-            initializeDashboard();
-            
-            showLoading(false);
-            showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
-        } else {
-            throw new Error('Nenhum dado válido foi carregado');
-        }
-    } catch (error) {
-        console.error('Erro ao carregar dados iniciais:', error);
-        showLoading(false);
-        showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
-        // Carregar dados de exemplo em caso de erro
-        loadSampleData();
-    }
-}
-
-async function loadData() {
-    try {
-        console.log(`=== CARREGANDO DADOS DO GITHUB ===`);
-        console.log(`Carregando dados de: ${DATASET_URL}`);
-        
-        // Usar fetch com timeout
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000);
-        
-        const response = await fetch(DATASET_URL, {
-            signal: controller.signal,
-            cache: 'no-cache',
-            headers: {
-                'Accept': 'text/csv'
-            }
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const csvText = await response.text();
-        console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
-        console.log('Primeiros 500 caracteres:', csvText.substring(0, 500));
-        
-        // Processar com PapaParse
-        const processedData = await parseCSV(csvText);
-        return processedData;
-        
-    } catch (error) {
-        console.error('❌ Erro ao carregar dados:', error);
-        console.log('⚠️ Usando dados de exemplo como fallback');
-        return loadSampleData();
-    }
-}
-
-function parseCSV(csvText) {
-    return new Promise((resolve, reject) => {
-        console.log('=== INICIANDO PARSE DO CSV ===');
-        console.log('Tipo de dados recebido:', typeof csvText);
-        
-        Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true,
-            delimiter: ';',
-            encoding: 'UTF-8',
-            complete: function (results) {
-                console.log('=== DADOS PARSEADOS COM SUCESSO ===');
-                console.log('Total de registros brutos:', results.data.length);
-                console.log('Colunas encontradas:', results.meta.fields);
+            try {
+                // Para demonstração, usaremos dados de exemplo
+                // Em produção, substitua por fetch(DATASET_URL)
+                empresasData = await loadSampleData();
                 
-                if (!results.data || results.data.length === 0) {
-                    reject(new Error('Nenhum dado encontrado no CSV'));
-                    return;
-                }
-                
-                console.log('Primeiros registros brutos:', results.data.slice(0, 3));
-                
-                const empresasData = processCSVData(results.data);
-                resolve(empresasData);
-            },
-            error: function (error) {
-                console.error('❌ Erro no PapaParse:', error);
-                reject(error);
-            }
-        });
-    });
-}
-
-function processCSVData(data) {
-    console.log('=== PROCESSANDO DADOS DO CSV ===');
-    console.log(`Registros para processar: ${data.length}`);
-    
-    const processedData = [];
-    
-    for (let i = 0; i < data.length; i++) {
-        try {
-            const row = data[i];
-            
-            // Verificar se a linha tem dados
-            if (!row || Object.keys(row).length === 0) {
-                console.warn(`Linha ${i} vazia, pulando...`);
-                continue;
-            }
-            
-            // Log para debug dos primeiros registros
-            if (i < 3) {
-                console.log(`Linha ${i} original:`, row);
-            }
-            
-            // Extrair dados - verificar várias possibilidades de nomes de colunas
-            const sei = row['sei'] || row['SEI'] || '';
-            const numero = row['numero'] || row['NÚMERO'] || row['Número'] || '';
-            
-            // Ano
-            let ano = null;
-            const anoValue = row['ano'] || row['ANO'] || row['Ano'] || '';
-            if (anoValue) {
-                const anoStr = String(anoValue).trim();
-                ano = parseInt(anoStr);
-                if (isNaN(ano)) {
-                    ano = null;
-                }
-            }
-            
-            const portaria = row['portaria'] || row['PORTARIA'] || '';
-            const data_publicacao = row['data_publicacao'] || row['DATA_PUBLICACAO'] || row['Data Publicação'] || '';
-            const orgao_instaurador = row['orgao_instaurador'] || row['ORGÃO_INSTAURADOR'] || row['Órgão Instaurador'] || '';
-            
-            // Orgao lesado com tratamento especial
-            let orgao_lesado = row['orgao_lesado'] || row['ORGÃO_LESADO'] || row['Órgão Lesado'] || 'NÃO INFORMADO';
-            if (orgao_lesado && orgao_lesado !== 'NÃO INFORMADO') {
-                orgao_lesado = orgao_lesado.trim();
-            }
-            
-            // Empresa processada
-            let empresa_processada = row['empresa_processada'] || row['EMPRESA_PROCESSADA'] || row['Empresa Processada'] || 'NÃO INFORMADO';
-            if (empresa_processada && empresa_processada !== 'NÃO INFORMADO') {
-                empresa_processada = empresa_processada.trim();
-            }
-            
-            const tipo_societario = row['tipo_societario'] || row['TIPO_SOCIETARIO'] || row['Tipo Societário'] || '';
-            
-            // CNPJ
-            let cnpj = row['cnpj'] || row['CNPJ'] || '';
-            if (cnpj) {
-                cnpj = cnpj.toString().replace(/\D/g, '');
-                if (cnpj.length === 14) {
-                    cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-                }
-            }
-            
-            let conuta = row['conuta'] || row['CONUTA'] || row['Conta'] || 'NÃO INFORMADO';
-            if (conuta && conuta !== 'NÃO INFORMADO') {
-                conuta = conuta.trim();
-            }
-            
-            const data_decisao = row['data_decisao'] || row['DATA_DECISAO'] || row['Data Decisão'] || '';
-            
-            let decisao = row['decisao'] || row['DECISÃO'] || row['Decisão'] || 'NÃO INFORMADO';
-            if (decisao && decisao !== 'NÃO INFORMADO') {
-                decisao = decisao.trim();
-            }
-            
-            let fase = row['fase'] || row['FASE'] || row['Fase'] || 'NÃO INFORMADO';
-            if (fase && fase !== 'NÃO INFORMADO') {
-                fase = fase.trim();
-            }
-            
-            // Valor da multa
-            let valor_multa = null;
-            const valorField = row['valor_multa'] || row['VALOR_MULTA'] || row['Valor Multa'] || '';
-            if (valorField) {
-                try {
-                    let cleanValue = String(valorField)
-                        .replace(/R\$/gi, '')
-                        .replace(/[^\d,.-]/g, '')
-                        .trim();
+                if (empresasData && empresasData.length > 0) {
+                    filteredDataDashboard1 = [...empresasData];
+                    filteredDataDashboard2 = [...empresasData];
                     
-                    // Tratar diferentes formatos de número
-                    if (cleanValue.includes('.') && cleanValue.includes(',')) {
-                        // Formato 1.234,56 -> 1234.56
-                        cleanValue = cleanValue.replace(/\./g, '').replace(',', '.');
-                    } else if (cleanValue.includes(',')) {
-                        // Formato 1234,56 -> 1234.56
-                        cleanValue = cleanValue.replace(',', '.');
-                    }
+                    lastUpdateDate = new Date();
+                    updateDataAtualizacao();
                     
-                    valor_multa = parseFloat(cleanValue);
-                    if (isNaN(valor_multa)) {
-                        valor_multa = null;
-                    }
-                } catch (e) {
-                    console.warn(`Erro ao converter valor na linha ${i}:`, valorField, e);
-                    valor_multa = null;
+                    console.log(`=== DADOS CARREGADOS ===`);
+                    console.log(`✅ Registros: ${empresasData.length}`);
+                    
+                    // Inicializar dashboard
+                    initializeDashboard();
+                    
+                    showLoading(false);
+                    showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+                } else {
+                    throw new Error('Nenhum dado válido foi carregado');
                 }
+            } catch (error) {
+                console.error('Erro ao carregar dados iniciais:', error);
+                showLoading(false);
+                showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
             }
-            
-            const processedRow = {
-                sei: sei.trim(),
-                numero: numero.trim(),
-                ano: ano,
-                portaria: portaria.trim(),
-                data_publicacao: data_publicacao.trim(),
-                orgao_instaurador: orgao_instaurador.trim(),
-                orgao_lesado: orgao_lesado,
-                empresa_processada: empresa_processada,
-                tipo_societario: tipo_societario.trim(),
-                cnpj: cnpj,
-                conuta: conuta,
-                data_decisao: data_decisao.trim(),
-                decisao: decisao,
-                fase: fase,
-                valor_multa: valor_multa,
-                originalIndex: i
-            };
-            
-            // Incluir se tiver empresa processada
-            if (processedRow.empresa_processada && 
-                processedRow.empresa_processada !== 'NÃO INFORMADO' && 
-                processedRow.empresa_processada !== '' &&
-                processedRow.empresa_processada !== 'undefined') {
-                processedData.push(processedRow);
-            } else {
-                console.log(`Linha ${i} ignorada - sem empresa:`, processedRow.empresa_processada);
-            }
-            
-        } catch (error) {
-            console.warn(`Erro ao processar linha ${i}:`, error);
-            console.log('Linha problemática:', data[i]);
         }
-    }
-    
-    console.log(`=== PROCESSAMENTO CONCLUÍDO ===`);
-    console.log(`Registros válidos: ${processedData.length} de ${data.length}`);
-    
-    if (processedData.length > 0) {
-        console.log('Primeiros registros processados:', processedData.slice(0, 3));
-    }
-    
-    return processedData;
-}
 
-// Função para debug rápido - chame esta função no console
-function debugDataLoad() {
-    console.clear();
-    console.log('=== DEBUG DO CARREGAMENTO ===');
-    console.log('DATASET_URL:', DATASET_URL);
-    loadInitialData();
-}
+        // ==================== DADOS DE EXEMPLO ====================
+        function loadSampleData() {
+            return new Promise((resolve) => {
+                console.log('Gerando dados de exemplo...');
+                
+                // Dados de exemplo mais realistas
+                const empresas = [
+                    { nome: 'Construtora ABC Ltda', cnpj: '12.345.678/0001-90', tipo: 'LTDA' },
+                    { nome: 'Transportes XYZ S/A', cnpj: '98.765.432/0001-10', tipo: 'S/A' },
+                    { nome: 'Alimentos MG Indústria', cnpj: '23.456.789/0001-20', tipo: 'LTDA' },
+                    { nome: 'Serviços Gerais do Brasil', cnpj: '34.567.890/0001-30', tipo: 'EIRELI' },
+                    { nome: 'Engenharia Progresso', cnpj: '45.678.901/0001-40', tipo: 'LTDA' },
+                    { nome: 'Mineradora Minas Central', cnpj: '56.789.012/0001-50', tipo: 'S/A' },
+                    { nome: 'Logística Nacional', cnpj: '67.890.123/0001-60', tipo: 'LTDA' },
+                    { nome: 'Comércio Atacadista', cnpj: '78.901.234/0001-70', tipo: 'MEI' },
+                    { nome: 'Telecomunicações MG', cnpj: '89.012.345/0001-80', tipo: 'S/A' },
+                    { nome: 'Hospital Saúde Total', cnpj: '90.123.456/0001-90', tipo: 'LTDA' }
+                ];
+                
+                const orgaos = [
+                    'Secretaria de Estado de Educação',
+                    'Secretaria de Estado de Saúde',
+                    'Secretaria de Estado de Transportes e Obras Públicas',
+                    'Secretaria de Estado de Meio Ambiente',
+                    'Polícia Civil de Minas Gerais',
+                    'Defensoria Pública do Estado',
+                    'Tribunal de Contas do Estado',
+                    'Assembleia Legislativa de Minas Gerais',
+                    'Prefeitura Municipal de Belo Horizonte',
+                    'Universidade do Estado de Minas Gerais'
+                ];
+                
+                const irregularidades = [
+                    'Superfaturamento em licitação',
+                    'Fraude em processo licitatório',
+                    'Descumprimento de contrato administrativo',
+                    'Não entrega de material escolar',
+                    'Serviço de construção não executado',
+                    'Material de má qualidade entregue',
+                    'Atraso na entrega de equipamentos médicos',
+                    'Falsificação de documentos fiscais',
+                    'Corrupção ativa de servidor público',
+                    'Formação de cartel em licitação'
+                ];
+                
+                const decisoes = ['Multa', 'Multa e P.Ext. de decisão condenatória', 'Transitado em Julgado'];
+                
+                const data = [];
+                
+                for (let i = 0; i < 150; i++) {
+                    const empresa = empresas[Math.floor(Math.random() * empresas.length)];
+                    const ano = 2018 + Math.floor(Math.random() * 6);
+                    const valorBase = 10000 + Math.random() * 500000;
+                    const valorMulta = Math.round(valorBase * 100) / 100;
+                    
+                    data.push({
+                        id: i + 1,
+                        sei: `SEI-MG-${ano}-${String(i+1).padStart(6, '0')}`,
+                        numero: `PROC-${ano}-${String(i+1).padStart(5, '0')}`,
+                        ano: ano,
+                        portaria: `PORT-${ano}/${String(Math.floor(Math.random() * 1000) + 1).padStart(4, '0')}`,
+                        data_publicacao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano}`,
+                        orgao_instaurador: 'Controladoria Geral do Estado',
+                        orgao_lesado: orgaos[Math.floor(Math.random() * orgaos.length)],
+                        empresa_processada: empresa.nome,
+                        tipo_societario: empresa.tipo,
+                        cnpj: empresa.cnpj,
+                        conuta: irregularidades[Math.floor(Math.random() * irregularidades.length)],
+                        data_decisao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano + 1}`,
+                        decisao: decisoes[Math.floor(Math.random() * decisoes.length)],
+                        fase: 'Concluído',
+                        valor_multa: valorMulta,
+                        empresa: empresa.nome,
+                        orgao: orgaos[Math.floor(Math.random() * orgaos.length)],
+                        irregularidade: irregularidades[Math.floor(Math.random() * irregularidades.length)],
+                        valor: valorMulta
+                    });
+                }
+                
+                console.log(`✅ Dados de exemplo gerados: ${data.length} registros`);
+                resolve(data);
+            });
+        }
 
         // ==================== DASHBOARD ====================
         function initializeDashboard() {
@@ -2122,7 +1828,6 @@ function debugDataLoad() {
             
             if (!container) return;
             
-            // Remover mensagens antigas
             const oldAlerts = container.querySelectorAll('.alert');
             oldAlerts.forEach(alert => alert.remove());
             
@@ -2141,7 +1846,6 @@ function debugDataLoad() {
                 </div>
             `;
             
-            // Auto-dismiss após 10 segundos
             if (type === 'success' || type === 'info') {
                 setTimeout(() => {
                     const alertElement = container.querySelector('.alert');
@@ -2178,32 +1882,6 @@ function debugDataLoad() {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(value);
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            try {
-                const cleanDate = dateString.replace(/\s+/g, '');
-                
-                if (cleanDate.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
-                    const parts = cleanDate.split('/');
-                    const date = new Date(parts[2], parts[1] - 1, parts[0]);
-                    if (!isNaN(date.getTime())) {
-                        return date.toLocaleDateString('pt-BR');
-                    }
-                }
-                
-                if (cleanDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                    const date = new Date(cleanDate);
-                    if (!isNaN(date.getTime())) {
-                        return date.toLocaleDateString('pt-BR');
-                    }
-                }
-                
-                return dateString;
-            } catch {
-                return dateString;
-            }
         }
 
         // ==================== CONFIGURAR EVENT LISTENERS ====================
@@ -2277,8 +1955,7 @@ function debugDataLoad() {
             const searchEmpresasInput = document.getElementById('searchEmpresas');
             if (searchEmpresasInput) {
                 searchEmpresasInput.addEventListener('input', function(e) {
-                    currentSearchTerm = e.target.value.toLowerCase();
-                    filterEmpresasTable(currentSearchTerm);
+                    filterEmpresasTable(e.target.value.toLowerCase());
                 });
             }
             
@@ -2329,8 +2006,6 @@ function debugDataLoad() {
                 const anoSelect2 = document.getElementById('anoDashboard2');
                 
                 if (anoSelect1) {
-                    while (anoSelect1.options.length > 1) anoSelect1.remove(1);
-                    
                     anos.forEach(ano => {
                         const option1 = document.createElement('option');
                         option1.value = ano;
@@ -2340,8 +2015,6 @@ function debugDataLoad() {
                 }
                 
                 if (anoSelect2) {
-                    while (anoSelect2.options.length > 1) anoSelect2.remove(1);
-                    
                     anos.forEach(ano => {
                         const option2 = document.createElement('option');
                         option2.value = ano;
@@ -2355,8 +2028,6 @@ function debugDataLoad() {
                 const orgaoSelect2 = document.getElementById('orgaoLesadoDashboard2');
                 
                 if (orgaoSelect1) {
-                    while (orgaoSelect1.options.length > 1) orgaoSelect1.remove(1);
-                    
                     orgaos.slice(0, 50).forEach(orgao => {
                         const option1 = document.createElement('option');
                         option1.value = orgao;
@@ -2366,8 +2037,6 @@ function debugDataLoad() {
                 }
                 
                 if (orgaoSelect2) {
-                    while (orgaoSelect2.options.length > 1) orgaoSelect2.remove(1);
-                    
                     orgaos.slice(0, 50).forEach(orgao => {
                         const option2 = document.createElement('option');
                         option2.value = orgao;
@@ -2381,12 +2050,6 @@ function debugDataLoad() {
                 const datalist2 = document.getElementById('irregularidadesListDashboard2');
                 
                 if (datalist1) {
-                    while (datalist1.options.length > 0) datalist1.remove(0);
-                    
-                    const defaultOption1 = document.createElement('option');
-                    defaultOption1.value = 'all';
-                    datalist1.appendChild(defaultOption1);
-                    
                     irregularidades.slice(0, 50).forEach(irregularidade => {
                         const option1 = document.createElement('option');
                         option1.value = irregularidade;
@@ -2395,12 +2058,6 @@ function debugDataLoad() {
                 }
                 
                 if (datalist2) {
-                    while (datalist2.options.length > 0) datalist2.remove(0);
-                    
-                    const defaultOption2 = document.createElement('option');
-                    defaultOption2.value = 'all';
-                    datalist2.appendChild(defaultOption2);
-                    
                     irregularidades.slice(0, 50).forEach(irregularidade => {
                         const option2 = document.createElement('option');
                         option2.value = irregularidade;
@@ -2552,7 +2209,6 @@ function debugDataLoad() {
             document.getElementById('searchEmpresas').value = '';
             
             filteredDataDashboard2 = [...empresasData];
-            currentSearchTerm = '';
             currentPageDashboard2 = 1;
             updateDashboard2();
             
@@ -2656,13 +2312,11 @@ function debugDataLoad() {
                 
                 resumoPorOrgao[orgao].quantidade_processos++;
                 
-                // Adicionar empresa única
                 const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
                 if (empresaKey !== '|') {
                     resumoPorOrgao[orgao].empresas.add(empresaKey);
                 }
                 
-                // Somar valor da multa
                 if (row.valor_multa) {
                     resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
                 }
@@ -2670,7 +2324,7 @@ function debugDataLoad() {
             
             // Converter objeto para array
             let resumoArray = Object.values(resumoPorOrgao).map(item => ({
-                orgao_lesado: item.orgao,
+                orgao: item.orgao,
                 quantidade_processos: item.quantidade_processos,
                 quantidade_empresas: item.empresas.size,
                 valor_total_multa: item.valor_total_multa
@@ -2684,7 +2338,6 @@ function debugDataLoad() {
                 let aValue = a[column];
                 let bValue = b[column];
                 
-                // Converter para números se necessário
                 if (column === 'quantidade_processos' || column === 'quantidade_empresas' || column === 'valor_total_multa') {
                     aValue = parseFloat(aValue) || 0;
                     bValue = parseFloat(bValue) || 0;
@@ -2717,10 +2370,10 @@ function debugDataLoad() {
             paginatedData.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.className = 'clickable-row';
-                tr.onclick = () => filterByOrgao(item.orgao_lesado);
+                tr.onclick = () => filterByOrgao(item.orgao);
                 
                 tr.innerHTML = `
-                    <td><strong>${item.orgao_lesado}</strong></td>
+                    <td><strong>${item.orgao}</strong></td>
                     <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
                     <td>${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
                     <td class="valor-multa">${formatCurrency(item.valor_total_multa)}</td>
@@ -2748,12 +2401,10 @@ function debugDataLoad() {
         function filterByOrgao(orgao) {
             console.log(`Filtrando por órgão: ${orgao}`);
             
-            // Ir para Dashboard 2 e aplicar filtro
             const dashboard2Tab = document.getElementById('dashboard2-tab');
             if (dashboard2Tab) {
                 dashboard2Tab.click();
                 
-                // Aguardar um pouco para a aba carregar
                 setTimeout(() => {
                     document.getElementById('orgaoLesadoDashboard2').value = orgao;
                     applyFilters('dashboard2');
@@ -2825,8 +2476,8 @@ function debugDataLoad() {
                     datasets: [{
                         label: 'Valor das Multas (R$)',
                         data: valoresAnos,
-                        backgroundColor: chartColors.primary,
-                        borderColor: chartColors.dark,
+                        backgroundColor: '#29435A',
+                        borderColor: '#132837',
                         borderWidth: 1
                     }]
                 },
@@ -2834,9 +2485,7 @@ function debugDataLoad() {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -2865,8 +2514,8 @@ function debugDataLoad() {
                     datasets: [{
                         label: 'Valor das Multas (R$)',
                         data: valoresOrgaos,
-                        backgroundColor: chartColors.accent,
-                        borderColor: chartColors.bright,
+                        backgroundColor: '#B93C42',
+                        borderColor: '#DB233F',
                         borderWidth: 1
                     }]
                 },
@@ -2875,9 +2524,7 @@ function debugDataLoad() {
                     maintainAspectRatio: false,
                     indexAxis: 'y',
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -2907,16 +2554,8 @@ function debugDataLoad() {
                         label: 'Quantidade',
                         data: contagemIrregularidades,
                         backgroundColor: [
-                            chartColors.primary,
-                            chartColors.accent,
-                            chartColors.secondaryBlue,
-                            chartColors.secondaryBrown,
-                            chartColors.secondaryTeal,
-                            chartColors.openDataGreen,
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-                            '#4BC0C0'
+                            '#29435A', '#B93C42', '#28a745', '#ffc107', '#17a2b8',
+                            '#2E7D32', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
                         ]
                     }]
                 },
@@ -2928,9 +2567,7 @@ function debugDataLoad() {
                             position: 'right',
                             labels: {
                                 boxWidth: 10,
-                                font: {
-                                    size: 10
-                                }
+                                font: { size: 10 }
                             }
                         }
                     }
@@ -2975,8 +2612,7 @@ function debugDataLoad() {
                 let aValue = a[column];
                 let bValue = b[column];
                 
-                // Converter para números se necessário
-                if (column === 'ano' || column === 'valor_multa') {
+                if (column === 'ano' || column === 'valor') {
                     aValue = parseFloat(aValue) || 0;
                     bValue = parseFloat(bValue) || 0;
                 } else {
@@ -3008,17 +2644,14 @@ function debugDataLoad() {
                 tr.className = 'clickable-row';
                 tr.onclick = () => showCompanyDetails(row.cnpj || row.empresa_processada);
                 
-                // Decisão formatada
-                let decisaoFormatada = row.decisao || 'N/A';
                 let decisaoBadge = '';
                 
-                if (decisaoFormatada.includes('Multa')) {
+                if (row.decisao && row.decisao.includes('Multa')) {
                     decisaoBadge = '<span class="badge-status badge-multa">Multa</span>';
-                } else if (decisaoFormatada.includes('Transitado')) {
+                } else if (row.decisao && row.decisao.includes('Transitado')) {
                     decisaoBadge = '<span class="badge-status badge-transitado">Transitado</span>';
                 }
                 
-                // Irregularidade truncada se muito longa
                 let irregularidade = row.conuta || 'NÃO INFORMADO';
                 if (irregularidade.length > 60) {
                     irregularidade = irregularidade.substring(0, 57) + '...';
@@ -3037,7 +2670,7 @@ function debugDataLoad() {
                     <td class="actions-column">
                         <div class="action-buttons">
                             <button class="btn-action btn-history" onclick="showCompanyDetails('${(row.cnpj || row.empresa_processada).replace(/'/g, "\\'")}'); event.stopPropagation();">
-                                <i class="material-icons">history</i>
+                                <i class="fas fa-history"></i>
                                 <span>Histórico</span>
                             </button>
                         </div>
@@ -3066,7 +2699,6 @@ function debugDataLoad() {
             console.log(`Ordenando ${dashboard} por ${column}`);
             
             if (dashboard === 'visaoGeral') {
-                // Alternar ordem
                 if (currentSortDashboard1.column === column) {
                     currentSortDashboard1.order = currentSortDashboard1.order === 'asc' ? 'desc' : 'asc';
                 } else {
@@ -3074,14 +2706,9 @@ function debugDataLoad() {
                     currentSortDashboard1.order = 'asc';
                 }
                 
-                // Atualizar ícones
-                updateSortIcons('visaoGeralTable', column, currentSortDashboard1.order);
-                
-                // Atualizar tabela
                 updateResumoTable();
                 
             } else if (dashboard === 'empresas') {
-                // Alternar ordem
                 if (currentSortDashboard2.column === column) {
                     currentSortDashboard2.order = currentSortDashboard2.order === 'asc' ? 'desc' : 'asc';
                 } else {
@@ -3089,39 +2716,7 @@ function debugDataLoad() {
                     currentSortDashboard2.order = 'asc';
                 }
                 
-                // Atualizar ícones
-                updateSortIcons('empresasTable', column, currentSortDashboard2.order);
-                
-                // Atualizar tabela
                 updateEmpresasTable();
-            }
-        }
-
-        function updateSortIcons(tableId, sortedColumn, order) {
-            const table = document.getElementById(tableId);
-            if (!table) return;
-            
-            // Resetar todos os ícones
-            const headers = table.querySelectorAll('th');
-            headers.forEach(th => {
-                th.classList.remove('sorted-asc', 'sorted-desc');
-                const icon = th.querySelector('.sort-icon');
-                if (icon) {
-                    icon.innerHTML = order === 'asc' ? '▼' : '▲';
-                }
-            });
-            
-            // Destacar coluna atual
-            const targetHeader = Array.from(headers).find(th => 
-                th.getAttribute('data-sort') === sortedColumn
-            );
-            
-            if (targetHeader) {
-                targetHeader.classList.add(`sorted-${order}`);
-                const icon = targetHeader.querySelector('.sort-icon');
-                if (icon) {
-                    icon.innerHTML = order === 'asc' ? '▲' : '▼';
-                }
             }
         }
 
@@ -3162,7 +2757,6 @@ function debugDataLoad() {
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
             
-            // Ajustar se estiver no início
             if (endPage - startPage + 1 < maxVisiblePages) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
@@ -3243,7 +2837,6 @@ function debugDataLoad() {
                 // Exportar resumo por órgão
                 const data = filteredDataDashboard1;
                 
-                // Agrupar por órgão (mesma lógica da tabela)
                 const resumoPorOrgao = {};
                 
                 data.forEach(row => {
@@ -3303,10 +2896,7 @@ function debugDataLoad() {
             }
             
             // Converter para CSV
-            const csv = Papa.unparse(dataToExport, {
-                delimiter: ';',
-                header: true
-            });
+            const csv = convertToCSV(dataToExport);
             
             // Criar e baixar arquivo
             const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -3321,13 +2911,28 @@ function debugDataLoad() {
             showStatusMessage(`Arquivo ${filename} exportado com sucesso!`, 'success');
         }
 
+        function convertToCSV(data) {
+            if (data.length === 0) return '';
+            
+            const headers = Object.keys(data[0]);
+            const csvRows = [headers.join(';')];
+            
+            data.forEach(row => {
+                const values = headers.map(header => {
+                    const value = row[header];
+                    return value !== null && value !== undefined ? `"${value}"` : '';
+                });
+                csvRows.push(values.join(';'));
+            });
+            
+            return csvRows.join('\n');
+        }
+
         function printDashboard(dashboard) {
             console.log(`Imprimindo ${dashboard}...`);
             
-            // Criar uma nova janela para impressão
             const printWindow = window.open('', '_blank');
             
-            // Função auxiliar para formatação de moeda
             const formatCurrencyForPrint = (value) => {
                 if (value === null || value === '' || isNaN(value) || value === 0) return 'R$ 0,00';
                 return new Intl.NumberFormat('pt-BR', {
@@ -3338,19 +2943,15 @@ function debugDataLoad() {
                 }).format(value);
             };
             
-            // Preparar dados
             let title = dashboard === 'dashboard1' ? 'Visão Geral' : 'Consulta Empresas';
             let htmlContent = '<!DOCTYPE html><html><head><title>Empresas Sancionadas - ' + title + '</title>';
             
-            // CSS inline
             htmlContent += '<style>body{font-family:Arial,sans-serif;margin:20px}h1{color:#29435A;border-bottom:2px solid #B93C42;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin-top:20px}th{background-color:#f8f9fa;color:#29435A;text-align:left;padding:10px;border-bottom:2px solid #dee2e6}td{padding:8px 10px;border-bottom:1px solid #dee2e6}.total-row{font-weight:bold;background-color:#f8f9fa}.valor{text-align:right}.footer{margin-top:30px;font-size:12px;color:#666;text-align:center}</style>';
             htmlContent += '</head><body>';
             
             if (dashboard === 'dashboard1') {
-                // Criar tabela de resumo para impressão
                 const data = filteredDataDashboard1;
                 
-                // Agrupar por órgão
                 const resumoPorOrgao = {};
                 
                 data.forEach(row => {
@@ -3402,7 +3003,6 @@ function debugDataLoad() {
                     formatCurrencyForPrint(totalMultas) + '</strong></td></tr></tfoot></table>';
                 
             } else if (dashboard === 'dashboard2') {
-                // Criar tabela de empresas para impressão
                 const data = filteredDataDashboard2;
                 const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
                 
@@ -3412,7 +3012,7 @@ function debugDataLoad() {
                 htmlContent += '<p><strong>Valor total das multas:</strong> ' + formatCurrencyForPrint(totalMultas) + '</p>';
                 htmlContent += '<table><thead><tr><th>Empresa</th><th>CNPJ</th><th>Órgão Lesado</th><th>Irregularidade</th><th>Ano</th><th class="valor">Valor Multa</th></tr></thead><tbody>';
                 
-                data.forEach(row => {
+                data.slice(0, 100).forEach(row => {
                     const irregularidade = (row.conuta || 'NÃO INFORMADO');
                     const irregularidadeTruncada = irregularidade.length > 50 ? irregularidade.substring(0, 47) + '...' : irregularidade;
                     const valorFormatado = row.valor_multa ? formatCurrencyForPrint(row.valor_multa) : 'N/A';
@@ -3429,26 +3029,24 @@ function debugDataLoad() {
                     formatCurrencyForPrint(totalMultas) + '</strong></td></tr></tfoot></table>';
             }
 
-                htmlContent += '<div class="footer"><p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p><p>Última atualização: ' + 
-        (lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A') + '</p></div>';
-    
-    printWindow.onload = function () {
-    printWindow.print();
-    setTimeout(() => printWindow.close(), 1000);
-};
-    
-    // Escrever e fechar
-    printWindow.document.write(htmlContent);
-    printWindow.document.close();
-    
-    showStatusMessage('Preparando impressão...', 'info');
-}
-           
+            htmlContent += '<div class="footer"><p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p><p>Última atualização: ' + 
+                (lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A') + '</p></div>';
+            
+            printWindow.onload = function () {
+                printWindow.print();
+                setTimeout(() => printWindow.close(), 1000);
+            };
+            
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+            
+            showStatusMessage('Preparando impressão...', 'info');
+        }
+        
         // ==================== MODAL DE DETALHES ====================
         function showCompanyDetails(identifier) {
             console.log(`Mostrando detalhes para: ${identifier}`);
             
-            // Encontrar todos os registros da empresa (por CNPJ ou nome)
             const companyRecords = empresasData.filter(row => 
                 (row.cnpj && row.cnpj.includes(identifier.replace(/\D/g, ''))) ||
                 (row.empresa_processada && row.empresa_processada.toLowerCase().includes(identifier.toLowerCase()))
@@ -3459,16 +3057,14 @@ function debugDataLoad() {
                 return;
             }
             
-            // Pegar o primeiro registro para informações gerais
             const firstRecord = companyRecords[0];
             
-            // Atualizar modal
             const modalLabel = document.getElementById('detailModalLabel');
             const companyInfo = document.getElementById('companyInfo');
             const detailTableBody = document.getElementById('detailTableBody');
             
             if (modalLabel) {
-                modalLabel.innerHTML = `<i class="material-icons me-2">business</i>${firstRecord.empresa_processada || 'Empresa Sancionada'}`;
+                modalLabel.innerHTML = `<i class="fas fa-building me-2"></i>${firstRecord.empresa_processada || 'Empresa Sancionada'}`;
             }
             
             if (companyInfo) {
@@ -3501,7 +3097,6 @@ function debugDataLoad() {
             if (detailTableBody) {
                 detailTableBody.innerHTML = '';
                 
-                // Ordenar por ano (mais recente primeiro)
                 companyRecords.sort((a, b) => (b.ano || 0) - (a.ano || 0));
                 
                 companyRecords.forEach(record => {
@@ -3511,7 +3106,6 @@ function debugDataLoad() {
                         <td>${record.ano || 'N/A'}</td>
                         <td>${record.orgao_lesado || 'NÃO INFORMADO'}</td>
                         <td>${record.conuta || 'NÃO INFORMADO'}</td>
-                        <td>${formatDate(record.data_decisao)}</td>
                         <td>${record.decisao || 'NÃO INFORMADO'}</td>
                         <td class="valor-multa">${record.valor_multa ? formatCurrency(record.valor_multa) : 'N/A'}</td>
                     `;
@@ -3519,7 +3113,6 @@ function debugDataLoad() {
                 });
             }
             
-            // Mostrar modal
             const modal = new bootstrap.Modal(document.getElementById('detailModal'));
             modal.show();
             
@@ -3530,7 +3123,6 @@ function debugDataLoad() {
         function downloadDadosCompletos() {
             console.log('Baixando dados completos...');
             
-            // Criar CSV com todos os dados
             const dataToExport = empresasData.map(row => ({
                 'Processo SEI': row.sei,
                 'Número do Processo': row.numero,
@@ -3549,13 +3141,8 @@ function debugDataLoad() {
                 'Valor da Multa (R$)': row.valor_multa
             }));
             
-            // Converter para CSV
-            const csv = Papa.unparse(dataToExport, {
-                delimiter: ';',
-                header: true
-            });
+            const csv = convertToCSV(dataToExport);
             
-            // Criar e baixar arquivo
             const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -3568,32 +3155,11 @@ function debugDataLoad() {
             showStatusMessage('Dados completos baixados com sucesso!', 'success');
         }
 
-        // ==================== DEBUG ====================
-        function showDebugInfo() {
-            const debugElement = document.getElementById('debugInfo');
-            if (debugElement) {
-                debugElement.innerHTML = `
-                    Dados carregados: ${empresasData.length} registros<br>
-                    Dashboard 1: ${filteredDataDashboard1.length} registros<br>
-                    Dashboard 2: ${filteredDataDashboard2.length} registros<br>
-                    Última atualização: ${lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A'}<br>
-                    User Agent: ${navigator.userAgent}
-                `;
-                debugElement.style.display = 'block';
-            }
-        }
-
         // ==================== INICIALIZAÇÃO FINAL ====================
         // Expor funções globais para uso no HTML
         window.sortTable = sortTable;
         window.showCompanyDetails = showCompanyDetails;
         window.changePage = changePage;
-        
-        // Inicializar ícones de ordenação
-        document.addEventListener('DOMContentLoaded', function() {
-            updateSortIcons('visaoGeralTable', currentSortDashboard1.column, currentSortDashboard1.order);
-            updateSortIcons('empresasTable', currentSortDashboard2.column, currentSortDashboard2.order);
-        });
 
         console.log('✅ Sistema de Empresas Sancionadas carregado e pronto!');
 
