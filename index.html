@@ -3430,16 +3430,15 @@
             htmlContent += '<div class="footer"><p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p><p>Última atualização: ' + 
                 (lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A') + '</p></div>';
             
-            // Script para imprimir e fechar
-            htmlContent += '<script>window.onload=function(){window.print();setTimeout(function(){window.close();},1000);}</script>';
-            htmlContent += '</body></html>';
-            
-            // Escrever e fechar
-            printWindow.document.write(htmlContent);
-            printWindow.document.close();
-            
-            showStatusMessage('Preparando impressão...', 'info');
-        }
+// Script para imprimir e fechar
+htmlContent += '<script>window.onload=function(){window.print();setTimeout(function(){window.close();},1000);}<\/script>';
+htmlContent += '</body></html>';
+
+// Escrever e fechar
+printWindow.document.write(htmlContent);
+printWindow.document.close();
+
+showStatusMessage('Preparando impressão...', 'info');
 
         // ==================== MODAL DE DETALHES ====================
         function showCompanyDetails(identifier) {
