@@ -1888,7 +1888,7 @@
 
         function parseCSV(csvText) {
             return new Promise((resolve, reject) => {
-                Papa.parse(csvText, {
+                Papa.parse(csvUrl, {
                     header: true,
                     skipEmptyLines: true,
                     delimiter: ';',
