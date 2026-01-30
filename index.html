@@ -1872,8 +1872,8 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const csvText = await response.text();
-                console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
+                const csvUrl = await response.text();
+                console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvUrl.length} caracteres`);
                 
                 // Processar com PapaParse
                 const processedData = await parseCSV(csvUrl);
