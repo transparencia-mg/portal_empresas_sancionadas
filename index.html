@@ -1876,7 +1876,7 @@
                 console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
                 
                 // Processar com PapaParse
-                const processedData = await parseCSV(csvText);
+                const processedData = await parseCSV(csvUrl);
                 return processedData;
                 
             } catch (error) {
@@ -1886,33 +1886,32 @@
             }
         }
 
-        function parseCSV(csvText) {
-            return new Promise((resolve, reject) => {
-                Papa.parse(csvUrl, {
-                    header: true,
-                    skipEmptyLines: true,
-                    delimiter: ';',
-                    complete: function(results) {
-                        console.log(`=== DADOS PARSEADOS COM SUCESSO ===`);
-                        console.log(`Total de registros brutos: ${results.data.length}`);
-                        
-                        if (results.data.length === 0) {
-                            reject(new Error('Nenhum dado encontrado no CSV'));
-                            return;
-                        }
-                        
-                        // Processar dados
-                        const empresasData = processCSVData(results.data);
-                        resolve(empresasData);
-                    },
-                    error: function(error) {
-                        console.error('❌ Erro no PapaParse:', error);
-                        reject(new Error('Erro ao processar CSV: ' + error.message));
-                    }
-                });
-            });
-        }
+function parseCSV(csvUrl) {
+    return new Promise((resolve, reject) => {
+        Papa.parse(csvUrl, {
+            download: true,          // 🔥 ISSO É O QUE FALTAVA
+            header: true,
+            skipEmptyLines: true,
+            delimiter: ';',
+            complete: function (results) {
+                console.log('=== DADOS PARSEADOS COM SUCESSO ===');
+                console.log('Total de registros brutos:', results.data.length);
 
+                if (!results.data || results.data.length === 0) {
+                    reject(new Error('Nenhum dado encontrado no CSV'));
+                    return;
+                }
+
+                const empresasData = processCSVData(results.data);
+                resolve(empresasData);
+            },
+            error: function (error) {
+                console.error('❌ Erro no PapaParse:', error);
+                reject(error);
+            }
+        });
+    });
+}
         function processCSVData(data) {
             console.log('=== PROCESSANDO DADOS DO CSV ===');
             console.log(`Registros para processar: ${data.length}`);
