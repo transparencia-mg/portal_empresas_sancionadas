@@ -1813,94 +1813,105 @@
         });
 
         // ==================== FUNÇÕES DE CARREGAMENTO ====================
-        async function loadInitialData() {
-            console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
-            showLoading(true);
-            showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
+async function loadInitialData() {
+    console.log('=== INICIANDO CARREGAMENTO DE DADOS ===');
+    showLoading(true);
+    showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
+    
+    try {
+        empresasData = await loadData();
+        
+        if (empresasData && empresasData.length > 0) {
+            filteredDataDashboard1 = [...empresasData];
+            filteredDataDashboard2 = [...empresasData];
             
-            try {
-                empresasData = await loadData();
-                
-                if (empresasData && empresasData.length > 0) {
-                    filteredDataDashboard1 = [...empresasData];
-                    filteredDataDashboard2 = [...empresasData];
-                    
-                    lastUpdateDate = new Date();
-                    updateDataAtualizacao();
-                    
-                    console.log(`=== DADOS PROCESSADOS ===`);
-                    console.log(`✅ Registros válidos: ${empresasData.length}`);
-                    
-                    if (empresasData.length > 0) {
-                        console.log('Primeiro registro processado:', empresasData[0]);
-                    }
-                    
-                    // Inicializar dashboard
-                    initializeDashboard();
-                    
-                    showLoading(false);
-                    showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
-                } else {
-                    throw new Error('Nenhum dado válido foi carregado');
-                }
-            } catch (error) {
-                console.error('Erro ao carregar dados iniciais:', error);
-                showLoading(false);
-                showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
-                // Carregar dados de exemplo em caso de erro
-                loadSampleData();
+            lastUpdateDate = new Date();
+            updateDataAtualizacao();
+            
+            console.log(`=== DADOS PROCESSADOS ===`);
+            console.log(`✅ Registros válidos: ${empresasData.length}`);
+            
+            if (empresasData.length > 0) {
+                console.log('Primeiro registro processado:', empresasData[0]);
             }
+            
+            // Inicializar dashboard
+            initializeDashboard();
+            
+            showLoading(false);
+            showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+        } else {
+            throw new Error('Nenhum dado válido foi carregado');
         }
+    } catch (error) {
+        console.error('Erro ao carregar dados iniciais:', error);
+        showLoading(false);
+        showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
+        // Carregar dados de exemplo em caso de erro
+        loadSampleData();
+    }
+}
 
-        async function loadData() {
-            try {
-                console.log(`=== CARREGANDO DADOS DO GITHUB ===`);
-                console.log(`Carregando dados de: ${DATASET_URL}`);
-                
-                // Usar fetch com timeout
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 30000);
-                
-                const response = await fetch(DATASET_URL, {
-                    signal: controller.signal,
-                    cache: 'no-cache'
-                });
-                
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const csvUrl = await response.text();
-                console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvUrl.length} caracteres`);
-                
-                // Processar com PapaParse
-                const processedData = await parseCSV(csvUrl);
-                return processedData;
-                
-            } catch (error) {
-                console.error('❌ Erro ao carregar dados:', error);
-                console.log('⚠️ Usando dados de exemplo como fallback');
-                return loadSampleData();
+async function loadData() {
+    try {
+        console.log(`=== CARREGANDO DADOS DO GITHUB ===`);
+        console.log(`Carregando dados de: ${DATASET_URL}`);
+        
+        // Usar fetch com timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        
+        const response = await fetch(DATASET_URL, {
+            signal: controller.signal,
+            cache: 'no-cache',
+            headers: {
+                'Accept': 'text/csv'
             }
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        
+        const csvText = await response.text();
+        console.log(`✅ Dados carregados com sucesso! Tamanho: ${csvText.length} caracteres`);
+        console.log('Primeiros 500 caracteres:', csvText.substring(0, 500));
+        
+        // Processar com PapaParse
+        const processedData = await parseCSV(csvText);
+        return processedData;
+        
+    } catch (error) {
+        console.error('❌ Erro ao carregar dados:', error);
+        console.log('⚠️ Usando dados de exemplo como fallback');
+        return loadSampleData();
+    }
+}
 
-function parseCSV(csvUrl) {
+function parseCSV(csvText) {
     return new Promise((resolve, reject) => {
-        Papa.parse(csvUrl, {
+        console.log('=== INICIANDO PARSE DO CSV ===');
+        console.log('Tipo de dados recebido:', typeof csvText);
+        
+        Papa.parse(csvText, {
             header: true,
             skipEmptyLines: true,
             delimiter: ';',
+            encoding: 'UTF-8',
             complete: function (results) {
                 console.log('=== DADOS PARSEADOS COM SUCESSO ===');
                 console.log('Total de registros brutos:', results.data.length);
-
+                console.log('Colunas encontradas:', results.meta.fields);
+                
                 if (!results.data || results.data.length === 0) {
                     reject(new Error('Nenhum dado encontrado no CSV'));
                     return;
                 }
-
+                
+                console.log('Primeiros registros brutos:', results.data.slice(0, 3));
+                
                 const empresasData = processCSVData(results.data);
                 resolve(empresasData);
             },
@@ -1911,175 +1922,168 @@ function parseCSV(csvUrl) {
         });
     });
 }
-        function processCSVData(data) {
-            console.log('=== PROCESSANDO DADOS DO CSV ===');
-            console.log(`Registros para processar: ${data.length}`);
+
+function processCSVData(data) {
+    console.log('=== PROCESSANDO DADOS DO CSV ===');
+    console.log(`Registros para processar: ${data.length}`);
+    
+    const processedData = [];
+    
+    for (let i = 0; i < data.length; i++) {
+        try {
+            const row = data[i];
             
-            const processedData = [];
+            // Verificar se a linha tem dados
+            if (!row || Object.keys(row).length === 0) {
+                console.warn(`Linha ${i} vazia, pulando...`);
+                continue;
+            }
             
-            for (let i = 0; i < data.length; i++) {
-                try {
-                    const row = data[i];
-                    
-                    // Verificar se a linha tem dados
-                    if (!row || Object.keys(row).length === 0) {
-                        continue;
-                    }
-                    
-                    // Extrair dados
-                    const sei = row['sei'] || '';
-                    const numero = row['numero'] || '';
-                    
-                    // Ano
-                    let ano = null;
-                    if (row['ano']) {
-                        const anoStr = String(row['ano']).trim();
-                        ano = parseInt(anoStr);
-                        if (isNaN(ano)) {
-                            ano = null;
-                        }
-                    }
-                    
-                    const portaria = row['portaria'] || '';
-                    const data_publicacao = row['data_publicacao'] || '';
-                    const orgao_instaurador = row['orgao_instaurador'] || '';
-                    const orgao_lesado = (row['orgao_lesado'] || 'NÃO INFORMADO').trim();
-                    const empresa_processada = (row['empresa_processada'] || 'NÃO INFORMADO').trim();
-                    const tipo_societario = row['tipo_societario'] || '';
-                    
-                    // CNPJ
-                    let cnpj = row['cnpj'] || '';
-                    if (cnpj) {
-                        cnpj = cnpj.toString().replace(/\D/g, '');
-                        if (cnpj.length === 14) {
-                            cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-                        }
-                    }
-                    
-                    const conuta = (row['conuta'] || 'NÃO INFORMADO').trim();
-                    const data_decisao = row['data_decisao'] || '';
-                    const decisao = (row['decisao'] || 'NÃO INFORMADO').trim();
-                    const fase = (row['fase'] || 'NÃO INFORMADO').trim();
-                    
-                    // Valor da multa
-                    let valor_multa = null;
-                    const valorField = row['valor_multa'] || '';
-                    if (valorField) {
-                        try {
-                            let cleanValue = String(valorField)
-                                .replace(/R\$/gi, '')
-                                .replace(/[^\d,.-]/g, '')
-                                .trim();
-                            
-                            if (cleanValue.includes('.') && cleanValue.includes(',')) {
-                                cleanValue = cleanValue.replace(/\./g, '').replace(',', '.');
-                            } else if (cleanValue.includes(',')) {
-                                cleanValue = cleanValue.replace(',', '.');
-                            }
-                            
-                            valor_multa = parseFloat(cleanValue);
-                            if (isNaN(valor_multa)) {
-                                valor_multa = null;
-                            }
-                        } catch (e) {
-                            valor_multa = null;
-                        }
-                    }
-                    
-                    const processedRow = {
-                        sei: sei.trim(),
-                        numero: numero.trim(),
-                        ano: ano,
-                        portaria: portaria.trim(),
-                        data_publicacao: data_publicacao.trim(),
-                        orgao_instaurador: orgao_instaurador.trim(),
-                        orgao_lesado: orgao_lesado,
-                        empresa_processada: empresa_processada,
-                        tipo_societario: tipo_societario.trim(),
-                        cnpj: cnpj,
-                        conuta: conuta,
-                        data_decisao: data_decisao.trim(),
-                        decisao: decisao,
-                        fase: fase,
-                        valor_multa: valor_multa,
-                        originalIndex: i
-                    };
-                    
-                    // Incluir se tiver empresa processada
-                    if (processedRow.empresa_processada && 
-                        processedRow.empresa_processada !== 'NÃO INFORMADO' && 
-                        processedRow.empresa_processada !== '') {
-                        processedData.push(processedRow);
-                    }
-                    
-                } catch (error) {
-                    console.warn(`Erro ao processar linha ${i}:`, error);
+            // Log para debug dos primeiros registros
+            if (i < 3) {
+                console.log(`Linha ${i} original:`, row);
+            }
+            
+            // Extrair dados - verificar várias possibilidades de nomes de colunas
+            const sei = row['sei'] || row['SEI'] || '';
+            const numero = row['numero'] || row['NÚMERO'] || row['Número'] || '';
+            
+            // Ano
+            let ano = null;
+            const anoValue = row['ano'] || row['ANO'] || row['Ano'] || '';
+            if (anoValue) {
+                const anoStr = String(anoValue).trim();
+                ano = parseInt(anoStr);
+                if (isNaN(ano)) {
+                    ano = null;
                 }
             }
             
-            console.log(`=== PROCESSAMENTO CONCLUÍDO ===`);
-            console.log(`Registros válidos: ${processedData.length} de ${data.length}`);
+            const portaria = row['portaria'] || row['PORTARIA'] || '';
+            const data_publicacao = row['data_publicacao'] || row['DATA_PUBLICACAO'] || row['Data Publicação'] || '';
+            const orgao_instaurador = row['orgao_instaurador'] || row['ORGÃO_INSTAURADOR'] || row['Órgão Instaurador'] || '';
             
-            return processedData;
-        }
-
-        function loadSampleData() {
-            console.log('=== CARREGANDO DADOS DE EXEMPLO ===');
-            // Dados de exemplo para quando o CSV não estiver disponível
-            return [
-                {
-                    sei: '1520.01.0004459/2019-09',
-                    numero: '1',
-                    ano: 2021,
-                    portaria: '1',
-                    data_publicacao: '2021-09-19',
-                    orgao_instaurador: 'CGE',
-                    orgao_lesado: 'SEESP',
-                    empresa_processada: 'EMPRESA EXEMPLO 1 LTDA',
-                    tipo_societario: 'SOCIEDADE LIMITADA',
-                    cnpj: '11.111.111/0001-11',
-                    conuta: 'Irregularidade de exemplo 1',
-                    data_decisao: '2021-10-11',
-                    decisao: 'Multa aplicada',
-                    fase: 'TRANSITADO EM JULGADO',
-                    valor_multa: 100000
-                },
-                {
-                    sei: '1520.01.0004460/2019-10',
-                    numero: '2',
-                    ano: 2022,
-                    portaria: '2',
-                    data_publicacao: '2022-03-15',
-                    orgao_instaurador: 'CGE',
-                    orgao_lesado: 'SES',
-                    empresa_processada: 'EMPRESA EXEMPLO 2 S/A',
-                    tipo_societario: 'SOCIEDADE ANÔNIMA',
-                    cnpj: '22.222.222/0001-22',
-                    conuta: 'Irregularidade de exemplo 2',
-                    data_decisao: '2022-04-20',
-                    decisao: 'Multa e P.Ext. de decisão condenatória',
-                    fase: 'EM ANDAMENTO',
-                    valor_multa: 250000
-                },
-                {
-                    sei: '1520.01.0004461/2019-11',
-                    numero: '3',
-                    ano: 2023,
-                    portaria: '3',
-                    data_publicacao: '2023-01-10',
-                    orgao_instaurador: 'CGE',
-                    orgao_lesado: 'SEPLAG',
-                    empresa_processada: 'EMPRESA EXEMPLO 3 EIRELI',
-                    tipo_societario: 'EIRELI',
-                    cnpj: '33.333.333/0001-33',
-                    conuta: 'Irregularidade de exemplo 3',
-                    data_decisao: '2023-02-15',
-                    decisao: 'Transitado em Julgado',
-                    fase: 'CONCLUÍDO',
-                    valor_multa: 150000
+            // Orgao lesado com tratamento especial
+            let orgao_lesado = row['orgao_lesado'] || row['ORGÃO_LESADO'] || row['Órgão Lesado'] || 'NÃO INFORMADO';
+            if (orgao_lesado && orgao_lesado !== 'NÃO INFORMADO') {
+                orgao_lesado = orgao_lesado.trim();
+            }
+            
+            // Empresa processada
+            let empresa_processada = row['empresa_processada'] || row['EMPRESA_PROCESSADA'] || row['Empresa Processada'] || 'NÃO INFORMADO';
+            if (empresa_processada && empresa_processada !== 'NÃO INFORMADO') {
+                empresa_processada = empresa_processada.trim();
+            }
+            
+            const tipo_societario = row['tipo_societario'] || row['TIPO_SOCIETARIO'] || row['Tipo Societário'] || '';
+            
+            // CNPJ
+            let cnpj = row['cnpj'] || row['CNPJ'] || '';
+            if (cnpj) {
+                cnpj = cnpj.toString().replace(/\D/g, '');
+                if (cnpj.length === 14) {
+                    cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
                 }
-            ];
+            }
+            
+            let conuta = row['conuta'] || row['CONUTA'] || row['Conta'] || 'NÃO INFORMADO';
+            if (conuta && conuta !== 'NÃO INFORMADO') {
+                conuta = conuta.trim();
+            }
+            
+            const data_decisao = row['data_decisao'] || row['DATA_DECISAO'] || row['Data Decisão'] || '';
+            
+            let decisao = row['decisao'] || row['DECISÃO'] || row['Decisão'] || 'NÃO INFORMADO';
+            if (decisao && decisao !== 'NÃO INFORMADO') {
+                decisao = decisao.trim();
+            }
+            
+            let fase = row['fase'] || row['FASE'] || row['Fase'] || 'NÃO INFORMADO';
+            if (fase && fase !== 'NÃO INFORMADO') {
+                fase = fase.trim();
+            }
+            
+            // Valor da multa
+            let valor_multa = null;
+            const valorField = row['valor_multa'] || row['VALOR_MULTA'] || row['Valor Multa'] || '';
+            if (valorField) {
+                try {
+                    let cleanValue = String(valorField)
+                        .replace(/R\$/gi, '')
+                        .replace(/[^\d,.-]/g, '')
+                        .trim();
+                    
+                    // Tratar diferentes formatos de número
+                    if (cleanValue.includes('.') && cleanValue.includes(',')) {
+                        // Formato 1.234,56 -> 1234.56
+                        cleanValue = cleanValue.replace(/\./g, '').replace(',', '.');
+                    } else if (cleanValue.includes(',')) {
+                        // Formato 1234,56 -> 1234.56
+                        cleanValue = cleanValue.replace(',', '.');
+                    }
+                    
+                    valor_multa = parseFloat(cleanValue);
+                    if (isNaN(valor_multa)) {
+                        valor_multa = null;
+                    }
+                } catch (e) {
+                    console.warn(`Erro ao converter valor na linha ${i}:`, valorField, e);
+                    valor_multa = null;
+                }
+            }
+            
+            const processedRow = {
+                sei: sei.trim(),
+                numero: numero.trim(),
+                ano: ano,
+                portaria: portaria.trim(),
+                data_publicacao: data_publicacao.trim(),
+                orgao_instaurador: orgao_instaurador.trim(),
+                orgao_lesado: orgao_lesado,
+                empresa_processada: empresa_processada,
+                tipo_societario: tipo_societario.trim(),
+                cnpj: cnpj,
+                conuta: conuta,
+                data_decisao: data_decisao.trim(),
+                decisao: decisao,
+                fase: fase,
+                valor_multa: valor_multa,
+                originalIndex: i
+            };
+            
+            // Incluir se tiver empresa processada
+            if (processedRow.empresa_processada && 
+                processedRow.empresa_processada !== 'NÃO INFORMADO' && 
+                processedRow.empresa_processada !== '' &&
+                processedRow.empresa_processada !== 'undefined') {
+                processedData.push(processedRow);
+            } else {
+                console.log(`Linha ${i} ignorada - sem empresa:`, processedRow.empresa_processada);
+            }
+            
+        } catch (error) {
+            console.warn(`Erro ao processar linha ${i}:`, error);
+            console.log('Linha problemática:', data[i]);
         }
+    }
+    
+    console.log(`=== PROCESSAMENTO CONCLUÍDO ===`);
+    console.log(`Registros válidos: ${processedData.length} de ${data.length}`);
+    
+    if (processedData.length > 0) {
+        console.log('Primeiros registros processados:', processedData.slice(0, 3));
+    }
+    
+    return processedData;
+}
+
+// Função para debug rápido - chame esta função no console
+function debugDataLoad() {
+    console.clear();
+    console.log('=== DEBUG DO CARREGAMENTO ===');
+    console.log('DATASET_URL:', DATASET_URL);
+    loadInitialData();
+}
 
         // ==================== DASHBOARD ====================
         function initializeDashboard() {
