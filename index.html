@@ -151,7 +151,7 @@
             background: white;
             border-radius: 10px;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             margin-top: 10px;
         }
@@ -1063,14 +1063,6 @@
             <!-- Mensagem de Status -->
             <div id="statusMessage"></div>
             
-            <!-- ==================== DATA DE ATUALIZAÇÃO ==================== -->
-            <div class="data-atualizacao-container">
-                <div class="data-atualizacao-box">
-                    <i class="fas fa-sync"></i>
-                    Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
-                </div>
-            </div>
-            
             <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
             <div class="nav-tabs-container">
                 <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
@@ -1090,6 +1082,14 @@
                         </button>
                     </li>
                 </ul>
+            </div>
+            
+            <!-- ==================== DATA DE ATUALIZAÇÃO (MOVIDA PARA APÓS O MENU) ==================== -->
+            <div class="data-atualizacao-container">
+                <div class="data-atualizacao-box">
+                    <i class="fas fa-sync"></i>
+                    Atualizado em: <span id="data-atualizacao-header">Carregando...</span>
+                </div>
             </div>
             
             <!-- ==================== CONTEÚDO DAS ABAS ==================== -->
@@ -1674,13 +1674,11 @@
         // ==================== FUNÇÕES DE CARREGAMENTO ====================
         async function initializeApp() {
             console.log('=== INICIANDO APLICATIVO ===');
-            showLoading(true);
-            showStatusMessage('Carregando dados das empresas sancionadas...', 'info');
+            showLoading(true, 'Carregando dados do GitHub...');
+            showStatusMessage('Carregando dados das empresas sancionadas do GitHub...', 'info');
             
             try {
-                // Para demonstração, usaremos dados de exemplo
-                // Em produção, substitua por fetch(DATASET_URL)
-                empresasData = await loadSampleData();
+                empresasData = await loadCSVData();
                 
                 if (empresasData && empresasData.length > 0) {
                     filteredDataDashboard1 = [...empresasData];
@@ -1707,88 +1705,106 @@
             }
         }
 
-        // ==================== DADOS DE EXEMPLO ====================
-        function loadSampleData() {
-            return new Promise((resolve) => {
-                console.log('Gerando dados de exemplo...');
-                
-                // Dados de exemplo mais realistas
-                const empresas = [
-                    { nome: 'Construtora ABC Ltda', cnpj: '12.345.678/0001-90', tipo: 'LTDA' },
-                    { nome: 'Transportes XYZ S/A', cnpj: '98.765.432/0001-10', tipo: 'S/A' },
-                    { nome: 'Alimentos MG Indústria', cnpj: '23.456.789/0001-20', tipo: 'LTDA' },
-                    { nome: 'Serviços Gerais do Brasil', cnpj: '34.567.890/0001-30', tipo: 'EIRELI' },
-                    { nome: 'Engenharia Progresso', cnpj: '45.678.901/0001-40', tipo: 'LTDA' },
-                    { nome: 'Mineradora Minas Central', cnpj: '56.789.012/0001-50', tipo: 'S/A' },
-                    { nome: 'Logística Nacional', cnpj: '67.890.123/0001-60', tipo: 'LTDA' },
-                    { nome: 'Comércio Atacadista', cnpj: '78.901.234/0001-70', tipo: 'MEI' },
-                    { nome: 'Telecomunicações MG', cnpj: '89.012.345/0001-80', tipo: 'S/A' },
-                    { nome: 'Hospital Saúde Total', cnpj: '90.123.456/0001-90', tipo: 'LTDA' }
-                ];
-                
-                const orgaos = [
-                    'Secretaria de Estado de Educação',
-                    'Secretaria de Estado de Saúde',
-                    'Secretaria de Estado de Transportes e Obras Públicas',
-                    'Secretaria de Estado de Meio Ambiente',
-                    'Polícia Civil de Minas Gerais',
-                    'Defensoria Pública do Estado',
-                    'Tribunal de Contas do Estado',
-                    'Assembleia Legislativa de Minas Gerais',
-                    'Prefeitura Municipal de Belo Horizonte',
-                    'Universidade do Estado de Minas Gerais'
-                ];
-                
-                const irregularidades = [
-                    'Superfaturamento em licitação',
-                    'Fraude em processo licitatório',
-                    'Descumprimento de contrato administrativo',
-                    'Não entrega de material escolar',
-                    'Serviço de construção não executado',
-                    'Material de má qualidade entregue',
-                    'Atraso na entrega de equipamentos médicos',
-                    'Falsificação de documentos fiscais',
-                    'Corrupção ativa de servidor público',
-                    'Formação de cartel em licitação'
-                ];
-                
-                const decisoes = ['Multa', 'Multa e P.Ext. de decisão condenatória', 'Transitado em Julgado'];
-                
-                const data = [];
-                
-                for (let i = 0; i < 150; i++) {
-                    const empresa = empresas[Math.floor(Math.random() * empresas.length)];
-                    const ano = 2018 + Math.floor(Math.random() * 6);
-                    const valorBase = 10000 + Math.random() * 500000;
-                    const valorMulta = Math.round(valorBase * 100) / 100;
-                    
-                    data.push({
-                        id: i + 1,
-                        sei: `SEI-MG-${ano}-${String(i+1).padStart(6, '0')}`,
-                        numero: `PROC-${ano}-${String(i+1).padStart(5, '0')}`,
-                        ano: ano,
-                        portaria: `PORT-${ano}/${String(Math.floor(Math.random() * 1000) + 1).padStart(4, '0')}`,
-                        data_publicacao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano}`,
-                        orgao_instaurador: 'Controladoria Geral do Estado',
-                        orgao_lesado: orgaos[Math.floor(Math.random() * orgaos.length)],
-                        empresa_processada: empresa.nome,
-                        tipo_societario: empresa.tipo,
-                        cnpj: empresa.cnpj,
-                        conuta: irregularidades[Math.floor(Math.random() * irregularidades.length)],
-                        data_decisao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano + 1}`,
-                        decisao: decisoes[Math.floor(Math.random() * decisoes.length)],
-                        fase: 'Concluído',
-                        valor_multa: valorMulta,
-                        empresa: empresa.nome,
-                        orgao: orgaos[Math.floor(Math.random() * orgaos.length)],
-                        irregularidade: irregularidades[Math.floor(Math.random() * irregularidades.length)],
-                        valor: valorMulta
-                    });
+        // ==================== CARREGAR DADOS REAIS DO CSV ====================
+        async function loadCSVData() {
+            console.log('Carregando dados do CSV do GitHub...');
+            
+            try {
+                const response = await fetch(DATASET_URL);
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
                 }
                 
-                console.log(`✅ Dados de exemplo gerados: ${data.length} registros`);
-                resolve(data);
-            });
+                const csvText = await response.text();
+                console.log(`CSV carregado: ${csvText.length} caracteres`);
+                
+                const data = parseCSV(csvText);
+                console.log(`✅ CSV parseado: ${data.length} registros`);
+                
+                return data;
+            } catch (error) {
+                console.error('Erro ao carregar CSV:', error);
+                // Fallback para dados de exemplo se o CSV falhar
+                return loadSampleData();
+            }
+        }
+
+        function parseCSV(csvText) {
+            console.log('Parseando CSV...');
+            
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
+            
+            console.log('Cabeçalhos encontrados:', headers);
+            
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                // Parsear linha considerando que pode haver ponto e vírgula dentro de aspas
+                const values = [];
+                let currentValue = '';
+                let insideQuotes = false;
+                
+                for (let j = 0; j < line.length; j++) {
+                    const char = line[j];
+                    
+                    if (char === '"') {
+                        insideQuotes = !insideQuotes;
+                    } else if (char === ';' && !insideQuotes) {
+                        values.push(currentValue.trim());
+                        currentValue = '';
+                    } else {
+                        currentValue += char;
+                    }
+                }
+                values.push(currentValue.trim());
+                
+                if (values.length !== headers.length) {
+                    console.warn(`Linha ${i} tem ${values.length} valores, esperado ${headers.length}`);
+                    continue;
+                }
+                
+                const row = {};
+                headers.forEach((header, index) => {
+                    let value = values[index] || '';
+                    
+                    // Remover aspas se houver
+                    if (value.startsWith('"') && value.endsWith('"')) {
+                        value = value.substring(1, value.length - 1);
+                    }
+                    
+                    // Converter valores numéricos
+                    if (header === 'ano' || header === 'valor_multa') {
+                        // Remover caracteres não numéricos e converter para float
+                        const numValue = parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.'));
+                        row[header] = isNaN(numValue) ? null : numValue;
+                    } else {
+                        row[header] = value || null;
+                    }
+                    
+                    // Adicionar campos auxiliares para compatibilidade
+                    if (header === 'empresa_processada') {
+                        row['empresa'] = value;
+                    }
+                    if (header === 'orgao_lesado') {
+                        row['orgao'] = value;
+                    }
+                    if (header === 'conuta') {
+                        row['irregularidade'] = value;
+                    }
+                    if (header === 'valor_multa') {
+                        row['valor'] = row[header];
+                    }
+                });
+                
+                data.push(row);
+            }
+            
+            console.log(`Parseado ${data.length} registros`);
+            return data;
         }
 
         // ==================== DASHBOARD ====================
@@ -1994,8 +2010,8 @@
             try {
                 // Coletar opções únicas
                 const anos = [...new Set(empresasData.map(row => row.ano).filter(ano => ano !== null && !isNaN(ano)))].sort((a, b) => b - a);
-                const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(orgao => orgao && orgao !== 'NÃO INFORMADO'))].sort();
-                const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(irr => irr && irr !== 'NÃO INFORMADO'))].sort();
+                const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(orgao => orgao && orgao.trim() !== ''))].sort();
+                const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(irr => irr && irr.trim() !== ''))].sort();
                 
                 console.log(`Anos encontrados: ${anos.length}`);
                 console.log(`Órgãos encontrados: ${orgaos.length}`);
@@ -2006,6 +2022,7 @@
                 const anoSelect2 = document.getElementById('anoDashboard2');
                 
                 if (anoSelect1) {
+                    anoSelect1.innerHTML = '<option value="all">Todos os Anos</option>';
                     anos.forEach(ano => {
                         const option1 = document.createElement('option');
                         option1.value = ano;
@@ -2015,6 +2032,7 @@
                 }
                 
                 if (anoSelect2) {
+                    anoSelect2.innerHTML = '<option value="all">Todos os Anos</option>';
                     anos.forEach(ano => {
                         const option2 = document.createElement('option');
                         option2.value = ano;
@@ -2028,6 +2046,7 @@
                 const orgaoSelect2 = document.getElementById('orgaoLesadoDashboard2');
                 
                 if (orgaoSelect1) {
+                    orgaoSelect1.innerHTML = '<option value="all">Todos os Órgãos</option>';
                     orgaos.slice(0, 50).forEach(orgao => {
                         const option1 = document.createElement('option');
                         option1.value = orgao;
@@ -2037,6 +2056,7 @@
                 }
                 
                 if (orgaoSelect2) {
+                    orgaoSelect2.innerHTML = '<option value="all">Todos os Órgãos</option>';
                     orgaos.slice(0, 50).forEach(orgao => {
                         const option2 = document.createElement('option');
                         option2.value = orgao;
@@ -2050,6 +2070,7 @@
                 const datalist2 = document.getElementById('irregularidadesListDashboard2');
                 
                 if (datalist1) {
+                    datalist1.innerHTML = '<option value="all">Todas as Irregularidades</option>';
                     irregularidades.slice(0, 50).forEach(irregularidade => {
                         const option1 = document.createElement('option');
                         option1.value = irregularidade;
@@ -2058,6 +2079,7 @@
                 }
                 
                 if (datalist2) {
+                    datalist2.innerHTML = '<option value="all">Todas as Irregularidades</option>';
                     irregularidades.slice(0, 50).forEach(irregularidade => {
                         const option2 = document.createElement('option');
                         option2.value = irregularidade;
@@ -3153,6 +3175,68 @@
             URL.revokeObjectURL(url);
             
             showStatusMessage('Dados completos baixados com sucesso!', 'success');
+        }
+
+        // ==================== FALLBACK PARA DADOS DE EXEMPLO ====================
+        function loadSampleData() {
+            return new Promise((resolve) => {
+                console.log('Gerando dados de exemplo...');
+                
+                const empresas = [
+                    { nome: 'Construtora ABC Ltda', cnpj: '12.345.678/0001-90', tipo: 'LTDA' },
+                    { nome: 'Transportes XYZ S/A', cnpj: '98.765.432/0001-10', tipo: 'S/A' },
+                    { nome: 'Alimentos MG Indústria', cnpj: '23.456.789/0001-20', tipo: 'LTDA' }
+                ];
+                
+                const orgaos = [
+                    'Secretaria de Estado de Educação',
+                    'Secretaria de Estado de Saúde',
+                    'Secretaria de Estado de Transportes e Obras Públicas'
+                ];
+                
+                const irregularidades = [
+                    'Superfaturamento em licitação',
+                    'Fraude em processo licitatório',
+                    'Descumprimento de contrato administrativo'
+                ];
+                
+                const decisoes = ['Multa', 'Multa e P.Ext. de decisão condenatória', 'Transitado em Julgado'];
+                
+                const data = [];
+                
+                for (let i = 0; i < 50; i++) {
+                    const empresa = empresas[Math.floor(Math.random() * empresas.length)];
+                    const ano = 2018 + Math.floor(Math.random() * 6);
+                    const valorBase = 10000 + Math.random() * 500000;
+                    const valorMulta = Math.round(valorBase * 100) / 100;
+                    
+                    data.push({
+                        id: i + 1,
+                        sei: `SEI-MG-${ano}-${String(i+1).padStart(6, '0')}`,
+                        numero: `PROC-${ano}-${String(i+1).padStart(5, '0')}`,
+                        ano: ano,
+                        portaria: `PORT-${ano}/${String(Math.floor(Math.random() * 1000) + 1).padStart(4, '0')}`,
+                        data_publicacao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano}`,
+                        orgao_instaurador: 'Controladoria Geral do Estado',
+                        orgao_lesado: orgaos[Math.floor(Math.random() * orgaos.length)],
+                        empresa_processada: empresa.nome,
+                        tipo_societario: empresa.tipo,
+                        cnpj: empresa.cnpj,
+                        conuta: irregularidades[Math.floor(Math.random() * irregularidades.length)],
+                        data_decisao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano + 1}`,
+                        decisao: decisoes[Math.floor(Math.random() * decisoes.length)],
+                        fase: 'Concluído',
+                        valor_multa: valorMulta,
+                        empresa: empresa.nome,
+                        orgao: orgaos[Math.floor(Math.random() * orgaos.length)],
+                        irregularidade: irregularidades[Math.floor(Math.random() * irregularidades.length)],
+                        valor: valorMulta
+                    });
+                }
+                
+                console.log(`✅ Dados de exemplo gerados: ${data.length} registros`);
+                resolve(data);
+            });
         }
 
         // ==================== INICIALIZAÇÃO FINAL ====================
