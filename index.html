@@ -150,36 +150,74 @@
         .nav-tabs-container {
             background: white;
             border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
             margin-top: 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-tabs {
-            border: none;
+            border: none !important;
+            gap: 4px;
+            flex-wrap: nowrap;
+            min-width: max-content;
+            padding-bottom: 5px;
+            margin-bottom: 0 !important;
+        }
+
+        .nav-tabs .nav-item {
+            flex-shrink: 0;
         }
 
         .nav-tabs .nav-link {
-            border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
+            border: none !important;
+            border-radius: 6px !important;
+            padding: 10px 15px !important;
             font-weight: 600;
-            color: var(--primary-dark);
+            color: var(--primary-dark) !important;
             transition: all 0.3s ease;
-            font-size: 14px;
-            background: none;
+            font-size: 13px;
+            white-space: nowrap;
+            display: inline-flex !important;
+            align-items: center;
+            background: none !important;
         }
 
         .nav-tabs .nav-link:hover {
-            background-color: rgba(41, 67, 90, 0.05);
-            color: var(--accent-red);
+            background-color: rgba(41, 67, 90, 0.05) !important;
+            color: var(--accent-red) !important;
         }
 
         .nav-tabs .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
-            color: white;
-            border: none;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%) !important;
+            color: white !important;
+            border: none !important;
+        }
+        
+        /* Estilizar a scrollbar */
+        .nav-tabs-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar-thumb {
+            background: #dee2e6;
+            border-radius: 4px;
+        }
+
+        .nav-tabs-container::-webkit-scrollbar-thumb:hover {
+            background: #adb5bd;
+        }
+
+        .nav-tabs-container {
+            scrollbar-width: thin;
+            scrollbar-color: #dee2e6 #f8f9fa;
         }
         
         /* ==================== FILTROS ==================== */
@@ -400,6 +438,91 @@
             padding: 12px 10px;
             vertical-align: middle;
             font-size: 14px;
+        }
+        
+        /* ==================== ALINHAMENTO DE COLUNAS ==================== */
+        .text-left {
+            text-align: left !important;
+        }
+        
+        .text-center {
+            text-align: center !important;
+        }
+        
+        .text-right {
+            text-align: right !important;
+        }
+        
+        .valor-multa {
+            text-align: right !important;
+            font-weight: 600;
+        }
+        
+        /* Ajustar cabeçalhos da tabela */
+        .table thead th.text-left {
+            text-align: left !important;
+        }
+        
+        .table thead th.text-center {
+            text-align: center !important;
+        }
+        
+        .table thead th.text-right {
+            text-align: right !important;
+        }
+        
+        /* ALINHAMENTO DE TABELAS ESPECÍFICO */
+        #empresasTable th:nth-child(1), /* Empresa */
+        #empresasTable td:nth-child(1) {
+            text-align: left;
+        }
+        
+        #empresasTable th:nth-child(2), /* CNPJ */
+        #empresasTable td:nth-child(2) {
+            text-align: center;
+        }
+        
+        #empresasTable th:nth-child(3), /* Órgão Lesado */
+        #empresasTable td:nth-child(3) {
+            text-align: left;
+        }
+        
+        #empresasTable th:nth-child(4), /* Irregularidade */
+        #empresasTable td:nth-child(4) {
+            text-align: left;
+        }
+        
+        #empresasTable th:nth-child(5), /* Ano */
+        #empresasTable td:nth-child(5) {
+            text-align: center;
+        }
+        
+        #empresasTable th:nth-child(6), /* Valor */
+        #empresasTable td:nth-child(6) {
+            text-align: right;
+        }
+        
+        #empresasTable th:nth-child(7), /* Ações */
+        #empresasTable td:nth-child(7) {
+            text-align: center;
+        }
+        
+        /* Para a tabela do Dashboard 1 */
+        #visaoGeralTable th:nth-child(1), /* Órgão Lesado */
+        #visaoGeralTable td:nth-child(1) {
+            text-align: left;
+        }
+        
+        #visaoGeralTable th:nth-child(2), /* Processos */
+        #visaoGeralTable td:nth-child(2),
+        #visaoGeralTable th:nth-child(3), /* Empresas */
+        #visaoGeralTable td:nth-child(3) {
+            text-align: center;
+        }
+        
+        #visaoGeralTable th:nth-child(4), /* Valor Total */
+        #visaoGeralTable td:nth-child(4) {
+            text-align: right;
         }
         
         /* Coluna de ações na tabela */
@@ -1215,17 +1338,17 @@
                             <table class="table table-hover" id="visaoGeralTable">
                                 <thead>
                                     <tr>
-                                        <th data-sort="orgao_lesado" data-order="asc" onclick="sortTable('visaoGeral', 'orgao_lesado')">
-                                            Órgão Lesado <span class="sort-icon">▼</span>
+                                        <th class="text-left" data-sort="orgao_lesado" data-order="asc" onclick="sortTable('visaoGeral', 'orgao_lesado')">
+                                            Órgão Lesado
                                         </th>
-                                        <th data-sort="quantidade_processos" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_processos')">
-                                            Processos <span class="sort-icon">▼</span>
+                                        <th class="text-center" data-sort="quantidade_processos" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_processos')">
+                                            Processos
                                         </th>
-                                        <th data-sort="quantidade_empresas" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_empresas')">
-                                            Empresas <span class="sort-icon">▼</span>
+                                        <th class="text-center" data-sort="quantidade_empresas" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_empresas')">
+                                            Empresas
                                         </th>
-                                        <th data-sort="valor_total_multa" data-order="desc" onclick="sortTable('visaoGeral', 'valor_total_multa')">
-                                            Valor Total <span class="sort-icon">▼</span>
+                                        <th class="text-right" data-sort="valor_total_multa" data-order="desc" onclick="sortTable('visaoGeral', 'valor_total_multa')">
+                                            Valor Total
                                         </th>
                                     </tr>
                                 </thead>
@@ -1361,13 +1484,13 @@
                             <table class="table table-hover" id="empresasTable">
                                 <thead>
                                     <tr>
-                                        <th data-sort="empresa" data-order="asc" onclick="sortTable('empresas', 'empresa')">Empresa <span class="sort-icon">▼</span></th>
-                                        <th data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">CNPJ <span class="sort-icon">▼</span></th>
-                                        <th data-sort="orgao" data-order="asc" onclick="sortTable('empresas', 'orgao')">Órgão Lesado <span class="sort-icon">▼</span></th>
-                                        <th data-sort="irregularidade" data-order="asc" onclick="sortTable('empresas', 'irregularidade')">Irregularidade <span class="sort-icon">▼</span></th>
-                                        <th data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">Ano <span class="sort-icon">▼</span></th>
-                                        <th data-sort="valor" data-order="desc" onclick="sortTable('empresas', 'valor')">Valor <span class="sort-icon">▼</span></th>
-                                        <th class="actions-column">Ações</th>
+                                        <th class="text-left" data-sort="empresa" data-order="asc" onclick="sortTable('empresas', 'empresa')">Empresa</th>
+                                        <th class="text-center" data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">CNPJ</th>
+                                        <th class="text-left" data-sort="orgao" data-order="asc" onclick="sortTable('empresas', 'orgao')">Órgão Lesado</th>
+                                        <th class="text-left" data-sort="irregularidade" data-order="asc" onclick="sortTable('empresas', 'irregularidade')">Irregularidade</th>
+                                        <th class="text-center" data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">Ano</th>
+                                        <th class="text-right" data-sort="valor" data-order="desc" onclick="sortTable('empresas', 'valor')">Valor</th>
+                                        <th class="actions-column text-center">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="empresasTableBody">
@@ -1664,11 +1787,31 @@
         let currentSortDashboard2 = { column: 'empresa', order: 'asc' };
         let lastUpdateDate = new Date();
 
+        // ==================== FUNÇÃO PARA AJUSTAR ALTURA DO IFRAME ====================
+        function iframeUpdateHeight() {
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({ 
+                    iframeHeight: document.body.scrollHeight + 10 
+                }, '*');
+            }
+        }
+
         // ==================== INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
             setupEventListeners();
             initializeApp();
+            
+            // Ajustar altura do iframe após carregamento
+            setTimeout(iframeUpdateHeight, 500);
+            
+            // Ajustar altura quando mudar de aba
+            const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
+            tabs.forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function() {
+                    setTimeout(iframeUpdateHeight, 300);
+                });
+            });
         });
 
         // ==================== FUNÇÕES DE CARREGAMENTO ====================
@@ -1695,6 +1838,9 @@
                     
                     showLoading(false);
                     showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
+                    
+                    // Ajustar altura do iframe
+                    setTimeout(iframeUpdateHeight, 300);
                 } else {
                     throw new Error('Nenhum dado válido foi carregado');
                 }
@@ -2123,7 +2269,7 @@
                 updateDashboard1();
                 
                 console.log(`Dashboard 1 filtrado: ${filtered.length} registros`);
-                showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
+                // REMOVIDO: showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
                 
             } else if (dashboard === 'dashboard2') {
                 const ano = document.getElementById('anoDashboard2').value;
@@ -2174,7 +2320,7 @@
                 updateDashboard2();
                 
                 console.log(`Dashboard 2 filtrado: ${filtered.length} registros`);
-                showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
+                // REMOVIDO: showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
             }
         }
 
@@ -2216,7 +2362,7 @@
             currentPageDashboard1 = 1;
             updateDashboard1();
             
-            showStatusMessage('Filtros limpos', 'info');
+            // REMOVIDO: showStatusMessage('Filtros limpos', 'info');
         }
 
         function clearDashboard2Filters() {
@@ -2234,7 +2380,7 @@
             currentPageDashboard2 = 1;
             updateDashboard2();
             
-            showStatusMessage('Filtros limpos', 'info');
+            // REMOVIDO: showStatusMessage('Filtros limpos', 'info');
         }
 
         // ==================== DASHBOARD 1: VISÃO GERAL ====================
@@ -2243,6 +2389,9 @@
             updateSummaryCards();
             updateResumoTable();
             updateCharts1();
+            
+            // Ajustar altura do iframe
+            setTimeout(iframeUpdateHeight, 100);
         }
 
         function updateSummaryCards() {
@@ -2395,10 +2544,10 @@
                 tr.onclick = () => filterByOrgao(item.orgao);
                 
                 tr.innerHTML = `
-                    <td><strong>${item.orgao}</strong></td>
-                    <td>${item.quantidade_processos.toLocaleString('pt-BR')}</td>
-                    <td>${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
-                    <td class="valor-multa">${formatCurrency(item.valor_total_multa)}</td>
+                    <td class="text-left"><strong>${item.orgao}</strong></td>
+                    <td class="text-center">${item.quantidade_processos.toLocaleString('pt-BR')}</td>
+                    <td class="text-center">${item.quantidade_empresas.toLocaleString('pt-BR')}</td>
+                    <td class="text-right valor-multa">${formatCurrency(item.valor_total_multa)}</td>
                 `;
                 
                 tbody.appendChild(tr);
@@ -2407,10 +2556,10 @@
             // Atualizar rodapé
             tfoot.innerHTML = `
                 <tr class="table-total-row">
-                    <td><strong>TOTAL GERAL</strong></td>
-                    <td><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
-                    <td><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
-                    <td class="valor-multa-grande"><strong>${formatCurrency(totalMultas)}</strong></td>
+                    <td class="text-left"><strong>TOTAL GERAL</strong></td>
+                    <td class="text-center"><strong>${totalProcessos.toLocaleString('pt-BR')}</strong></td>
+                    <td class="text-center"><strong>${totalEmpresas.toLocaleString('pt-BR')}</strong></td>
+                    <td class="text-right valor-multa-grande"><strong>${formatCurrency(totalMultas)}</strong></td>
                 </tr>
             `;
             
@@ -2430,8 +2579,6 @@
                 setTimeout(() => {
                     document.getElementById('orgaoLesadoDashboard2').value = orgao;
                     applyFilters('dashboard2');
-                    
-                    showStatusMessage(`Filtro aplicado: Órgão ${orgao}`, 'info');
                 }, 300);
             }
         }
@@ -2604,6 +2751,9 @@
             console.log('Atualizando Dashboard 2...');
             updateTotalRegistros();
             updateEmpresasTable();
+            
+            // Ajustar altura do iframe
+            setTimeout(iframeUpdateHeight, 100);
         }
 
         function updateTotalRegistros() {
@@ -2679,17 +2829,20 @@
                     irregularidade = irregularidade.substring(0, 57) + '...';
                 }
                 
+                // NOME COMPLETO DO ÓRGÃO (sem truncar)
+                const orgaoNome = row.orgao_lesado || 'NÃO INFORMADO';
+                
                 tr.innerHTML = `
-                    <td>
+                    <td class="text-left">
                         <strong>${row.empresa_processada || 'NÃO INFORMADO'}</strong>
                         ${row.tipo_societario ? `<br><small class="text-muted">${row.tipo_societario}</small>` : ''}
                     </td>
-                    <td>${row.cnpj || 'NÃO INFORMADO'}</td>
-                    <td>${row.orgao_lesado || 'NÃO INFORMADO'}</td>
-                    <td>${irregularidade}</td>
-                    <td>${row.ano || 'N/A'}</td>
-                    <td class="valor-multa">${row.valor_multa ? formatCurrency(row.valor_multa) : 'N/A'}</td>
-                    <td class="actions-column">
+                    <td class="text-center">${row.cnpj || 'NÃO INFORMADO'}</td>
+                    <td class="text-left">${orgaoNome}</td>
+                    <td class="text-left">${irregularidade}</td>
+                    <td class="text-center">${row.ano || 'N/A'}</td>
+                    <td class="text-right valor-multa">${row.valor_multa ? formatCurrency(row.valor_multa) : 'N/A'}</td>
+                    <td class="actions-column text-center">
                         <div class="action-buttons">
                             <button class="btn-action btn-history" onclick="showCompanyDetails('${(row.cnpj || row.empresa_processada).replace(/'/g, "\\'")}'); event.stopPropagation();">
                                 <i class="fas fa-history"></i>
@@ -2705,8 +2858,8 @@
             // Atualizar rodapé
             tfoot.innerHTML = `
                 <tr class="table-total-row">
-                    <td colspan="5"><strong>TOTAL GERAL</strong></td>
-                    <td class="valor-multa-grande"><strong>${formatCurrency(totalMultas)}</strong></td>
+                    <td colspan="5" class="text-left"><strong>TOTAL GERAL</strong></td>
+                    <td class="text-right valor-multa-grande"><strong>${formatCurrency(totalMultas)}</strong></td>
                     <td></td>
                 </tr>
             `;
@@ -2848,6 +3001,93 @@
             charts[chartId] = new Chart(ctx, config);
         }
 
+        // ==================== MODAL DE DETALHES DA EMPRESA ====================
+        function showCompanyDetails(identifier) {
+            console.log(`Mostrando detalhes para: ${identifier}`);
+            
+            // Limpar qualquer caractere especial
+            const cleanIdentifier = identifier.replace(/[^\w\s]/gi, '');
+            
+            const companyRecords = empresasData.filter(row => {
+                // Buscar por CNPJ (apenas números)
+                const cleanCNPJ = row.cnpj ? row.cnpj.replace(/\D/g, '') : '';
+                const searchCNPJ = identifier.replace(/\D/g, '');
+                
+                // Buscar por nome da empresa
+                const empresaNome = row.empresa_processada ? row.empresa_processada.toLowerCase() : '';
+                const searchNome = identifier.toLowerCase();
+                
+                return cleanCNPJ.includes(searchCNPJ) || 
+                       empresaNome.includes(searchNome) ||
+                       (row.empresa && row.empresa.toLowerCase().includes(searchNome));
+            });
+            
+            if (companyRecords.length === 0) {
+                return;
+            }
+            
+            const firstRecord = companyRecords[0];
+            
+            const modalLabel = document.getElementById('detailModalLabel');
+            const companyInfo = document.getElementById('companyInfo');
+            const detailTableBody = document.getElementById('detailTableBody');
+            
+            if (modalLabel) {
+                modalLabel.innerHTML = `<i class="fas fa-building me-2"></i>${firstRecord.empresa_processada || 'Empresa Sancionada'}`;
+            }
+            
+            if (companyInfo) {
+                companyInfo.innerHTML = `
+                    <div class="company-info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Empresa</span>
+                            <span class="info-value">${firstRecord.empresa_processada || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">CNPJ</span>
+                            <span class="info-value">${firstRecord.cnpj || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tipo Societário</span>
+                            <span class="info-value">${firstRecord.tipo_societario || 'NÃO INFORMADO'}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Total de Processos</span>
+                            <span class="info-value">${companyRecords.length}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Valor Total em Multas</span>
+                            <span class="info-value valor-multa">${formatCurrency(companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0))}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (detailTableBody) {
+                detailTableBody.innerHTML = '';
+                
+                companyRecords.sort((a, b) => (b.ano || 0) - (a.ano || 0));
+                
+                companyRecords.forEach(record => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${record.sei || 'N/A'}</td>
+                        <td>${record.ano || 'N/A'}</td>
+                        <td>${record.orgao_lesado || 'NÃO INFORMADO'}</td>
+                        <td>${record.conuta || 'NÃO INFORMADO'}</td>
+                        <td>${record.decisao || 'NÃO INFORMADO'}</td>
+                        <td class="valor-multa">${record.valor_multa ? formatCurrency(record.valor_multa) : 'N/A'}</td>
+                    `;
+                    detailTableBody.appendChild(tr);
+                });
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+            modal.show();
+            
+            console.log(`Modal mostrado com ${companyRecords.length} registros`);
+        }
+
         // ==================== FUNÇÕES DE EXPORTAÇÃO ====================
         function exportToCSV(dashboard) {
             console.log(`Exportando ${dashboard} para CSV...`);
@@ -2929,8 +3169,6 @@
             link.click();
             
             URL.revokeObjectURL(url);
-            
-            showStatusMessage(`Arquivo ${filename} exportado com sucesso!`, 'success');
         }
 
         function convertToCSV(data) {
@@ -3061,86 +3299,8 @@
             
             printWindow.document.write(htmlContent);
             printWindow.document.close();
-            
-            showStatusMessage('Preparando impressão...', 'info');
         }
         
-        // ==================== MODAL DE DETALHES ====================
-        function showCompanyDetails(identifier) {
-            console.log(`Mostrando detalhes para: ${identifier}`);
-            
-            const companyRecords = empresasData.filter(row => 
-                (row.cnpj && row.cnpj.includes(identifier.replace(/\D/g, ''))) ||
-                (row.empresa_processada && row.empresa_processada.toLowerCase().includes(identifier.toLowerCase()))
-            );
-            
-            if (companyRecords.length === 0) {
-                showStatusMessage('Nenhum registro encontrado para esta empresa.', 'warning');
-                return;
-            }
-            
-            const firstRecord = companyRecords[0];
-            
-            const modalLabel = document.getElementById('detailModalLabel');
-            const companyInfo = document.getElementById('companyInfo');
-            const detailTableBody = document.getElementById('detailTableBody');
-            
-            if (modalLabel) {
-                modalLabel.innerHTML = `<i class="fas fa-building me-2"></i>${firstRecord.empresa_processada || 'Empresa Sancionada'}`;
-            }
-            
-            if (companyInfo) {
-                companyInfo.innerHTML = `
-                    <div class="company-info-grid">
-                        <div class="info-item">
-                            <span class="info-label">Empresa</span>
-                            <span class="info-value">${firstRecord.empresa_processada || 'NÃO INFORMADO'}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">CNPJ</span>
-                            <span class="info-value">${firstRecord.cnpj || 'NÃO INFORMADO'}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Tipo Societário</span>
-                            <span class="info-value">${firstRecord.tipo_societario || 'NÃO INFORMADO'}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Total de Processos</span>
-                            <span class="info-value">${companyRecords.length}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Valor Total em Multas</span>
-                            <span class="info-value valor-multa">${formatCurrency(companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0))}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (detailTableBody) {
-                detailTableBody.innerHTML = '';
-                
-                companyRecords.sort((a, b) => (b.ano || 0) - (a.ano || 0));
-                
-                companyRecords.forEach(record => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${record.sei || 'N/A'}</td>
-                        <td>${record.ano || 'N/A'}</td>
-                        <td>${record.orgao_lesado || 'NÃO INFORMADO'}</td>
-                        <td>${record.conuta || 'NÃO INFORMADO'}</td>
-                        <td>${record.decisao || 'NÃO INFORMADO'}</td>
-                        <td class="valor-multa">${record.valor_multa ? formatCurrency(record.valor_multa) : 'N/A'}</td>
-                    `;
-                    detailTableBody.appendChild(tr);
-                });
-            }
-            
-            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-            modal.show();
-            
-            console.log(`Modal mostrado com ${companyRecords.length} registros`);
-        }
-
         // ==================== FUNÇÃO DE DOWNLOAD ====================
         function downloadDadosCompletos() {
             console.log('Baixando dados completos...');
@@ -3173,8 +3333,6 @@
             link.click();
             
             URL.revokeObjectURL(url);
-            
-            showStatusMessage('Dados completos baixados com sucesso!', 'success');
         }
 
         // ==================== FALLBACK PARA DADOS DE EXEMPLO ====================
@@ -3244,6 +3402,7 @@
         window.sortTable = sortTable;
         window.showCompanyDetails = showCompanyDetails;
         window.changePage = changePage;
+        window.iframeUpdateHeight = iframeUpdateHeight;
 
         console.log('✅ Sistema de Empresas Sancionadas carregado e pronto!');
 
