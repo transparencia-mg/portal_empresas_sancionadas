@@ -8,6 +8,7 @@
     <!-- ==================== ESTILOS E BIBLIOTECAS ==================== -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
@@ -182,6 +183,7 @@
             white-space: nowrap;
             display: inline-flex !important;
             align-items: center;
+            gap: 8px;
             background: none !important;
         }
 
@@ -380,13 +382,6 @@
             padding: 0;
         }
         
-        .table-fixed-header-container table thead {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: #f8f9fa !important;
-        }
-        
         .table-responsive {
             padding: 0;
             overflow-x: auto;
@@ -398,12 +393,13 @@
             font-size: 14px;
         }
         
+        /* Cabeçalho das tabelas - PRIMARY DARK */
         .table thead th {
-            background-color: #f8f9fa !important;
-            color: var(--primary-dark);
+            background-color: var(--primary-dark) !important;
+            color: white !important;
             font-weight: 600;
             border: none;
-            padding: 12px 10px;
+            padding: 14px 10px !important;
             font-size: 13px;
             cursor: pointer;
             user-select: none;
@@ -414,15 +410,19 @@
             white-space: nowrap;
         }
         
+        .table thead th:hover {
+            background-color: var(--primary-darker) !important;
+        }
+        
         .sort-icon {
-            opacity: 0.5;
-            margin-left: 4px;
-            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 6px;
+            font-size: 11px;
             transition: opacity 0.2s ease;
         }
         
-        .table thead th:hover {
-            background-color: #f1f3f5 !important;
+        .table thead th:hover .sort-icon {
+            color: white;
         }
         
         .table tbody tr {
@@ -438,6 +438,7 @@
             padding: 12px 10px;
             vertical-align: middle;
             font-size: 14px;
+            color: var(--primary-dark);
         }
         
         /* ==================== ALINHAMENTO DE COLUNAS ==================== */
@@ -456,6 +457,14 @@
         .valor-multa {
             text-align: right !important;
             font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .valor-multa-grande {
+            text-align: right !important;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-dark);
         }
         
         /* Ajustar cabeçalhos da tabela */
@@ -472,55 +481,55 @@
         }
         
         /* ALINHAMENTO DE TABELAS ESPECÍFICO */
-        #empresasTable th:nth-child(1), /* Empresa */
+        #empresasTable th:nth-child(1),
         #empresasTable td:nth-child(1) {
             text-align: left;
         }
         
-        #empresasTable th:nth-child(2), /* CNPJ */
+        #empresasTable th:nth-child(2),
         #empresasTable td:nth-child(2) {
             text-align: center;
         }
         
-        #empresasTable th:nth-child(3), /* Órgão Lesado */
+        #empresasTable th:nth-child(3),
         #empresasTable td:nth-child(3) {
             text-align: left;
         }
         
-        #empresasTable th:nth-child(4), /* Irregularidade */
+        #empresasTable th:nth-child(4),
         #empresasTable td:nth-child(4) {
             text-align: left;
         }
         
-        #empresasTable th:nth-child(5), /* Ano */
+        #empresasTable th:nth-child(5),
         #empresasTable td:nth-child(5) {
             text-align: center;
         }
         
-        #empresasTable th:nth-child(6), /* Valor */
+        #empresasTable th:nth-child(6),
         #empresasTable td:nth-child(6) {
             text-align: right;
         }
         
-        #empresasTable th:nth-child(7), /* Ações */
+        #empresasTable th:nth-child(7),
         #empresasTable td:nth-child(7) {
             text-align: center;
         }
         
         /* Para a tabela do Dashboard 1 */
-        #visaoGeralTable th:nth-child(1), /* Órgão Lesado */
+        #visaoGeralTable th:nth-child(1),
         #visaoGeralTable td:nth-child(1) {
             text-align: left;
         }
         
-        #visaoGeralTable th:nth-child(2), /* Processos */
+        #visaoGeralTable th:nth-child(2),
         #visaoGeralTable td:nth-child(2),
-        #visaoGeralTable th:nth-child(3), /* Empresas */
+        #visaoGeralTable th:nth-child(3),
         #visaoGeralTable td:nth-child(3) {
             text-align: center;
         }
         
-        #visaoGeralTable th:nth-child(4), /* Valor Total */
+        #visaoGeralTable th:nth-child(4),
         #visaoGeralTable td:nth-child(4) {
             text-align: right;
         }
@@ -538,15 +547,16 @@
         }
         
         .btn-action {
-            padding: 5px 10px;
+            padding: 6px 12px;
             font-size: 12px;
-            border-radius: 4px;
+            border-radius: 6px;
             border: none;
             cursor: pointer;
             transition: all 0.2s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            font-weight: 600;
         }
         
         .btn-history {
@@ -556,7 +566,19 @@
         
         .btn-history:hover {
             background-color: var(--primary-darker);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-view {
+            background-color: var(--info-blue);
+            color: white;
+        }
+        
+        .btn-view:hover {
+            background-color: #138496;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         /* ==================== BOTÕES ==================== */
@@ -636,10 +658,14 @@
             transform: translateY(-1px);
         }
         
-        .btn-open-data {
-            background: var(--open-data-green);
-            border: 2px solid var(--open-data-green);
+        .btn-export:hover i {
             color: white;
+        }
+        
+        .btn-open-data {
+            background: white !important;
+            border: 2px solid var(--primary-dark);
+            color: var(--primary-dark) !important;
             padding: 8px 15px;
             border-radius: 6px;
             font-weight: 600;
@@ -647,21 +673,54 @@
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             cursor: pointer;
         }
         
         .btn-open-data:hover {
-            background: #1B5E20;
-            border-color: #1B5E20;
-            color: white;
+            background: var(--primary-darker) !important;
+            border-color: var(--primary-darker) !important;
+            color: white !important;
             transform: translateY(-1px);
         }
         
+        .btn-open-data:hover i {
+            color: white !important;
+        }
+        
         .btn-download {
-            background: var(--primary-dark);
+            background: white !important;
             border: 2px solid var(--primary-dark);
-            color: white;
+            color: var(--primary-dark) !important;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        
+        .btn-download:hover {
+            background: var(--primary-darker) !important;
+            border-color: var(--primary-darker) !important;
+            color: white !important;
+            transform: translateY(-1px);
+        }
+        
+        .btn-download:hover i {
+            color: white !important;
+        }
+        
+        /* ==================== BOTÃO COMPARTILHAR ==================== */
+        .btn-share {
+            background: white;
+            border: 2px solid var(--primary-dark);
+            color: var(--primary-dark);
             padding: 8px 15px;
             border-radius: 6px;
             font-weight: 600;
@@ -671,13 +730,63 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            position: relative;
         }
         
-        .btn-download:hover {
-            background: var(--primary-darker);
-            border-color: var(--primary-darker);
+        .btn-share:hover {
+            background: var(--primary-dark);
             color: white;
             transform: translateY(-1px);
+        }
+        
+        .btn-share:hover i {
+            color: white;
+        }
+        
+        .share-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .share-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 10px 0;
+            min-width: 180px;
+            z-index: 1000;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .share-options.show {
+            display: block;
+        }
+        
+        .share-options a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .share-options a:hover {
+            background-color: rgba(41, 67, 90, 0.05);
+            color: var(--accent-red);
+        }
+        
+        .share-options a i,
+        .share-options a .material-icons {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
         }
         
         /* ==================== AÇÕES ==================== */
@@ -848,6 +957,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
         }
         
         .search-box-container label {
@@ -864,7 +975,7 @@
             font-size: 14px !important;
             transition: all 0.3s ease !important;
             width: 100% !important;
-            max-width: 300px !important;
+            max-width: 250px !important;
         }
         
         .search-box-container input:focus {
@@ -943,6 +1054,7 @@
         .detail-table tbody td {
             padding: 10px;
             vertical-align: middle;
+            color: var(--primary-dark);
         }
         
         /* ==================== BADGES PARA STATUS ==================== */
@@ -966,12 +1078,12 @@
         /* ==================== VALOR MONETÁRIO ==================== */
         .valor-multa {
             font-weight: 700;
-            color: var(--accent-red);
+            color: var(--primary-dark);
         }
         
         .valor-multa-grande {
             font-size: 16px;
-            color: #dc3545;
+            color: var(--primary-dark);
             font-weight: 800;
         }
         
@@ -1017,24 +1129,52 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
-        .clickable-row:hover {
-            background-color: rgba(41, 67, 90, 0.08) !important;
+
+        /* APENAS Dashboard 1 - muda para vermelho no hover */
+        #dashboard1 .clickable-row:hover td,
+        #dashboard1 .clickable-row:hover th {
+            color: var(--accent-red) !important;
+        }
+
+        #dashboard1 .clickable-row:hover td .valor-multa,
+        #dashboard1 .clickable-row:hover td.valor-multa {
+            color: var(--accent-red) !important;
+        }
+
+        /* OUTROS Dashboards - NÃO mudam de cor no hover */
+        #dashboard2 .clickable-row:hover td,
+        #dashboard2 .clickable-row:hover th {
+            color: var(--primary-dark) !important;
+        }
+
+        #dashboard2 .clickable-row,
+        #dashboard3 .clickable-row {
+            cursor: default;
         }
 
         /* ==================== TOTAL REGISTROS DASHBOARD 2 ==================== */
         .total-registros {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--primary-dark);
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: #dc3545;
+            border-radius: 20px;
+            color: white;
             font-weight: 600;
-            background: rgba(41, 67, 90, 0.1);
-            padding: 8px 15px;
-            border-radius: 6px;
+            font-size: 13px;
         }
 
+        .total-registros i {
+            color: white;
+        }
+        
+        /* ==================== TABELA DE METADADOS - DASHBOARD 3 ==================== */
+        .metadata-table thead th {
+            background-color: var(--primary-dark) !important;
+            color: white !important;
+        }
+        
         /* ==================== RESPONSIVIDADE ==================== */
         @media (max-width: 768px) {
             .container {
@@ -1125,12 +1265,21 @@
                 justify-content: flex-start;
             }
             
+            .search-box-container input {
+                max-width: 200px !important;
+            }
+            
             .company-info-grid {
                 grid-template-columns: 1fr;
             }
             
             .detail-table {
                 font-size: 12px;
+            }
+            
+            .share-options {
+                left: auto;
+                right: 0;
             }
         }
         
@@ -1173,6 +1322,10 @@
                 padding: 8px 15px;
                 font-size: 12px;
             }
+            
+            .share-options {
+                min-width: 160px;
+            }
         }
     </style>
 </head>
@@ -1182,9 +1335,6 @@
 
         <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
         <div class="container">
-            
-            <!-- Mensagem de Status -->
-            <div id="statusMessage"></div>
             
             <!-- ==================== MENU DE NAVEGAÇÃO ==================== -->
             <div class="nav-tabs-container">
@@ -1207,7 +1357,7 @@
                 </ul>
             </div>
             
-            <!-- ==================== DATA DE ATUALIZAÇÃO (MOVIDA PARA APÓS O MENU) ==================== -->
+            <!-- ==================== DATA DE ATUALIZAÇÃO ==================== -->
             <div class="data-atualizacao-container">
                 <div class="data-atualizacao-box">
                     <i class="fas fa-sync"></i>
@@ -1229,7 +1379,6 @@
                                     <label for="anoDashboard1" class="form-label filter-label">Ano</label>
                                     <select class="form-select" id="anoDashboard1">
                                         <option value="all">Todos os Anos</option>
-                                        <!-- Anos serão carregados dinamicamente -->
                                     </select>
                                 </div>
                             </div>
@@ -1238,7 +1387,6 @@
                                     <label for="orgaoLesadoDashboard1" class="form-label filter-label">Órgão Lesado</label>
                                     <select class="form-select" id="orgaoLesadoDashboard1">
                                         <option value="all">Todos os Órgãos</option>
-                                        <!-- Opções serão carregadas dinamicamente -->
                                     </select>
                                 </div>
                             </div>
@@ -1267,9 +1415,7 @@
                     </div>
 
                     <!-- Cards de Estatísticas Dashboard 1 -->
-                    <div class="row mb-4" id="summaryCards">
-                        <!-- Cards serão carregados dinamicamente -->
-                    </div>
+                    <div class="row mb-4" id="summaryCards"></div>
 
                     <!-- Gráficos Dashboard 1 -->
                     <div class="row mb-4">
@@ -1309,11 +1455,33 @@
                     <div class="actions-container mb-4">
                         <div class="export-buttons">
                             <button class="btn-export" id="exportCSVDashboard1">
-                                <i class="fas fa-file-csv me-2"></i> Exportar CSV
+                                <i class="fas fa-file-csv"></i> Exportar CSV
                             </button>
                             <button class="btn-export" id="printDashboard1">
-                                <i class="fas fa-print me-2"></i> Imprimir
+                                <i class="fas fa-print"></i> Imprimir
                             </button>
+                            <div class="share-wrapper">
+                                <button class="btn-share" id="shareDashboard1" onclick="toggleShareOptions(event, 'dashboard1')">
+                                    <i class="material-icons">share</i> Compartilhar
+                                </button>
+                                <div class="share-options" id="shareOptions-dashboard1">
+                                    <a href="#" onclick="copiarLink(event); return false;">
+                                        <i class="material-icons">link</i>Copiar link
+                                    </a>
+                                    <a href="#" onclick="compartilharFacebook(event);">
+                                        <i class="fab fa-facebook"></i>Facebook
+                                    </a>
+                                    <a href="#" onclick="compartilharTwitter(event);">
+                                        <i class="fab fa-twitter"></i>Twitter
+                                    </a>
+                                    <a href="#" onclick="compartilharLinkedIn(event);">
+                                        <i class="fab fa-linkedin"></i>LinkedIn
+                                    </a>
+                                    <a href="#" onclick="compartilharWhatsApp(event);">
+                                        <i class="fab fa-whatsapp"></i>WhatsApp
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
                             <div class="items-per-page">
@@ -1331,33 +1499,26 @@
 
                     <!-- Tabela Dashboard 1 - RESUMO POR ÓRGÃO -->
                     <div class="table-container">
-                        <div class="table-header">
-                            <h5 class="table-title">Resumo por Órgão Lesado</h5>
-                        </div>
                         <div class="table-fixed-header-container">
                             <table class="table table-hover" id="visaoGeralTable">
                                 <thead>
                                     <tr>
                                         <th class="text-left" data-sort="orgao_lesado" data-order="asc" onclick="sortTable('visaoGeral', 'orgao_lesado')">
-                                            Órgão Lesado
+                                            Órgão Lesado <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                         <th class="text-center" data-sort="quantidade_processos" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_processos')">
-                                            Processos
+                                            Processos <i class="fas fa-sort-down sort-icon"></i>
                                         </th>
                                         <th class="text-center" data-sort="quantidade_empresas" data-order="desc" onclick="sortTable('visaoGeral', 'quantidade_empresas')">
-                                            Empresas
+                                            Empresas <i class="fas fa-sort-down sort-icon"></i>
                                         </th>
                                         <th class="text-right" data-sort="valor_total_multa" data-order="desc" onclick="sortTable('visaoGeral', 'valor_total_multa')">
-                                            Valor Total
+                                            Valor Total <i class="fas fa-sort-down sort-icon"></i>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody id="resumoTableBody">
-                                    <!-- Dados serão carregados dinamicamente -->
-                                </tbody>
-                                <tfoot id="resumoTableFooter">
-                                    <!-- Total geral será carregado dinamicamente -->
-                                </tfoot>
+                                <tbody id="resumoTableBody"></tbody>
+                                <tfoot id="resumoTableFooter"></tfoot>
                             </table>
                         </div>
                         <!-- Paginação Dashboard 1 -->
@@ -1366,9 +1527,7 @@
                                 Mostrando 0-0 de 0 registros
                             </div>
                             <nav aria-label="Paginação">
-                                <ul class="pagination mb-0" id="paginationDashboard1">
-                                    <!-- Paginação será gerada dinamicamente -->
-                                </ul>
+                                <ul class="pagination mb-0" id="paginationDashboard1"></ul>
                             </nav>
                         </div>
                     </div>
@@ -1386,7 +1545,6 @@
                                     <label for="anoDashboard2" class="form-label filter-label">Ano</label>
                                     <select class="form-select" id="anoDashboard2">
                                         <option value="all">Todos os Anos</option>
-                                        <!-- Anos serão carregados dinamicamente -->
                                     </select>
                                 </div>
                             </div>
@@ -1395,7 +1553,6 @@
                                     <label for="orgaoLesadoDashboard2" class="form-label filter-label">Órgão Lesado</label>
                                     <select class="form-select" id="orgaoLesadoDashboard2">
                                         <option value="all">Todos os Órgãos</option>
-                                        <!-- Opções serão carregadas dinamicamente -->
                                     </select>
                                 </div>
                             </div>
@@ -1459,46 +1616,68 @@
                             <button class="btn-export" id="printDashboard2">
                                 <i class="fas fa-print"></i> Imprimir
                             </button>
-                            <button class="btn-open-data" id="openDataPortal">
-                                <i class="fas fa-external-link-alt"></i> Portal de Dados
-                            </button>
-                            <!-- Total de Registros -->
-                            <div class="total-registros">
-                                <i class="fas fa-database"></i>
-                                <span id="totalRegistrosDashboard2">0 registros</span>
+                            <div class="share-wrapper">
+                                <button class="btn-share" id="shareDashboard2" onclick="toggleShareOptions(event, 'dashboard2')">
+                                    <i class="material-icons">share</i> Compartilhar
+                                </button>
+                                <div class="share-options" id="shareOptions-dashboard2">
+                                    <a href="#" onclick="copiarLink(event); return false;">
+                                        <i class="material-icons">link</i>Copiar link
+                                    </a>
+                                    <a href="#" onclick="compartilharFacebook(event);">
+                                        <i class="fab fa-facebook"></i>Facebook
+                                    </a>
+                                    <a href="#" onclick="compartilharTwitter(event);">
+                                        <i class="fab fa-twitter"></i>Twitter
+                                    </a>
+                                    <a href="#" onclick="compartilharLinkedIn(event);">
+                                        <i class="fab fa-linkedin"></i>LinkedIn
+                                    </a>
+                                    <a href="#" onclick="compartilharWhatsApp(event);">
+                                        <i class="fab fa-whatsapp"></i>WhatsApp
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
                         <div class="search-box-container">
                             <label for="searchEmpresas">Buscar:</label>
                             <input type="text" id="searchEmpresas" placeholder="Empresa, CNPJ, órgão...">
+                            <div class="total-registros">
+                                <span id="totalRegistrosDashboard2">0 registros</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Tabela de Empresas Dashboard 2 -->
                     <div class="table-container">
-                        <div class="table-header">
-                            <h5 class="table-title">Empresas Sancionadas</h5>
-                        </div>
                         <div class="table-fixed-header-container">
                             <table class="table table-hover" id="empresasTable">
                                 <thead>
                                     <tr>
-                                        <th class="text-left" data-sort="empresa" data-order="asc" onclick="sortTable('empresas', 'empresa')">Empresa</th>
-                                        <th class="text-center" data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">CNPJ</th>
-                                        <th class="text-left" data-sort="orgao" data-order="asc" onclick="sortTable('empresas', 'orgao')">Órgão Lesado</th>
-                                        <th class="text-left" data-sort="irregularidade" data-order="asc" onclick="sortTable('empresas', 'irregularidade')">Irregularidade</th>
-                                        <th class="text-center" data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">Ano</th>
-                                        <th class="text-right" data-sort="valor" data-order="desc" onclick="sortTable('empresas', 'valor')">Valor</th>
+                                        <th class="text-left" data-sort="empresa" data-order="asc" onclick="sortTable('empresas', 'empresa')">
+                                            Empresa <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="text-center" data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">
+                                            CNPJ <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="text-left" data-sort="orgao" data-order="asc" onclick="sortTable('empresas', 'orgao')">
+                                            Órgão Lesado <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="text-left" data-sort="irregularidade" data-order="asc" onclick="sortTable('empresas', 'irregularidade')">
+                                            Irregularidade <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="text-center" data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">
+                                            Ano <i class="fas fa-sort-down sort-icon"></i>
+                                        </th>
+                                        <th class="text-right" data-sort="valor" data-order="desc" onclick="sortTable('empresas', 'valor')">
+                                            Valor <i class="fas fa-sort-down sort-icon"></i>
+                                        </th>
                                         <th class="actions-column text-center">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody id="empresasTableBody">
-                                    <!-- Dados serão carregados dinamicamente -->
-                                </tbody>
-                                <tfoot id="empresasTableFooter">
-                                    <!-- Total geral será carregado dinamicamente -->
-                                </tfoot>
+                                <tbody id="empresasTableBody"></tbody>
+                                <tfoot id="empresasTableFooter"></tfoot>
                             </table>
                         </div>
                         
@@ -1508,9 +1687,7 @@
                                 Mostrando 0-0 de 0 registros
                             </div>
                             <nav aria-label="Paginação">
-                                <ul class="pagination mb-0" id="paginationDashboard2">
-                                    <!-- Paginação será gerada dinamicamente -->
-                                </ul>
+                                <ul class="pagination mb-0" id="paginationDashboard2"></ul>
                             </nav>
                         </div>
                     </div>
@@ -1523,10 +1700,7 @@
                     <!-- Informações sobre os dados -->
                     <div class="table-container">
                         <div class="table-header">
-                            <h5 class="table-title">Informações e Downloads</h5>
-                            <span class="badge-open-data">
-                                <i class="fab fa-github"></i> GitHub Oficial
-                            </span>
+                            <h5 class="table-title">Downloads e informações</h5>
                         </div>
                         <div class="p-4">
                             <div class="row">
@@ -1544,7 +1718,7 @@
                                 </div>
                                 <div class="col-md-6 col-12 mb-4">
                                     <div class="card-stats">
-                                        <i class="fas fa-external-link-alt fa-3x mb-3" style="color: var(--open-data-green);"></i>
+                                        <i class="fas fa-external-link-alt fa-3x mb-3" style="color: var(--primary-dark);"></i>
                                         <h4>Portal de Dados Abertos</h4>
                                         <p class="text-muted">Acesse o portal oficial</p>
                                         <div class="mt-3">
@@ -1571,7 +1745,7 @@
                                 </div>
                                 <div class="col-md-6 col-12 mb-4">
                                     <div class="card-stats">
-                                        <i class="fas fa-gavel fa-3x mb-3" style="color: var(--accent-red);"></i>
+                                        <i class="fas fa-gavel fa-3x mb-3" style="color: var(--primary-dark);"></i>
                                         <h4>Legislação</h4>
                                         <p class="text-muted">Lei Anticorrupção (12.846/2013)</p>
                                         <div class="mt-3">
@@ -1586,7 +1760,7 @@
                             <div class="mt-4">
                                 <h5 class="mb-3">Metadados - Estrutura dos Dados</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered metadata-table">
                                         <thead>
                                             <tr>
                                                 <th>Campo</th>
@@ -1595,81 +1769,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>sei</td>
-                                                <td>Número do processo SEI</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>numero</td>
-                                                <td>Número do processo</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>ano</td>
-                                                <td>Ano do processo</td>
-                                                <td>Número</td>
-                                            </tr>
-                                            <tr>
-                                                <td>portaria</td>
-                                                <td>Número da portaria</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>data_publicacao</td>
-                                                <td>Data de publicação</td>
-                                                <td>Data</td>
-                                            </tr>
-                                            <tr>
-                                                <td>orgao_instaurador</td>
-                                                <td>Órgão que instaurou o processo</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>orgao_lesado</td>
-                                                <td>Órgão que foi lesado</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>empresa_processada</td>
-                                                <td>Nome da empresa sancionada</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>tipo_societario</td>
-                                                <td>Tipo societário da empresa</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>cnpj</td>
-                                                <td>CNPJ da empresa</td>
-                                                <td>Texto (14 dígitos)</td>
-                                            </tr>
-                                            <tr>
-                                                <td>conuta</td>
-                                                <td>Descrição da irregularidade</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>data_decisao</td>
-                                                <td>Data da decisão</td>
-                                                <td>Data</td>
-                                            </tr>
-                                            <tr>
-                                                <td>decisao</td>
-                                                <td>Tipo de decisão</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>fase</td>
-                                                <td>Fase do processo</td>
-                                                <td>Texto</td>
-                                            </tr>
-                                            <tr>
-                                                <td>valor_multa</td>
-                                                <td>Valor da multa aplicada</td>
-                                                <td>Número Decimal</td>
-                                            </tr>
+                                            <tr><td>sei</td><td>Número do processo SEI</td><td>Texto</td></tr>
+                                            <tr><td>numero</td><td>Número do processo</td><td>Texto</td></tr>
+                                            <tr><td>ano</td><td>Ano do processo</td><td>Número</td></tr>
+                                            <tr><td>portaria</td><td>Número da portaria</td><td>Texto</td></tr>
+                                            <tr><td>data_publicacao</td><td>Data de publicação</td><td>Data</td></tr>
+                                            <tr><td>orgao_instaurador</td><td>Órgão que instaurou o processo</td><td>Texto</td></tr>
+                                            <tr><td>orgao_lesado</td><td>Órgão que foi lesado</td><td>Texto</td></tr>
+                                            <tr><td>empresa_processada</td><td>Nome da empresa sancionada</td><td>Texto</td></tr>
+                                            <tr><td>tipo_societario</td><td>Tipo societário da empresa</td><td>Texto</td></tr>
+                                            <tr><td>cnpj</td><td>CNPJ da empresa</td><td>Texto (14 dígitos)</td></tr>
+                                            <tr><td>conuta</td><td>Descrição da irregularidade</td><td>Texto</td></tr>
+                                            <tr><td>data_decisao</td><td>Data da decisão</td><td>Data</td></tr>
+                                            <tr><td>decisao</td><td>Tipo de decisão</td><td>Texto</td></tr>
+                                            <tr><td>fase</td><td>Fase do processo</td><td>Texto</td></tr>
+                                            <tr><td>valor_multa</td><td>Valor da multa aplicada</td><td>Número Decimal</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1707,9 +1821,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="company-info" id="companyInfo">
-                            <!-- Informações da empresa serão carregadas dinamicamente -->
-                        </div>
+                        <div class="company-info" id="companyInfo"></div>
                         
                         <div class="detail-table-container">
                             <h6 class="mb-3">Histórico de Sanções</h6>
@@ -1725,9 +1837,7 @@
                                             <th>Valor Multa</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="detailTableBody">
-                                        <!-- Histórico será carregado dinamicamente -->
-                                    </tbody>
+                                    <tbody id="detailTableBody"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -1783,9 +1893,16 @@
         let itemsPerPageDashboard1 = 50;
         let itemsPerPageDashboard2 = 50;
         let charts = {};
-        let currentSortDashboard1 = { column: 'orgao', order: 'asc' };
-        let currentSortDashboard2 = { column: 'empresa', order: 'asc' };
+        let currentSortDashboard1 = { column: 'valor_total_multa', order: 'desc' };
+        let currentSortDashboard2 = { column: 'ano', order: 'desc' };
         let lastUpdateDate = new Date();
+
+        // Paleta de cores para gráficos
+        const chartColors = [
+            '#29435A', '#B93C42', '#2E7D32', '#FFA000', '#17a2b8',
+            '#6f42c1', '#fd7e14', '#20c997', '#e83e8c', '#007bff',
+            '#6610f2', '#dc3545', '#28a745', '#ffc107', '#343a40'
+        ];
 
         // ==================== FUNÇÃO PARA AJUSTAR ALTURA DO IFRAME ====================
         function iframeUpdateHeight() {
@@ -1796,16 +1913,119 @@
             }
         }
 
+        // ==================== FUNÇÕES DE COMPARTILHAMENTO ====================
+        window.toggleShareOptions = function(event, dashboardId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Fechar todas as outras opções de compartilhamento
+            document.querySelectorAll('.share-options').forEach(el => {
+                if (el.id !== `shareOptions-${dashboardId}`) {
+                    el.classList.remove('show');
+                }
+            });
+            
+            // Alternar a atual
+            const shareOptions = document.getElementById(`shareOptions-${dashboardId}`);
+            if (shareOptions) {
+                shareOptions.classList.toggle('show');
+            }
+        };
+
+        window.copiarLink = function(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            const url = window.location.href;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Link copiado para a área de transferência!');
+                }).catch(() => {
+                    alert('Não foi possível copiar o link. Tente novamente.');
+                });
+            } else {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('Link copiado para a área de transferência!');
+            }
+            
+            // Fechar todas as opções de compartilhamento
+            document.querySelectorAll('.share-options').forEach(el => {
+                el.classList.remove('show');
+            });
+        };
+
+        window.compartilharFacebook = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+            
+            document.querySelectorAll('.share-options').forEach(el => {
+                el.classList.remove('show');
+            });
+        };
+
+        window.compartilharTwitter = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('Empresas Sancionadas - Governo de Minas Gerais');
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+            
+            document.querySelectorAll('.share-options').forEach(el => {
+                el.classList.remove('show');
+            });
+        };
+
+        window.compartilharLinkedIn = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
+            
+            document.querySelectorAll('.share-options').forEach(el => {
+                el.classList.remove('show');
+            });
+        };
+
+        window.compartilharWhatsApp = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('Empresas Sancionadas - Governo de Minas Gerais');
+            window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+            
+            document.querySelectorAll('.share-options').forEach(el => {
+                el.classList.remove('show');
+            });
+        };
+
+        // Fechar opções de compartilhamento ao clicar fora
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.share-wrapper')) {
+                document.querySelectorAll('.share-options').forEach(el => {
+                    el.classList.remove('show');
+                });
+            }
+        });
+
         // ==================== INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('=== INICIANDO SISTEMA DE EMPRESAS SANCIONADAS ===');
             setupEventListeners();
             initializeApp();
             
-            // Ajustar altura do iframe após carregamento
             setTimeout(iframeUpdateHeight, 500);
             
-            // Ajustar altura quando mudar de aba
             const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
             tabs.forEach(tab => {
                 tab.addEventListener('shown.bs.tab', function() {
@@ -1818,7 +2038,6 @@
         async function initializeApp() {
             console.log('=== INICIANDO APLICATIVO ===');
             showLoading(true, 'Carregando dados do GitHub...');
-            showStatusMessage('Carregando dados das empresas sancionadas do GitHub...', 'info');
             
             try {
                 empresasData = await loadCSVData();
@@ -1833,13 +2052,10 @@
                     console.log(`=== DADOS CARREGADOS ===`);
                     console.log(`✅ Registros: ${empresasData.length}`);
                     
-                    // Inicializar dashboard
                     initializeDashboard();
                     
                     showLoading(false);
-                    showStatusMessage(`✅ Dados carregados com sucesso! ${empresasData.length} registros disponíveis.`, 'success');
                     
-                    // Ajustar altura do iframe
                     setTimeout(iframeUpdateHeight, 300);
                 } else {
                     throw new Error('Nenhum dado válido foi carregado');
@@ -1847,7 +2063,6 @@
             } catch (error) {
                 console.error('Erro ao carregar dados iniciais:', error);
                 showLoading(false);
-                showStatusMessage('⚠️ Não foi possível carregar os dados. Recarregue a página para tentar novamente.', 'warning');
             }
         }
 
@@ -1870,7 +2085,6 @@
                 return data;
             } catch (error) {
                 console.error('Erro ao carregar CSV:', error);
-                // Fallback para dados de exemplo se o CSV falhar
                 return loadSampleData();
             }
         }
@@ -1889,7 +2103,6 @@
                 const line = lines[i].trim();
                 if (!line) continue;
                 
-                // Parsear linha considerando que pode haver ponto e vírgula dentro de aspas
                 const values = [];
                 let currentValue = '';
                 let insideQuotes = false;
@@ -1909,7 +2122,6 @@
                 values.push(currentValue.trim());
                 
                 if (values.length !== headers.length) {
-                    console.warn(`Linha ${i} tem ${values.length} valores, esperado ${headers.length}`);
                     continue;
                 }
                 
@@ -1917,21 +2129,17 @@
                 headers.forEach((header, index) => {
                     let value = values[index] || '';
                     
-                    // Remover aspas se houver
                     if (value.startsWith('"') && value.endsWith('"')) {
                         value = value.substring(1, value.length - 1);
                     }
                     
-                    // Converter valores numéricos
                     if (header === 'ano' || header === 'valor_multa') {
-                        // Remover caracteres não numéricos e converter para float
                         const numValue = parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.'));
                         row[header] = isNaN(numValue) ? null : numValue;
                     } else {
                         row[header] = value || null;
                     }
                     
-                    // Adicionar campos auxiliares para compatibilidade
                     if (header === 'empresa_processada') {
                         row['empresa'] = value;
                     }
@@ -1967,7 +2175,6 @@
                 
             } catch (error) {
                 console.error('❌ Erro ao inicializar dashboard:', error);
-                showStatusMessage('Erro ao inicializar interface.', 'danger');
             }
         }
         
@@ -1982,40 +2189,6 @@
             
             if (status && message) {
                 status.textContent = message;
-            }
-        }
-
-        function showStatusMessage(message, type = 'info') {
-            const container = document.getElementById('statusMessage');
-            
-            if (!container) return;
-            
-            const oldAlerts = container.querySelectorAll('.alert');
-            oldAlerts.forEach(alert => alert.remove());
-            
-            const iconMap = {
-                'success': 'check-circle',
-                'warning': 'exclamation-triangle',
-                'danger': 'times-circle',
-                'info': 'info-circle'
-            };
-            
-            container.innerHTML = `
-                <div class="alert alert-${type} alert-dismissible fade show">
-                    <i class="fas fa-${iconMap[type] || 'info-circle'} me-2"></i>
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-            
-            if (type === 'success' || type === 'info') {
-                setTimeout(() => {
-                    const alertElement = container.querySelector('.alert');
-                    if (alertElement) {
-                        const alert = bootstrap.Alert.getOrCreateInstance(alertElement);
-                        alert.close();
-                    }
-                }, 10000);
             }
         }
 
@@ -2050,7 +2223,6 @@
         function setupEventListeners() {
             console.log('Configurando event listeners...');
             
-            // Filtros Dashboard 1
             const aplicarFiltrosBtn = document.getElementById('aplicarFiltros');
             if (aplicarFiltrosBtn) {
                 aplicarFiltrosBtn.addEventListener('click', function() {
@@ -2065,7 +2237,6 @@
                 });
             }
             
-            // Dashboard 2
             const pesquisarEmpresasBtn = document.getElementById('pesquisarEmpresas');
             if (pesquisarEmpresasBtn) {
                 pesquisarEmpresasBtn.addEventListener('click', function() {
@@ -2080,7 +2251,6 @@
                 });
             }
             
-            // Exportação
             const exportCSVDashboard1Btn = document.getElementById('exportCSVDashboard1');
             const printDashboard1Btn = document.getElementById('printDashboard1');
             const exportCSVDashboard2Btn = document.getElementById('exportCSVDashboard2');
@@ -2091,29 +2261,18 @@
             if (exportCSVDashboard2Btn) exportCSVDashboard2Btn.addEventListener('click', () => exportToCSV('dashboard2'));
             if (printDashboard2Btn) printDashboard2Btn.addEventListener('click', () => printDashboard('dashboard2'));
             
-            // Portal de Dados Abertos
-            const openDataPortalBtn = document.getElementById('openDataPortal');
             const openDataPortalButton = document.getElementById('openDataPortalButton');
-            
-            if (openDataPortalBtn) {
-                openDataPortalBtn.addEventListener('click', () => {
-                    window.open(PORTAL_DADOS_ABERTOS_URL, '_blank');
-                });
-            }
-            
             if (openDataPortalButton) {
                 openDataPortalButton.addEventListener('click', () => {
                     window.open(PORTAL_DADOS_ABERTOS_URL, '_blank');
                 });
             }
             
-            // Downloads
             const downloadDadosCompletosBtn = document.getElementById('downloadDadosCompletos');
             if (downloadDadosCompletosBtn) {
                 downloadDadosCompletosBtn.addEventListener('click', downloadDadosCompletos);
             }
             
-            // Campo de busca
             const searchEmpresasInput = document.getElementById('searchEmpresas');
             if (searchEmpresasInput) {
                 searchEmpresasInput.addEventListener('input', function(e) {
@@ -2121,7 +2280,6 @@
                 });
             }
             
-            // Itens por página
             const itemsPerPageDashboard1Select = document.getElementById('itemsPerPageDashboard1');
             const itemsPerPageDashboard2Select = document.getElementById('itemsPerPageDashboard2');
             
@@ -2154,7 +2312,6 @@
             }
             
             try {
-                // Coletar opções únicas
                 const anos = [...new Set(empresasData.map(row => row.ano).filter(ano => ano !== null && !isNaN(ano)))].sort((a, b) => b - a);
                 const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(orgao => orgao && orgao.trim() !== ''))].sort();
                 const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(irr => irr && irr.trim() !== ''))].sort();
@@ -2163,7 +2320,6 @@
                 console.log(`Órgãos encontrados: ${orgaos.length}`);
                 console.log(`Irregularidades encontradas: ${irregularidades.length}`);
                 
-                // Atualizar select de anos
                 const anoSelect1 = document.getElementById('anoDashboard1');
                 const anoSelect2 = document.getElementById('anoDashboard2');
                 
@@ -2187,7 +2343,6 @@
                     });
                 }
                 
-                // Atualizar select de órgãos
                 const orgaoSelect1 = document.getElementById('orgaoLesadoDashboard1');
                 const orgaoSelect2 = document.getElementById('orgaoLesadoDashboard2');
                 
@@ -2211,7 +2366,6 @@
                     });
                 }
                 
-                // Atualizar datalist de irregularidades
                 const datalist1 = document.getElementById('irregularidadesListDashboard1');
                 const datalist2 = document.getElementById('irregularidadesListDashboard2');
                 
@@ -2269,7 +2423,6 @@
                 updateDashboard1();
                 
                 console.log(`Dashboard 1 filtrado: ${filtered.length} registros`);
-                // REMOVIDO: showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
                 
             } else if (dashboard === 'dashboard2') {
                 const ano = document.getElementById('anoDashboard2').value;
@@ -2320,7 +2473,6 @@
                 updateDashboard2();
                 
                 console.log(`Dashboard 2 filtrado: ${filtered.length} registros`);
-                // REMOVIDO: showStatusMessage(`Filtro aplicado: ${filtered.length} registros encontrados`, 'info');
             }
         }
 
@@ -2361,8 +2513,6 @@
             filteredDataDashboard1 = [...empresasData];
             currentPageDashboard1 = 1;
             updateDashboard1();
-            
-            // REMOVIDO: showStatusMessage('Filtros limpos', 'info');
         }
 
         function clearDashboard2Filters() {
@@ -2379,8 +2529,6 @@
             filteredDataDashboard2 = [...empresasData];
             currentPageDashboard2 = 1;
             updateDashboard2();
-            
-            // REMOVIDO: showStatusMessage('Filtros limpos', 'info');
         }
 
         // ==================== DASHBOARD 1: VISÃO GERAL ====================
@@ -2390,7 +2538,6 @@
             updateResumoTable();
             updateCharts1();
             
-            // Ajustar altura do iframe
             setTimeout(iframeUpdateHeight, 100);
         }
 
@@ -2398,7 +2545,6 @@
             const cardsContainer = document.getElementById('summaryCards');
             const data = filteredDataDashboard1;
             
-            // Calcular estatísticas
             const totalProcessos = data.length;
             
             const empresasUnicas = new Set();
@@ -2415,13 +2561,11 @@
             
             console.log(`Estatísticas: ${totalProcessos} processos, ${totalEmpresas} empresas, ${totalMultas} multas, ${orgaosAfetados} órgãos`);
             
-            // Atualizar badge
             const resumoCountElement = document.getElementById('resumoCountDashboard1');
             if (resumoCountElement) {
                 resumoCountElement.textContent = `${orgaosAfetados} órgãos`;
             }
             
-            // Criar cards
             cardsContainer.innerHTML = `
                 <div class="col-md-3 col-6">
                     <div class="metric-card primary">
@@ -2466,7 +2610,6 @@
                 return;
             }
             
-            // Agrupar por órgão lesado
             const resumoPorOrgao = {};
             
             data.forEach(row => {
@@ -2493,7 +2636,6 @@
                 }
             });
             
-            // Converter objeto para array
             let resumoArray = Object.values(resumoPorOrgao).map(item => ({
                 orgao: item.orgao,
                 quantidade_processos: item.quantidade_processos,
@@ -2501,7 +2643,6 @@
                 valor_total_multa: item.valor_total_multa
             }));
             
-            // Ordenar
             resumoArray.sort((a, b) => {
                 const column = currentSortDashboard1.column;
                 const order = currentSortDashboard1.order;
@@ -2524,18 +2665,15 @@
                 }
             });
             
-            // Calcular totais
             const totalProcessos = resumoArray.reduce((sum, item) => sum + item.quantidade_processos, 0);
             const totalEmpresas = resumoArray.reduce((sum, item) => sum + item.quantidade_empresas, 0);
             const totalMultas = resumoArray.reduce((sum, item) => sum + item.valor_total_multa, 0);
             
-            // Paginação
             const totalPages = Math.ceil(resumoArray.length / itemsPerPageDashboard1);
             const startIndex = (currentPageDashboard1 - 1) * itemsPerPageDashboard1;
             const endIndex = Math.min(startIndex + itemsPerPageDashboard1, resumoArray.length);
             const paginatedData = resumoArray.slice(startIndex, endIndex);
             
-            // Atualizar tabela
             tbody.innerHTML = '';
             
             paginatedData.forEach(item => {
@@ -2553,7 +2691,6 @@
                 tbody.appendChild(tr);
             });
             
-            // Atualizar rodapé
             tfoot.innerHTML = `
                 <tr class="table-total-row">
                     <td class="text-left"><strong>TOTAL GERAL</strong></td>
@@ -2563,7 +2700,6 @@
                 </tr>
             `;
             
-            // Atualizar paginação
             updatePagination('dashboard1', resumoArray.length, totalPages);
             
             console.log(`Tabela de resumo atualizada: ${resumoArray.length} órgãos`);
@@ -2602,42 +2738,9 @@
             const anos = Object.keys(anosData).sort((a, b) => a - b);
             const valoresAnos = anos.map(ano => anosData[ano]);
             
-            // Gráfico 2: Top 10 Órgãos
-            const orgaosData = {};
-            data.forEach(row => {
-                const orgao = row.orgao_lesado || 'NÃO INFORMADO';
-                if (!orgaosData[orgao]) {
-                    orgaosData[orgao] = 0;
-                }
-                orgaosData[orgao] += (row.valor_multa || 0);
-            });
+            // Cores para cada ano
+            const coresAnos = anos.map((_, i) => chartColors[i % chartColors.length]);
             
-            // Ordenar e pegar top 10
-            const orgaosArray = Object.entries(orgaosData)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 10);
-            
-            const orgaosTop10 = orgaosArray.map(item => item[0]);
-            const valoresOrgaos = orgaosArray.map(item => item[1]);
-            
-            // Gráfico 3: Tipos de Irregularidade (top 10)
-            const irregularidadesData = {};
-            data.forEach(row => {
-                const irregularidade = row.conuta || 'NÃO INFORMADO';
-                if (!irregularidadesData[irregularidade]) {
-                    irregularidadesData[irregularidade] = 0;
-                }
-                irregularidadesData[irregularidade]++;
-            });
-            
-            const irregularidadesArray = Object.entries(irregularidadesData)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 10);
-            
-            const irregularidadesTop10 = irregularidadesArray.map(item => item[0]);
-            const contagemIrregularidades = irregularidadesArray.map(item => item[1]);
-            
-            // Criar ou atualizar gráficos
             createOrUpdateChart('chartAno', {
                 type: 'bar',
                 data: {
@@ -2645,8 +2748,8 @@
                     datasets: [{
                         label: 'Valor das Multas (R$)',
                         data: valoresAnos,
-                        backgroundColor: '#29435A',
-                        borderColor: '#132837',
+                        backgroundColor: coresAnos,
+                        borderColor: coresAnos.map(cor => cor.replace(')', ', 1)').replace('rgb', 'rgba')),
                         borderWidth: 1
                     }]
                 },
@@ -2676,6 +2779,32 @@
                 }
             });
             
+            // Gráfico 2: Top 10 Órgãos (usando sigla)
+            const orgaosData = {};
+            data.forEach(row => {
+                let sigla = row.orgao_lesado || 'NÃO INFORMADO';
+                
+                if (sigla.includes('Secretaria de Estado de')) {
+                    sigla = sigla.replace('Secretaria de Estado de', 'SE');
+                } else if (sigla.includes('Secretaria de Estado')) {
+                    sigla = sigla.replace('Secretaria de Estado', 'SE');
+                }
+                
+                if (!orgaosData[sigla]) {
+                    orgaosData[sigla] = 0;
+                }
+                orgaosData[sigla] += (row.valor_multa || 0);
+            });
+            
+            const orgaosArray = Object.entries(orgaosData)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            const orgaosTop10 = orgaosArray.map(item => item[0]);
+            const valoresOrgaos = orgaosArray.map(item => item[1]);
+            
+            const coresOrgaos = orgaosTop10.map((_, i) => chartColors[i % chartColors.length]);
+            
             createOrUpdateChart('chartOrgao', {
                 type: 'bar',
                 data: {
@@ -2683,8 +2812,8 @@
                     datasets: [{
                         label: 'Valor das Multas (R$)',
                         data: valoresOrgaos,
-                        backgroundColor: '#B93C42',
-                        borderColor: '#DB233F',
+                        backgroundColor: coresOrgaos,
+                        borderColor: coresOrgaos.map(cor => cor.replace(')', ', 1)').replace('rgb', 'rgba')),
                         borderWidth: 1
                     }]
                 },
@@ -2715,28 +2844,54 @@
                 }
             });
             
+            // Gráfico 3: Tipos de Irregularidade (sem legenda, apenas tooltip)
+            const irregularidadesData = {};
+            data.forEach(row => {
+                let irregularidade = row.conuta || 'NÃO INFORMADO';
+                
+                if (irregularidade.length > 30) {
+                    irregularidade = irregularidade.substring(0, 27) + '...';
+                }
+                
+                if (!irregularidadesData[irregularidade]) {
+                    irregularidadesData[irregularidade] = 0;
+                }
+                irregularidadesData[irregularidade]++;
+            });
+            
+            const irregularidadesArray = Object.entries(irregularidadesData)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            const irregularidadesTop10 = irregularidadesArray.map(item => item[0]);
+            const contagemIrregularidades = irregularidadesArray.map(item => item[1]);
+            
+            const coresIrregularidades = irregularidadesTop10.map((_, i) => chartColors[i % chartColors.length]);
+            
             createOrUpdateChart('chartIrregularidade', {
                 type: 'doughnut',
                 data: {
                     labels: irregularidadesTop10,
                     datasets: [{
-                        label: 'Quantidade',
                         data: contagemIrregularidades,
-                        backgroundColor: [
-                            '#29435A', '#B93C42', '#28a745', '#ffc107', '#17a2b8',
-                            '#2E7D32', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
-                        ]
+                        backgroundColor: coresIrregularidades,
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                boxWidth: 10,
-                                font: { size: 10 }
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} processos (${percentage}%)`;
+                                }
                             }
                         }
                     }
@@ -2752,7 +2907,6 @@
             updateTotalRegistros();
             updateEmpresasTable();
             
-            // Ajustar altura do iframe
             setTimeout(iframeUpdateHeight, 100);
         }
 
@@ -2775,7 +2929,6 @@
                 return;
             }
             
-            // Ordenar dados
             let sortedData = [...data];
             sortedData.sort((a, b) => {
                 const column = currentSortDashboard2.column;
@@ -2799,19 +2952,16 @@
                 }
             });
             
-            // Calcular totais
             const totalMultas = sortedData.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
             
-            // Paginação
             const totalPages = Math.ceil(sortedData.length / itemsPerPageDashboard2);
             const startIndex = (currentPageDashboard2 - 1) * itemsPerPageDashboard2;
             const endIndex = Math.min(startIndex + itemsPerPageDashboard2, sortedData.length);
             const paginatedData = sortedData.slice(startIndex, endIndex);
             
-            // Atualizar tabela
             tbody.innerHTML = '';
             
-            paginatedData.forEach((row, index) => {
+            paginatedData.forEach((row) => {
                 const tr = document.createElement('tr');
                 tr.className = 'clickable-row';
                 tr.onclick = () => showCompanyDetails(row.cnpj || row.empresa_processada);
@@ -2829,7 +2979,6 @@
                     irregularidade = irregularidade.substring(0, 57) + '...';
                 }
                 
-                // NOME COMPLETO DO ÓRGÃO (sem truncar)
                 const orgaoNome = row.orgao_lesado || 'NÃO INFORMADO';
                 
                 tr.innerHTML = `
@@ -2855,7 +3004,6 @@
                 tbody.appendChild(tr);
             });
             
-            // Atualizar rodapé
             tfoot.innerHTML = `
                 <tr class="table-total-row">
                     <td colspan="5" class="text-left"><strong>TOTAL GERAL</strong></td>
@@ -2864,7 +3012,6 @@
                 </tr>
             `;
             
-            // Atualizar paginação
             updatePagination('dashboard2', sortedData.length, totalPages);
             
             console.log(`Tabela de empresas atualizada: ${sortedData.length} registros`);
@@ -2908,15 +3055,13 @@
             const currentPage = dashboard === 'dashboard1' ? currentPageDashboard1 : currentPageDashboard2;
             const itemsPerPage = dashboard === 'dashboard1' ? itemsPerPageDashboard1 : itemsPerPageDashboard2;
             
-            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
             const endItem = Math.min(currentPage * itemsPerPage, totalItems);
             
             paginationInfo.textContent = `Mostrando ${startItem.toLocaleString('pt-BR')}-${endItem.toLocaleString('pt-BR')} de ${totalItems.toLocaleString('pt-BR')} registros`;
             
-            // Gerar links de paginação
             let paginationHTML = '';
             
-            // Botão anterior
             if (currentPage > 1) {
                 paginationHTML += `
                     <li class="page-item">
@@ -2927,7 +3072,6 @@
                 `;
             }
             
-            // Números de página
             const maxVisiblePages = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
@@ -2952,7 +3096,6 @@
                 }
             }
             
-            // Botão próximo
             if (currentPage < totalPages) {
                 paginationHTML += `
                     <li class="page-item">
@@ -2975,7 +3118,6 @@
                 updateEmpresasTable();
             }
             
-            // Rolar para o topo da tabela
             const tableContainer = document.querySelector('.table-fixed-header-container');
             if (tableContainer) {
                 tableContainer.scrollTop = 0;
@@ -2992,12 +3134,10 @@
             
             const ctx = canvas.getContext('2d');
             
-            // Destruir gráfico existente
             if (charts[chartId]) {
                 charts[chartId].destroy();
             }
             
-            // Criar novo gráfico
             charts[chartId] = new Chart(ctx, config);
         }
 
@@ -3005,15 +3145,12 @@
         function showCompanyDetails(identifier) {
             console.log(`Mostrando detalhes para: ${identifier}`);
             
-            // Limpar qualquer caractere especial
             const cleanIdentifier = identifier.replace(/[^\w\s]/gi, '');
             
             const companyRecords = empresasData.filter(row => {
-                // Buscar por CNPJ (apenas números)
                 const cleanCNPJ = row.cnpj ? row.cnpj.replace(/\D/g, '') : '';
                 const searchCNPJ = identifier.replace(/\D/g, '');
                 
-                // Buscar por nome da empresa
                 const empresaNome = row.empresa_processada ? row.empresa_processada.toLowerCase() : '';
                 const searchNome = identifier.toLowerCase();
                 
@@ -3096,7 +3233,6 @@
             let filename = '';
             
             if (dashboard === 'dashboard1') {
-                // Exportar resumo por órgão
                 const data = filteredDataDashboard1;
                 
                 const resumoPorOrgao = {};
@@ -3135,7 +3271,6 @@
                 filename = `resumo_orgaos_sancionados_${new Date().toISOString().slice(0,10)}.csv`;
                 
             } else if (dashboard === 'dashboard2') {
-                // Exportar dados completos
                 dataToExport = filteredDataDashboard2.map(row => ({
                     'Processo SEI': row.sei,
                     'Número do Processo': row.numero,
@@ -3157,10 +3292,8 @@
                 filename = `empresas_sancionadas_completo_${new Date().toISOString().slice(0,10)}.csv`;
             }
             
-            // Converter para CSV
             const csv = convertToCSV(dataToExport);
             
-            // Criar e baixar arquivo
             const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -3206,7 +3339,7 @@
             let title = dashboard === 'dashboard1' ? 'Visão Geral' : 'Consulta Empresas';
             let htmlContent = '<!DOCTYPE html><html><head><title>Empresas Sancionadas - ' + title + '</title>';
             
-            htmlContent += '<style>body{font-family:Arial,sans-serif;margin:20px}h1{color:#29435A;border-bottom:2px solid #B93C42;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin-top:20px}th{background-color:#f8f9fa;color:#29435A;text-align:left;padding:10px;border-bottom:2px solid #dee2e6}td{padding:8px 10px;border-bottom:1px solid #dee2e6}.total-row{font-weight:bold;background-color:#f8f9fa}.valor{text-align:right}.footer{margin-top:30px;font-size:12px;color:#666;text-align:center}</style>';
+            htmlContent += '<style>body{font-family:Arial,sans-serif;margin:20px}h1{color:#29435A;border-bottom:2px solid #B93C42;padding-bottom:10px}table{width:100%;border-collapse:collapse;margin-top:20px}th{background-color:#29435A;color:white;text-align:left;padding:10px;border-bottom:2px solid #dee2e6}td{padding:8px 10px;border-bottom:1px solid #dee2e6;color:#29435A}.total-row{font-weight:bold;background-color:#f8f9fa}.valor{text-align:right}.footer{margin-top:30px;font-size:12px;color:#666;text-align:center}</style>';
             htmlContent += '</head><body>';
             
             if (dashboard === 'dashboard1') {
@@ -3369,7 +3502,6 @@
                     const valorMulta = Math.round(valorBase * 100) / 100;
                     
                     data.push({
-                        id: i + 1,
                         sei: `SEI-MG-${ano}-${String(i+1).padStart(6, '0')}`,
                         numero: `PROC-${ano}-${String(i+1).padStart(5, '0')}`,
                         ano: ano,
@@ -3398,11 +3530,16 @@
         }
 
         // ==================== INICIALIZAÇÃO FINAL ====================
-        // Expor funções globais para uso no HTML
         window.sortTable = sortTable;
         window.showCompanyDetails = showCompanyDetails;
         window.changePage = changePage;
         window.iframeUpdateHeight = iframeUpdateHeight;
+        window.toggleShareOptions = toggleShareOptions;
+        window.copiarLink = copiarLink;
+        window.compartilharFacebook = compartilharFacebook;
+        window.compartilharTwitter = compartilharTwitter;
+        window.compartilharLinkedIn = compartilharLinkedIn;
+        window.compartilharWhatsApp = compartilharWhatsApp;
 
         console.log('✅ Sistema de Empresas Sancionadas carregado e pronto!');
 
