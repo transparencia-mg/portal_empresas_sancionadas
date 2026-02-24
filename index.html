@@ -9,13 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    
-    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -986,7 +981,7 @@
         
         /* ==================== MODAL DE DETALHES ==================== */
         .modal-detail {
-            max-width: 900px;
+            max-width: 1200px;
         }
         
         .modal-detail .modal-header {
@@ -996,8 +991,9 @@
         }
         
         .modal-detail .modal-body {
-            max-height: 600px;
+            max-height: 70vh;
             overflow-y: auto;
+            padding: 20px;
         }
         
         .company-info {
@@ -1009,7 +1005,7 @@
         
         .company-info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
         }
         
@@ -1019,16 +1015,24 @@
         }
         
         .info-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--primary-dark);
             margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .info-value {
             font-size: 14px;
             font-weight: 600;
             color: var(--primary-darker);
+            word-break: break-word;
+        }
+        
+        .info-value.valor-multa {
+            color: var(--accent-red);
+            font-size: 16px;
         }
         
         .detail-table-container {
@@ -1036,7 +1040,7 @@
         }
         
         .detail-table {
-            font-size: 13px;
+            font-size: 12px;
             margin-bottom: 0;
         }
         
@@ -1044,7 +1048,11 @@
             background-color: var(--primary-dark) !important;
             color: white;
             font-weight: 600;
-            padding: 10px;
+            padding: 8px 5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
         }
         
         .detail-table tbody tr:hover {
@@ -1052,7 +1060,7 @@
         }
         
         .detail-table tbody td {
-            padding: 10px;
+            padding: 8px 5px;
             vertical-align: middle;
             color: var(--primary-dark);
         }
@@ -1130,7 +1138,6 @@
             transition: all 0.2s ease;
         }
 
-        /* APENAS Dashboard 1 - muda para vermelho no hover */
         #dashboard1 .clickable-row:hover td,
         #dashboard1 .clickable-row:hover th {
             color: var(--accent-red) !important;
@@ -1141,7 +1148,6 @@
             color: var(--accent-red) !important;
         }
 
-        /* OUTROS Dashboards - NÃO mudam de cor no hover */
         #dashboard2 .clickable-row:hover td,
         #dashboard2 .clickable-row:hover th {
             color: var(--primary-dark) !important;
@@ -1274,7 +1280,7 @@
             }
             
             .detail-table {
-                font-size: 12px;
+                font-size: 11px;
             }
             
             .share-options {
@@ -1655,22 +1661,22 @@
                             <table class="table table-hover" id="empresasTable">
                                 <thead>
                                     <tr>
-                                        <th class="text-left" data-sort="empresa" data-order="asc" onclick="sortTable('empresas', 'empresa')">
+                                        <th class="text-left" data-sort="empresa_processada" data-order="asc" onclick="sortTable('empresas', 'empresa_processada')">
                                             Empresa <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                         <th class="text-center" data-sort="cnpj" data-order="asc" onclick="sortTable('empresas', 'cnpj')">
                                             CNPJ <i class="fas fa-sort sort-icon"></i>
                                         </th>
-                                        <th class="text-left" data-sort="orgao" data-order="asc" onclick="sortTable('empresas', 'orgao')">
+                                        <th class="text-left" data-sort="orgao_lesado" data-order="asc" onclick="sortTable('empresas', 'orgao_lesado')">
                                             Órgão Lesado <i class="fas fa-sort sort-icon"></i>
                                         </th>
-                                        <th class="text-left" data-sort="irregularidade" data-order="asc" onclick="sortTable('empresas', 'irregularidade')">
+                                        <th class="text-left" data-sort="conduta" data-order="asc" onclick="sortTable('empresas', 'conduta')">
                                             Irregularidade <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                         <th class="text-center" data-sort="ano" data-order="desc" onclick="sortTable('empresas', 'ano')">
                                             Ano <i class="fas fa-sort-down sort-icon"></i>
                                         </th>
-                                        <th class="text-right" data-sort="valor" data-order="desc" onclick="sortTable('empresas', 'valor')">
+                                        <th class="text-right" data-sort="valor_multa_aplicada" data-order="desc" onclick="sortTable('empresas', 'valor_multa_aplicada')">
                                             Valor <i class="fas fa-sort-down sort-icon"></i>
                                         </th>
                                         <th class="actions-column text-center">Ações</th>
@@ -1773,17 +1779,17 @@
                                             <tr><td>numero</td><td>Número do processo</td><td>Texto</td></tr>
                                             <tr><td>ano</td><td>Ano do processo</td><td>Número</td></tr>
                                             <tr><td>portaria</td><td>Número da portaria</td><td>Texto</td></tr>
-                                            <tr><td>data_publicacao</td><td>Data de publicação</td><td>Data</td></tr>
+                                            <tr><td>data_publicacao_portaria</td><td>Data de publicação da portaria</td><td>Data</td></tr>
                                             <tr><td>orgao_instaurador</td><td>Órgão que instaurou o processo</td><td>Texto</td></tr>
                                             <tr><td>orgao_lesado</td><td>Órgão que foi lesado</td><td>Texto</td></tr>
-                                            <tr><td>empresa_processada</td><td>Nome da empresa sancionada</td><td>Texto</td></tr>
+                                            <tr><td>empresas_processadas</td><td>Nome da empresa sancionada</td><td>Texto</td></tr>
                                             <tr><td>tipo_societario</td><td>Tipo societário da empresa</td><td>Texto</td></tr>
                                             <tr><td>cnpj</td><td>CNPJ da empresa</td><td>Texto (14 dígitos)</td></tr>
-                                            <tr><td>conuta</td><td>Descrição da irregularidade</td><td>Texto</td></tr>
-                                            <tr><td>data_decisao</td><td>Data da decisão</td><td>Data</td></tr>
+                                            <tr><td>conduta</td><td>Descrição da irregularidade</td><td>Texto</td></tr>
+                                            <tr><td>data_publicacao_decisao</td><td>Data de publicação da decisão</td><td>Data</td></tr>
                                             <tr><td>decisao</td><td>Tipo de decisão</td><td>Texto</td></tr>
                                             <tr><td>fase</td><td>Fase do processo</td><td>Texto</td></tr>
-                                            <tr><td>valor_multa</td><td>Valor da multa aplicada</td><td>Número Decimal</td></tr>
+                                            <tr><td>valor_multa_aplicada</td><td>Valor da multa aplicada</td><td>Número Decimal</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -1812,28 +1818,39 @@
 
         <!-- ==================== MODAL DE DETALHES DA EMPRESA ==================== -->
         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-detail">
+            <div class="modal-dialog modal-xl modal-detail">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailModalLabel">
-                            <i class="fas fa-building me-2"></i>Detalhes da Empresa Sancionada
+                            <i class="fas fa-building me-2"></i>Detalhes Completos do Processo
                         </h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <!-- Informações da Empresa em Cards -->
                         <div class="company-info" id="companyInfo"></div>
                         
+                        <!-- Tabela Completa com Todos os Dados -->
                         <div class="detail-table-container">
-                            <h6 class="mb-3">Histórico de Sanções</h6>
-                            <div class="table-responsive">
+                            <h6 class="mb-3 fw-bold">Todos os Processos da Empresa</h6>
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                                 <table class="table table-hover detail-table">
                                     <thead>
                                         <tr>
-                                            <th>Processo</th>
+                                            <th>SEI</th>
+                                            <th>Nº Processo</th>
                                             <th>Ano</th>
+                                            <th>Portaria</th>
+                                            <th>Data Publicação</th>
+                                            <th>Órgão Instaurador</th>
                                             <th>Órgão Lesado</th>
-                                            <th>Irregularidade</th>
+                                            <th>Empresa</th>
+                                            <th>Tipo Societário</th>
+                                            <th>CNPJ</th>
+                                            <th>Conduta</th>
+                                            <th>Data Decisão</th>
                                             <th>Decisão</th>
+                                            <th>Fase</th>
                                             <th>Valor Multa</th>
                                         </tr>
                                     </thead>
@@ -1918,14 +1935,12 @@
             event.preventDefault();
             event.stopPropagation();
             
-            // Fechar todas as outras opções de compartilhamento
             document.querySelectorAll('.share-options').forEach(el => {
                 if (el.id !== `shareOptions-${dashboardId}`) {
                     el.classList.remove('show');
                 }
             });
             
-            // Alternar a atual
             const shareOptions = document.getElementById(`shareOptions-${dashboardId}`);
             if (shareOptions) {
                 shareOptions.classList.toggle('show');
@@ -1947,7 +1962,6 @@
                     alert('Não foi possível copiar o link. Tente novamente.');
                 });
             } else {
-                // Fallback
                 const textarea = document.createElement('textarea');
                 textarea.value = url;
                 document.body.appendChild(textarea);
@@ -1957,7 +1971,6 @@
                 alert('Link copiado para a área de transferência!');
             }
             
-            // Fechar todas as opções de compartilhamento
             document.querySelectorAll('.share-options').forEach(el => {
                 el.classList.remove('show');
             });
@@ -2009,7 +2022,6 @@
             });
         };
 
-        // Fechar opções de compartilhamento ao clicar fora
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.share-wrapper')) {
                 document.querySelectorAll('.share-options').forEach(el => {
@@ -2093,7 +2105,7 @@
             console.log('Parseando CSV...');
             
             const lines = csvText.split('\n');
-            const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
+            const headers = lines[0].split(';').map(h => h.trim().toLowerCase().replace(/\s+/g, '_'));
             
             console.log('Cabeçalhos encontrados:', headers);
             
@@ -2122,6 +2134,7 @@
                 values.push(currentValue.trim());
                 
                 if (values.length !== headers.length) {
+                    console.warn(`Linha ${i + 1} ignorada: número de colunas inválido`);
                     continue;
                 }
                 
@@ -2133,26 +2146,20 @@
                         value = value.substring(1, value.length - 1);
                     }
                     
-                    if (header === 'ano' || header === 'valor_multa') {
+                    // Tratamento especial para campos numéricos
+                    if (header === 'ano' || header === 'valor_multa_aplicada') {
                         const numValue = parseFloat(value.replace(/[^\d,.-]/g, '').replace(',', '.'));
                         row[header] = isNaN(numValue) ? null : numValue;
                     } else {
                         row[header] = value || null;
                     }
-                    
-                    if (header === 'empresa_processada') {
-                        row['empresa'] = value;
-                    }
-                    if (header === 'orgao_lesado') {
-                        row['orgao'] = value;
-                    }
-                    if (header === 'conuta') {
-                        row['irregularidade'] = value;
-                    }
-                    if (header === 'valor_multa') {
-                        row['valor'] = row[header];
-                    }
                 });
+                
+                // Criar campos de atalho para facilitar o acesso
+                row['empresa'] = row['empresas_processadas'] || 'NÃO INFORMADO';
+                row['orgao'] = row['orgao_lesado'] || 'NÃO INFORMADO';
+                row['irregularidade'] = row['conduta'] || 'NÃO INFORMADO';
+                row['valor'] = row['valor_multa_aplicada'] || 0;
                 
                 data.push(row);
             }
@@ -2314,7 +2321,7 @@
             try {
                 const anos = [...new Set(empresasData.map(row => row.ano).filter(ano => ano !== null && !isNaN(ano)))].sort((a, b) => b - a);
                 const orgaos = [...new Set(empresasData.map(row => row.orgao_lesado).filter(orgao => orgao && orgao.trim() !== ''))].sort();
-                const irregularidades = [...new Set(empresasData.map(row => row.conuta).filter(irr => irr && irr.trim() !== ''))].sort();
+                const irregularidades = [...new Set(empresasData.map(row => row.conduta).filter(irr => irr && irr.trim() !== ''))].sort();
                 
                 console.log(`Anos encontrados: ${anos.length}`);
                 console.log(`Órgãos encontrados: ${orgaos.length}`);
@@ -2414,7 +2421,7 @@
                 
                 if (irregularidade && irregularidade !== 'all') {
                     filtered = filtered.filter(row => 
-                        row.conuta && row.conuta.toLowerCase().includes(irregularidade.toLowerCase())
+                        row.conduta && row.conduta.toLowerCase().includes(irregularidade.toLowerCase())
                     );
                 }
                 
@@ -2444,7 +2451,7 @@
                 
                 if (empresa) {
                     filtered = filtered.filter(row => 
-                        row.empresa_processada && row.empresa_processada.toLowerCase().includes(empresa.toLowerCase())
+                        row.empresas_processadas && row.empresas_processadas.toLowerCase().includes(empresa.toLowerCase())
                     );
                 }
                 
@@ -2458,7 +2465,7 @@
                 
                 if (irregularidade && irregularidade !== 'all') {
                     filtered = filtered.filter(row => 
-                        row.conuta && row.conuta.toLowerCase().includes(irregularidade.toLowerCase())
+                        row.conduta && row.conduta.toLowerCase().includes(irregularidade.toLowerCase())
                     );
                 }
                 
@@ -2487,10 +2494,10 @@
             
             const filtered = empresasData.filter(row => {
                 return (
-                    (row.empresa_processada && row.empresa_processada.toLowerCase().includes(searchTerm)) ||
+                    (row.empresas_processadas && row.empresas_processadas.toLowerCase().includes(searchTerm)) ||
                     (row.cnpj && row.cnpj.includes(searchTerm)) ||
                     (row.orgao_lesado && row.orgao_lesado.toLowerCase().includes(searchTerm)) ||
-                    (row.conuta && row.conuta.toLowerCase().includes(searchTerm)) ||
+                    (row.conduta && row.conduta.toLowerCase().includes(searchTerm)) ||
                     (row.numero && row.numero.toLowerCase().includes(searchTerm)) ||
                     (row.sei && row.sei.toLowerCase().includes(searchTerm))
                 );
@@ -2549,14 +2556,14 @@
             
             const empresasUnicas = new Set();
             data.forEach(row => {
-                const key = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                const key = (row.cnpj || '') + '|' + (row.empresas_processadas || '');
                 if (key !== '|') {
                     empresasUnicas.add(key);
                 }
             });
             const totalEmpresas = empresasUnicas.size;
             
-            const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
+            const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa_aplicada || 0), 0);
             const orgaosAfetados = new Set(data.map(row => row.orgao_lesado).filter(Boolean)).size;
             
             console.log(`Estatísticas: ${totalProcessos} processos, ${totalEmpresas} empresas, ${totalMultas} multas, ${orgaosAfetados} órgãos`);
@@ -2626,13 +2633,13 @@
                 
                 resumoPorOrgao[orgao].quantidade_processos++;
                 
-                const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                const empresaKey = (row.cnpj || '') + '|' + (row.empresas_processadas || '');
                 if (empresaKey !== '|') {
                     resumoPorOrgao[orgao].empresas.add(empresaKey);
                 }
                 
-                if (row.valor_multa) {
-                    resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
+                if (row.valor_multa_aplicada) {
+                    resumoPorOrgao[orgao].valor_total_multa += row.valor_multa_aplicada;
                 }
             });
             
@@ -2731,14 +2738,13 @@
                     if (!anosData[row.ano]) {
                         anosData[row.ano] = 0;
                     }
-                    anosData[row.ano] += (row.valor_multa || 0);
+                    anosData[row.ano] += (row.valor_multa_aplicada || 0);
                 }
             });
             
             const anos = Object.keys(anosData).sort((a, b) => a - b);
             const valoresAnos = anos.map(ano => anosData[ano]);
             
-            // Cores para cada ano
             const coresAnos = anos.map((_, i) => chartColors[i % chartColors.length]);
             
             createOrUpdateChart('chartAno', {
@@ -2793,7 +2799,7 @@
                 if (!orgaosData[sigla]) {
                     orgaosData[sigla] = 0;
                 }
-                orgaosData[sigla] += (row.valor_multa || 0);
+                orgaosData[sigla] += (row.valor_multa_aplicada || 0);
             });
             
             const orgaosArray = Object.entries(orgaosData)
@@ -2844,10 +2850,10 @@
                 }
             });
             
-            // Gráfico 3: Tipos de Irregularidade (sem legenda, apenas tooltip)
+            // Gráfico 3: Tipos de Irregularidade
             const irregularidadesData = {};
             data.forEach(row => {
-                let irregularidade = row.conuta || 'NÃO INFORMADO';
+                let irregularidade = row.conduta || 'NÃO INFORMADO';
                 
                 if (irregularidade.length > 30) {
                     irregularidade = irregularidade.substring(0, 27) + '...';
@@ -2937,7 +2943,7 @@
                 let aValue = a[column];
                 let bValue = b[column];
                 
-                if (column === 'ano' || column === 'valor') {
+                if (column === 'ano' || column === 'valor_multa_aplicada') {
                     aValue = parseFloat(aValue) || 0;
                     bValue = parseFloat(bValue) || 0;
                 } else {
@@ -2952,7 +2958,7 @@
                 }
             });
             
-            const totalMultas = sortedData.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
+            const totalMultas = sortedData.reduce((sum, row) => sum + (row.valor_multa_aplicada || 0), 0);
             
             const totalPages = Math.ceil(sortedData.length / itemsPerPageDashboard2);
             const startIndex = (currentPageDashboard2 - 1) * itemsPerPageDashboard2;
@@ -2964,17 +2970,9 @@
             paginatedData.forEach((row) => {
                 const tr = document.createElement('tr');
                 tr.className = 'clickable-row';
-                tr.onclick = () => showCompanyDetails(row.cnpj || row.empresa_processada);
+                tr.onclick = () => showCompanyDetails(row.cnpj || row.empresas_processadas);
                 
-                let decisaoBadge = '';
-                
-                if (row.decisao && row.decisao.includes('Multa')) {
-                    decisaoBadge = '<span class="badge-status badge-multa">Multa</span>';
-                } else if (row.decisao && row.decisao.includes('Transitado')) {
-                    decisaoBadge = '<span class="badge-status badge-transitado">Transitado</span>';
-                }
-                
-                let irregularidade = row.conuta || 'NÃO INFORMADO';
+                let irregularidade = row.conduta || 'NÃO INFORMADO';
                 if (irregularidade.length > 60) {
                     irregularidade = irregularidade.substring(0, 57) + '...';
                 }
@@ -2983,19 +2981,19 @@
                 
                 tr.innerHTML = `
                     <td class="text-left">
-                        <strong>${row.empresa_processada || 'NÃO INFORMADO'}</strong>
+                        <strong>${row.empresas_processadas || 'NÃO INFORMADO'}</strong>
                         ${row.tipo_societario ? `<br><small class="text-muted">${row.tipo_societario}</small>` : ''}
                     </td>
                     <td class="text-center">${row.cnpj || 'NÃO INFORMADO'}</td>
                     <td class="text-left">${orgaoNome}</td>
                     <td class="text-left">${irregularidade}</td>
                     <td class="text-center">${row.ano || 'N/A'}</td>
-                    <td class="text-right valor-multa">${row.valor_multa ? formatCurrency(row.valor_multa) : 'N/A'}</td>
+                    <td class="text-right valor-multa">${row.valor_multa_aplicada ? formatCurrency(row.valor_multa_aplicada) : 'N/A'}</td>
                     <td class="actions-column text-center">
                         <div class="action-buttons">
-                            <button class="btn-action btn-history" onclick="showCompanyDetails('${(row.cnpj || row.empresa_processada).replace(/'/g, "\\'")}'); event.stopPropagation();">
+                            <button class="btn-action btn-history" onclick="showCompanyDetails('${(row.cnpj || row.empresas_processadas).replace(/'/g, "\\'")}'); event.stopPropagation();">
                                 <i class="fas fa-history"></i>
-                                <span>Histórico</span>
+                                <span>Detalhes</span>
                             </button>
                         </div>
                     </td>
@@ -3145,21 +3143,19 @@
         function showCompanyDetails(identifier) {
             console.log(`Mostrando detalhes para: ${identifier}`);
             
-            const cleanIdentifier = identifier.replace(/[^\w\s]/gi, '');
-            
             const companyRecords = empresasData.filter(row => {
                 const cleanCNPJ = row.cnpj ? row.cnpj.replace(/\D/g, '') : '';
                 const searchCNPJ = identifier.replace(/\D/g, '');
                 
-                const empresaNome = row.empresa_processada ? row.empresa_processada.toLowerCase() : '';
+                const empresaNome = row.empresas_processadas ? row.empresas_processadas.toLowerCase() : '';
                 const searchNome = identifier.toLowerCase();
                 
                 return cleanCNPJ.includes(searchCNPJ) || 
-                       empresaNome.includes(searchNome) ||
-                       (row.empresa && row.empresa.toLowerCase().includes(searchNome));
+                       empresaNome.includes(searchNome);
             });
             
             if (companyRecords.length === 0) {
+                alert('Nenhum registro encontrado para esta empresa.');
                 return;
             }
             
@@ -3170,7 +3166,7 @@
             const detailTableBody = document.getElementById('detailTableBody');
             
             if (modalLabel) {
-                modalLabel.innerHTML = `<i class="fas fa-building me-2"></i>${firstRecord.empresa_processada || 'Empresa Sancionada'}`;
+                modalLabel.innerHTML = `<i class="fas fa-building me-2"></i>${firstRecord.empresas_processadas || 'Empresa Sancionada'}`;
             }
             
             if (companyInfo) {
@@ -3178,7 +3174,7 @@
                     <div class="company-info-grid">
                         <div class="info-item">
                             <span class="info-label">Empresa</span>
-                            <span class="info-value">${firstRecord.empresa_processada || 'NÃO INFORMADO'}</span>
+                            <span class="info-value">${firstRecord.empresas_processadas || 'NÃO INFORMADO'}</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">CNPJ</span>
@@ -3194,7 +3190,7 @@
                         </div>
                         <div class="info-item">
                             <span class="info-label">Valor Total em Multas</span>
-                            <span class="info-value valor-multa">${formatCurrency(companyRecords.reduce((sum, row) => sum + (row.valor_multa || 0), 0))}</span>
+                            <span class="info-value valor-multa">${formatCurrency(companyRecords.reduce((sum, row) => sum + (row.valor_multa_aplicada || 0), 0))}</span>
                         </div>
                     </div>
                 `;
@@ -3209,11 +3205,20 @@
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td>${record.sei || 'N/A'}</td>
+                        <td>${record.numero || 'N/A'}</td>
                         <td>${record.ano || 'N/A'}</td>
-                        <td>${record.orgao_lesado || 'NÃO INFORMADO'}</td>
-                        <td>${record.conuta || 'NÃO INFORMADO'}</td>
-                        <td>${record.decisao || 'NÃO INFORMADO'}</td>
-                        <td class="valor-multa">${record.valor_multa ? formatCurrency(record.valor_multa) : 'N/A'}</td>
+                        <td>${record.portaria || 'N/A'}</td>
+                        <td>${record.data_publicacao_portaria || 'N/A'}</td>
+                        <td>${record.orgao_instaurador || 'N/A'}</td>
+                        <td>${record.orgao_lesado || 'N/A'}</td>
+                        <td>${record.empresas_processadas || 'N/A'}</td>
+                        <td>${record.tipo_societario || 'N/A'}</td>
+                        <td>${record.cnpj || 'N/A'}</td>
+                        <td>${record.conduta || 'N/A'}</td>
+                        <td>${record.data_publicacao_decisao || 'N/A'}</td>
+                        <td>${record.decisao || 'N/A'}</td>
+                        <td>${record.fase || 'N/A'}</td>
+                        <td class="valor-multa">${record.valor_multa_aplicada ? formatCurrency(record.valor_multa_aplicada) : 'N/A'}</td>
                     `;
                     detailTableBody.appendChild(tr);
                 });
@@ -3251,13 +3256,13 @@
                     
                     resumoPorOrgao[orgao].quantidade_processos++;
                     
-                    const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                    const empresaKey = (row.cnpj || '') + '|' + (row.empresas_processadas || '');
                     if (empresaKey !== '|') {
                         resumoPorOrgao[orgao].empresas.add(empresaKey);
                     }
                     
-                    if (row.valor_multa) {
-                        resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
+                    if (row.valor_multa_aplicada) {
+                        resumoPorOrgao[orgao].valor_total_multa += row.valor_multa_aplicada;
                     }
                 });
                 
@@ -3272,21 +3277,21 @@
                 
             } else if (dashboard === 'dashboard2') {
                 dataToExport = filteredDataDashboard2.map(row => ({
-                    'Processo SEI': row.sei,
+                    'SEI': row.sei,
                     'Número do Processo': row.numero,
                     'Ano': row.ano,
                     'Portaria': row.portaria,
-                    'Data Publicação': row.data_publicacao,
+                    'Data Publicação Portaria': row.data_publicacao_portaria,
                     'Órgão Instaurador': row.orgao_instaurador,
                     'Órgão Lesado': row.orgao_lesado,
-                    'Empresa Processada': row.empresa_processada,
+                    'Empresa Processada': row.empresas_processadas,
                     'Tipo Societário': row.tipo_societario,
                     'CNPJ': row.cnpj,
-                    'Irregularidade': row.conuta,
-                    'Data Decisão': row.data_decisao,
+                    'Conduta': row.conduta,
+                    'Data Publicação Decisão': row.data_publicacao_decisao,
                     'Decisão': row.decisao,
                     'Fase': row.fase,
-                    'Valor da Multa (R$)': row.valor_multa
+                    'Valor da Multa (R$)': row.valor_multa_aplicada
                 }));
                 
                 filename = `empresas_sancionadas_completo_${new Date().toISOString().slice(0,10)}.csv`;
@@ -3361,13 +3366,13 @@
                     
                     resumoPorOrgao[orgao].quantidade_processos++;
                     
-                    const empresaKey = (row.cnpj || '') + '|' + (row.empresa_processada || '');
+                    const empresaKey = (row.cnpj || '') + '|' + (row.empresas_processadas || '');
                     if (empresaKey !== '|') {
                         resumoPorOrgao[orgao].empresas.add(empresaKey);
                     }
                     
-                    if (row.valor_multa) {
-                        resumoPorOrgao[orgao].valor_total_multa += row.valor_multa;
+                    if (row.valor_multa_aplicada) {
+                        resumoPorOrgao[orgao].valor_total_multa += row.valor_multa_aplicada;
                     }
                 });
                 
@@ -3397,7 +3402,7 @@
                 
             } else if (dashboard === 'dashboard2') {
                 const data = filteredDataDashboard2;
-                const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa || 0), 0);
+                const totalMultas = data.reduce((sum, row) => sum + (row.valor_multa_aplicada || 0), 0);
                 
                 htmlContent += '<h1>Consulta de Empresas Sancionadas</h1>';
                 htmlContent += '<p><strong>Data da consulta:</strong> ' + new Date().toLocaleString('pt-BR') + '</p>';
@@ -3406,11 +3411,11 @@
                 htmlContent += '<table><thead><tr><th>Empresa</th><th>CNPJ</th><th>Órgão Lesado</th><th>Irregularidade</th><th>Ano</th><th class="valor">Valor Multa</th></tr></thead><tbody>';
                 
                 data.slice(0, 100).forEach(row => {
-                    const irregularidade = (row.conuta || 'NÃO INFORMADO');
+                    const irregularidade = (row.conduta || 'NÃO INFORMADO');
                     const irregularidadeTruncada = irregularidade.length > 50 ? irregularidade.substring(0, 47) + '...' : irregularidade;
-                    const valorFormatado = row.valor_multa ? formatCurrencyForPrint(row.valor_multa) : 'N/A';
+                    const valorFormatado = row.valor_multa_aplicada ? formatCurrencyForPrint(row.valor_multa_aplicada) : 'N/A';
                     
-                    htmlContent += '<tr><td>' + (row.empresa_processada || 'NÃO INFORMADO') + 
+                    htmlContent += '<tr><td>' + (row.empresas_processadas || 'NÃO INFORMADO') + 
                         '</td><td>' + (row.cnpj || 'NÃO INFORMADO') + 
                         '</td><td>' + (row.orgao_lesado || 'NÃO INFORMADO') + 
                         '</td><td>' + irregularidadeTruncada + 
@@ -3425,13 +3430,13 @@
             htmlContent += '<div class="footer"><p>Fonte: Governo de Minas Gerais - Secretaria de Estado de Planejamento e Gestão</p><p>Última atualização: ' + 
                 (lastUpdateDate ? lastUpdateDate.toLocaleString('pt-BR') : 'N/A') + '</p></div>';
             
-            printWindow.onload = function () {
-                printWindow.print();
-                setTimeout(() => printWindow.close(), 1000);
-            };
+            htmlContent += '</body></html>';
             
             printWindow.document.write(htmlContent);
             printWindow.document.close();
+            
+            printWindow.focus();
+            printWindow.print();
         }
         
         // ==================== FUNÇÃO DE DOWNLOAD ====================
@@ -3439,21 +3444,21 @@
             console.log('Baixando dados completos...');
             
             const dataToExport = empresasData.map(row => ({
-                'Processo SEI': row.sei,
+                'SEI': row.sei,
                 'Número do Processo': row.numero,
                 'Ano': row.ano,
                 'Portaria': row.portaria,
-                'Data Publicação': row.data_publicacao,
+                'Data Publicação Portaria': row.data_publicacao_portaria,
                 'Órgão Instaurador': row.orgao_instaurador,
                 'Órgão Lesado': row.orgao_lesado,
-                'Empresa Processada': row.empresa_processada,
+                'Empresa Processada': row.empresas_processadas,
                 'Tipo Societário': row.tipo_societario,
                 'CNPJ': row.cnpj,
-                'Irregularidade': row.conuta,
-                'Data Decisão': row.data_decisao,
+                'Conduta': row.conduta,
+                'Data Publicação Decisão': row.data_publicacao_decisao,
                 'Decisão': row.decisao,
                 'Fase': row.fase,
-                'Valor da Multa (R$)': row.valor_multa
+                'Valor da Multa (R$)': row.valor_multa_aplicada
             }));
             
             const csv = convertToCSV(dataToExport);
@@ -3470,56 +3475,67 @@
 
         // ==================== FALLBACK PARA DADOS DE EXEMPLO ====================
         function loadSampleData() {
+            console.log('Gerando dados de exemplo...');
+            
             return new Promise((resolve) => {
-                console.log('Gerando dados de exemplo...');
-                
                 const empresas = [
                     { nome: 'Construtora ABC Ltda', cnpj: '12.345.678/0001-90', tipo: 'LTDA' },
                     { nome: 'Transportes XYZ S/A', cnpj: '98.765.432/0001-10', tipo: 'S/A' },
-                    { nome: 'Alimentos MG Indústria', cnpj: '23.456.789/0001-20', tipo: 'LTDA' }
+                    { nome: 'Alimentos MG Indústria', cnpj: '23.456.789/0001-20', tipo: 'LTDA' },
+                    { nome: 'Serviços de Engenharia Rápido Ltda', cnpj: '34.567.890/0001-30', tipo: 'LTDA' },
+                    { nome: 'Construções Modernas S/A', cnpj: '45.678.901/0001-40', tipo: 'S/A' }
                 ];
                 
                 const orgaos = [
                     'Secretaria de Estado de Educação',
                     'Secretaria de Estado de Saúde',
-                    'Secretaria de Estado de Transportes e Obras Públicas'
+                    'Secretaria de Estado de Transportes e Obras Públicas',
+                    'Secretaria de Estado de Meio Ambiente',
+                    'Secretaria de Estado de Fazenda'
                 ];
                 
-                const irregularidades = [
+                const condutas = [
                     'Superfaturamento em licitação',
                     'Fraude em processo licitatório',
-                    'Descumprimento de contrato administrativo'
+                    'Descumprimento de contrato administrativo',
+                    'Irregularidades na execução contratual',
+                    'Pagamentos indevidos'
                 ];
                 
                 const decisoes = ['Multa', 'Multa e P.Ext. de decisão condenatória', 'Transitado em Julgado'];
+                const fases = ['Instrução', 'Julgamento', 'Concluído', 'Recurso'];
+                const orgaosInstauradores = ['Controladoria Geral do Estado', 'Secretaria da Fazenda', 'Tribunal de Contas'];
                 
                 const data = [];
                 
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 200; i++) {
                     const empresa = empresas[Math.floor(Math.random() * empresas.length)];
                     const ano = 2018 + Math.floor(Math.random() * 6);
                     const valorBase = 10000 + Math.random() * 500000;
                     const valorMulta = Math.round(valorBase * 100) / 100;
+                    const orgaoLesado = orgaos[Math.floor(Math.random() * orgaos.length)];
+                    const conduta = condutas[Math.floor(Math.random() * condutas.length)];
                     
                     data.push({
                         sei: `SEI-MG-${ano}-${String(i+1).padStart(6, '0')}`,
                         numero: `PROC-${ano}-${String(i+1).padStart(5, '0')}`,
                         ano: ano,
                         portaria: `PORT-${ano}/${String(Math.floor(Math.random() * 1000) + 1).padStart(4, '0')}`,
-                        data_publicacao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano}`,
-                        orgao_instaurador: 'Controladoria Geral do Estado',
-                        orgao_lesado: orgaos[Math.floor(Math.random() * orgaos.length)],
-                        empresa_processada: empresa.nome,
+                        data_publicacao_portaria: `${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}/${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}/${ano}`,
+                        orgao_instaurador: orgaosInstauradores[Math.floor(Math.random() * orgaosInstauradores.length)],
+                        orgao_lesado: orgaoLesado,
+                        empresas_processadas: empresa.nome,
                         tipo_societario: empresa.tipo,
                         cnpj: empresa.cnpj,
-                        conuta: irregularidades[Math.floor(Math.random() * irregularidades.length)],
-                        data_decisao: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${ano + 1}`,
+                        conduta: conduta,
+                        data_publicacao_decisao: `${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}/${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}/${ano + 1}`,
                         decisao: decisoes[Math.floor(Math.random() * decisoes.length)],
-                        fase: 'Concluído',
-                        valor_multa: valorMulta,
+                        fase: fases[Math.floor(Math.random() * fases.length)],
+                        valor_multa_aplicada: valorMulta,
+                        // Campos derivados
                         empresa: empresa.nome,
-                        orgao: orgaos[Math.floor(Math.random() * orgaos.length)],
-                        irregularidade: irregularidades[Math.floor(Math.random() * irregularidades.length)],
+                        orgao: orgaoLesado,
+                        irregularidade: conduta,
                         valor: valorMulta
                     });
                 }
