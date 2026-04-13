@@ -82,13 +82,13 @@
         "scheme": "file",
         "title": "Empresas Sancionadas pela Lei Anticorrupcao",
         "stats": {
-          "hash": "8f0a0d10365e553997354e9a137af2ba",
-          "bytes": 13093,
+          "hash": "1e20a503fc10f3fe37eda9191275e51d",
+          "bytes": 13810,
           "fields": 15,
-          "rows": 49
+          "rows": 52
         }
       },
-      "time": 0.02,
+      "time": 0.021,
       "scope": [
         "hash-count-error",
         "byte-count-error",
