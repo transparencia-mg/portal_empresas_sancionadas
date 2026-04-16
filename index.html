@@ -1076,12 +1076,36 @@
         return finalHeight;
     }
 
-    function setupAtualizacaoData() {
-        const now = new Date();
-        const dataFormatada = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR');
-        const elementoData = document.getElementById('data-atualizacao-header');
-        if (elementoData) elementoData.textContent = dataFormatada;
+async function setupAtualizacaoData() {
+    const el = document.getElementById('data-atualizacao-header');
+    if (!el) return;
+
+    try {
+        const resp = await fetch(
+            'https://api.github.com/repos/transparencia-mg/portal_empresas_sancionadas/commits?path=dataset/data/empresas_sancionadas.csv&per_page=1'
+        );
+
+        if (!resp.ok) throw new Error('Erro ao buscar commit');
+
+        const commits = await resp.json();
+
+        if (commits && commits.length > 0) {
+            const data = commits[0].commit.committer.date;
+            const d = new Date(data);
+
+            el.textContent =
+                d.toLocaleDateString('pt-BR') + ' ' +
+                d.toLocaleTimeString('pt-BR');
+            return;
+        }
+
+        el.textContent = 'Não disponível';
+
+    } catch (e) {
+        console.error('Erro ao buscar data:', e);
+        el.textContent = 'Não disponível';
     }
+}
 
     function setupEventListeners() {
         window.addEventListener('click', (e) => {
