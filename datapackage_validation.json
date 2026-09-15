@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.033,
+  "time": 0.034,
   "errors": [],
   "tasks": [
     {
@@ -82,10 +82,10 @@
         "scheme": "file",
         "title": "Empresas Sancionadas pela Lei Anticorrupcao",
         "stats": {
-          "hash": "1e20a503fc10f3fe37eda9191275e51d",
-          "bytes": 13810,
+          "hash": "6f187a22b4ed5dc36f68db41cb0dce34",
+          "bytes": 14503,
           "fields": 15,
-          "rows": 52
+          "rows": 54
         }
       },
       "time": 0.021,
